@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Beanlee Blog">
+    <title>Swift Study 1 - Beanlee Blog</title>
+    <meta name="author" content="Bean Lee">
+    <meta name="description" content="Beanlee Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css" type="text/css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars "></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://beanlee.com">Beanlee Blog</a>
+    </h1>
+    
+        <a class="header-picture-link" href="/#about">
+            <img class="header-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+        </a>
+    
+</header>
+            <nav id="sidebar">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+            
+        </a>
+        <span class="sidebar-profile-name hide-md">Bean Lee</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc hide-md">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-categories">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc hide-md">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-tags">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc hide-md">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-archives">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc hide-md">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/lab">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-cube"></i>
+                    <span class="sidebar-button-desc hide-md">Bean Lab</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/#about">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc hide-md">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/atom.xml">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc hide-md">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Swift Study 1</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Sun Jun 08 2014 00:00:01 GMT+0800">
+        Jun 08, 2014
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/blog/">blog</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p>
+<a id="more"></a>
+<h2 id="Swift_学习笔记_一">Swift 学习笔记 一</h2><p>从2014-06-09开始每日更新，督促自己学习坚持，一周为一篇周期，加油！</p>
+<h3 id="材料收集">材料收集</h3><p><a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11" target="_blank" rel="external">官方iBook版</a></p>
+<p>IDE Xcode 6 Beta</p>
+<h3 id="Hello_World">Hello World</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println</span>(<span class="string">"Hello World!"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2014-06-09记录">2014-06-09记录</h3><p>学习常量(let)、变量(var)定义的方法，字符串参数传递()，Swift类型推导 var numValue = 123, strValue = “abc”，数组和字典定义方式等等。</p>
+<p>函数的定义func，如:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, Today is <span class="subst">\(day)</span> !"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可变参数的函数定义，如：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sumOf</span><span class="params">(numbers: Int...)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        sum += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line">sumOf()</span><br><span class="line">sumOf(<span class="number">42</span>, <span class="number">597</span>, <span class="number">12</span>)”</span><br></pre></td></tr></table></figure></p>
+<p>正在看极客学院的 Weather App 的教学视频，看来需要恶补的一些交互还有很多，加油！</p>
+<h3 id="2014-06-10记录">2014-06-10记录</h3><p>看完做Weather App的Demo视频，熟悉一个可以解析JSON的工具API</p>
+<pre><code><span class="built_in">NSJSONSerialization</span>
+</code></pre><p>重新回头继续看文档，最近加班和参加Interview，阅读的时间少了，要坚持看！</p>
+<p><a href="http://numbbbbb.github.io/the-swift-programming-language-in-chinese/" target="_blank" rel="external">GitBook 中文版Swift文档</a></p>
+<h4 id="控制流">控制流</h4><p>使用if和switch来进行条件操作，使用for-in、for、while和do-while来进行循环。包裹条件和循环变量括号可以省略，但是语句体的大括号是必须的。</p>
+<p>在类型后面加一个问号来标记这个变量的值是可选的。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionalString: <span class="type">String</span>? = <span class="string">"Hello"</span></span><br><span class="line">optionalString == <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalName: <span class="type">String</span>? = <span class="string">"John Appleseed"</span></span><br><span class="line"><span class="keyword">var</span> greeting = <span class="string">"Hello!"</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> name = optionalName &#123;</span><br><span class="line">    greeting = <span class="string">"Hello, <span class="subst">\(name)</span>"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>if的条件如果是 nil 就是false。</p>
+<p>switch case中一定要有default否则编译会报错，因为进入这个条件操作可能会没有出口。</p>
+<p>循环中使用 .. 创建的范围不包含上界，如果想包含的话需要使用 … ，如（0…10 表达从0开始到10，且包括10；0..10 则表单从0开始到10但不包括10）</p>
+<h4 id="函数与闭包">函数与闭包</h4><p>前面在视频里面看到了函数的定义方法，这里通过文档再整理一下。</p>
+<p>使用func来声明一个函数，使用名字和参数来调用函数。使用-&gt;来指定函数返回值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">greet</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, today is <span class="subst">\(day)</span>."</span></span><br><span class="line">&#125;</span><br><span class="line">greet(<span class="string">"Bob"</span>, <span class="string">"Tuesday"</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="2014-06-11">2014-06-11</h3><p>枚举、闭包实践。</p>
+<p>今天公司足球赛，太累就暂时依照视频教程做了个读取天气的demo，明天继续！</p>
+<h3 id="2014-06-15">2014-06-15</h3><p>遇上公司加班延误了三天，世界杯开幕熬夜看比赛又导致晚上需要稍微早一点睡，最近学习计划有些延后，今天反省一下！Swift学习今天暂缓停一下，整理了一下个人Resume，同时在这期间了解Mac一个很有用的软件<a href="https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12" target="_blank" rel="external">Dash</a>（汇集SDK文档和Sheets快速查询查看工具），推荐给在Mac环境下做开发的各位朋友！</p>
+<p>to be continue…</p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Apple/">Apple</a> <a class="tag tag--primary tag--small t-link" href="/tags/Swift/">Swift</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/"  data-tooltip="Mac Tool">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/06/Java-Collection-Review/" data-tooltip="Java基础集合类复习">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div class="post-bottom-bar">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/"  data-tooltip="Mac Tool">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/06/Java-Collection-Review/" data-tooltip="Java基础集合类复习">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/08/Study-Swift-1/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                Java Developer @ JD
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing
+            </h5>
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.png');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.fancybox.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js" type="text/javascript"></script>
+<script src="/assets/js/tranquilpeak.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'beanleeblog';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+</html>

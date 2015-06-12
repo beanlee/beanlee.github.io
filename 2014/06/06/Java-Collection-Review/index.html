@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Beanlee Blog">
+    <title>Java基础集合类复习 - Beanlee Blog</title>
+    <meta name="author" content="Bean Lee">
+    <meta name="description" content="Beanlee Blog">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css" type="text/css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars "></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://beanlee.com">Beanlee Blog</a>
+    </h1>
+    
+        <a class="header-picture-link" href="/#about">
+            <img class="header-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+        </a>
+    
+</header>
+            <nav id="sidebar">
+    
+    <div class="sidebar-profile">
+        <a href="/#about">
+            
+            <img class="sidebar-profile-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+            
+        </a>
+        <span class="sidebar-profile-name hide-md">Bean Lee</span>
+    </div>
+    
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc hide-md">Home</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-categories">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc hide-md">Categories</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-tags">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc hide-md">Tags</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/all-archives">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc hide-md">Archives</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/lab">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-cube"></i>
+                    <span class="sidebar-button-desc hide-md">Bean Lab</span>
+                </a>
+        </li>
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/#about">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc hide-md">About me</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+    </ul>
+    
+    <ul class="sidebar-buttons">
+        
+        <li class="sidebar-button">
+            
+                <a  class="sidebar-button-link" href="http://beanlee.com/atom.xml">
+                    
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc hide-md">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+            <div id="main">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">Java基础集合类复习</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Fri Jun 06 2014 00:00:01 GMT+0800">
+        Jun 06, 2014
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/blog/">blog</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <p>今天被问到Java基础集合类的问题，一时脑子里没有答案，在这里review一下</p>
+<a id="more"></a>
+<h1 id="JAVA基础集合类Review">JAVA基础集合类Review</h1><h2 id="JAVA集合类分类">JAVA集合类分类</h2><ul>
+<li>Collection：通常是一组有一定规律的独立元素。List必须按照特定的顺序持有这些元素，而Set则不能保存重复的元素。</li>
+<li>Map：一组以“键－－值”（key-value）形式出现的pairs。</li>
+</ul>
+<h3 id="Collection_Interface">Collection Interface</h3><p>Collection是最基本的集合接口，它下面的实现类包括List(LinkedList, ArrayList,Vector)、Set等。</p>
+<ul>
+<li><p>List接口是有序的Collection，每一个元素都能够被用户使用索引来访问，类似Java中的数组。与Set不同，List允许存在相同的元素。</p>
+<p>LinkedList:它是有序的允许元素为null，并且提供额外的get，remove，insert方法来操作LinkedList的首或尾部，类似链表的结构，可以用来实现堆栈（Stack）、队列（Queue）或者双向队列（Deque），它是不同步的。</p>
+<p>ArrayList:它的内部实现机制实际上使用的是Object数组，且一个大小可变，但是每一个ArrayList在初始化时都有一个容量，外部看这个容量是可以根据元素的添加自动增加。当容量不够时，系统就会创建一个更大的数组（1.5倍左右）并且把老的数组完全拷贝到新的数组中，同时老数组就自动进入GC待处理状态，等待垃圾回收。</p>
+<p>相比LinkedList，ArrayList中的get(index)的方法速度较快，效率高。</p>
+<p>Vector:线程同步的ArrayList，当一个线程开始迭代Vector时，另一个线程来添加、删除等改变Vector时，就会抛出ConcurrentModificationException。</p>
+<p>Stack:继承自Vector，从名字可以看出堆栈，它实现了一个后进先出的堆栈。</p>
+</li>
+</ul>
+<ul>
+<li>Set接口是一种不允许重复的Collection，即任意的两个元素e1和e2都有e1.equals(e2)=false，Set最多有一个null元素。这其中equals方法就是依靠元素的hashCode来判断是否相等，有时可以通过重写一些对象的HashCode方法来改变判断相等的判断逻辑。</li>
+</ul>
+<h3 id="Map_Interface">Map Interface</h3><ul>
+<li><p>HashTable</p>
+<p>HashTable集成Map接口，实现了一个key-value映射的哈希表。任何非空（non-null）的对象都可以作为key或value。HashTable是线程同步的。</p>
+<p>不了解的知识点：Hashtable通过initial capacity和load factor两个参数调整性能。通常缺省的load factor 0.75较好地实现了时间和空间的均衡。增大load factor可以节省空间但相应的查找时间将增大，这会影响像get和put这样的操作。</p>
+<p>hashCode和equals方法是否重写相关：</p>
+</li>
+<li><p>HashMap</p>
+<p>HashMap和Hashtable类似，不同之处在于HashMap是非同步的，并且允许null，即null value和null key。，但是将HashMap视为Collection时（values()方法可返回Collection），其迭代子操作时间开销和HashMap 的容量成比例。因此，如果迭代操作的性能相当重要的话，不要将HashMap的初始化容量设得过高，或者load factor过低。</p>
+</li>
+<li><p>WeakHashMap</p>
+<p>WeakHashMap是一种改进的HashMap，它对key实行“弱引用”，如果一个key不再被外部所引用，那么该key可以被GC回收。实际开发中还没有用过，可以尝试用一下。</p>
+</li>
+</ul>
+<h2 id="总结">总结</h2><ul>
+<li>List集合是有序集合，集合中的元素可以重复，访问集合中的元素可以根据元素的索引来访问。</li>
+<li>Set集合是无序集合，集合中的元素不可以重复，访问集合中的元素只能根据元素本身来访问（也是不能集合里元素不允许重复的原因）。</li>
+<li>Map集合中保存Key-value对形式的元素，访问时只能根据每项元素的key来访问其value。</li>
+<li>如果涉及到堆栈，队列等操作，应该考虑用List，对于需要快速插入，删除元素，应该使用LinkedList，如果需要快速随机访问元素，应该使用ArrayList。</li>
+<li>如果程序在单线程环境中，或者访问仅仅在一个线程中进行，考虑非同步的类，其效率较高，如果多个线程可能同时操作一个类，应该使用同步的类。要特别注意对哈希表的操作，作为key的对象要正确复写equals和hashCode方法。</li>
+<li>尽量返回接口而非实际的类型，如返回List而非ArrayList，这样如果以后需要将ArrayList换成LinkedList时，客户端代码不用改变。这就是针对抽象编程。</li>
+</ul>
+<h2 id="参考">参考</h2><p><a href="http://liuzhichao.com/p/652.html" target="_blank" rel="external">柳志超Blog中一篇文章《Java集合类》</a></p>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Java/">Java</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/08/Study-Swift-1/"  data-tooltip="Swift Study 1">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/04/12/Misfit-Shine/" data-tooltip="有设计感的数码产品才能打动人心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+        
+            <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div class="post-bottom-bar">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/08/Study-Swift-1/"  data-tooltip="Swift Study 1">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/04/12/Misfit-Shine/" data-tooltip="有设计感的数码产品才能打动人心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/06/Java-Collection-Review/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+
+                </div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="http://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                Java Developer @ JD
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing
+            </h5>
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.png');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.fancybox.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js" type="text/javascript"></script>
+<script src="/assets/js/tranquilpeak.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'beanleeblog';
+        (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+</html>
