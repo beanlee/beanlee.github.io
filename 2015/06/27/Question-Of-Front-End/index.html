@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Beanlee Blog">
-    <title>微博等SNS@功能探索技术验证总结 - Beanlee Blog</title>
+    <title>Questions Of Front-End - Beanlee Blog</title>
     <meta name="author" content="Bean Lee">
     <meta name="description" content="Beanlee Blog">
     <link rel="icon" href="/assets/images/favicon.ico">
@@ -139,32 +139,50 @@
     
         <div class="post-header main-content-wrap">
     
-        <h1 class="post-title" itemprop="headline">微博等SNS@功能探索技术验证总结</h1>
+        <h1 class="post-title" itemprop="headline">Questions Of Front-End</h1>
     
     <div class="post-meta">
-    <time  itemprop="datePublished" content="Fri Jan 10 2014 00:00:01 GMT+0800">
-        Jan 10, 2014
+    <time  itemprop="datePublished" content="Sat Jun 27 2015 08:32:19 GMT+0800">
+        Jun 27, 2015
     </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/blog/">blog</a>
-
-
     
 </div>
 </div>
     
     <div class="post-content markdown main-content-wrap" itemprop="articleBody">
-        <p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p>
-<h3 id="功能对比">功能对比</h3><p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jb40u64j21kw16jwun.jpg" alt="&#39;at1&#39;"></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/454c4867tw1eh7jbxfjq2j21kw16l7ji.jpg" alt="&#39;at2&#39;"></p>
-<p><img src="http://ww4.sinaimg.cn/mw690/454c4867tw1eh7jckue5ij21kw16i4di.jpg" alt="&#39;at3&#39;"></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/454c4867tw1eh7jd9hmrdj21kw16oard.jpg" alt="&#39;at4&#39;"></p>
-<p><img src="http://ww4.sinaimg.cn/mw690/454c4867tw1eh7jdwwe68j21kw16m4dc.jpg" alt="&#39;at5&#39;"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jekivd4j21kw16f4f4.jpg" alt="&#39;at6&#39;"></p>
-<p><img src="http://ww2.sinaimg.cn/mw690/454c4867tw1eh7jf7bxdqj21kw16lwty.jpg" alt="&#39;at7&#39;"></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jfykgw8j21kw16ined.jpg" alt="&#39;at8&#39;"></p>
+        <blockquote>
+<p>千万不要为了当前不好而跳槽，一定是要因为将来会更好而跳槽！</p>
+</blockquote>
+<p>前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！<br><a id="more"></a></p>
+<h1 id="HTML">HTML</h1><ul>
+<li><p>盒子模型<br>margin - border - padding - content - padding - border - margin<br>上下两个元素之间会有margin合并问题</p>
+</li>
+<li><p>块级元素和行内元素区别<br><a href="http://blog.csdn.net/chen_zw/article/details/8713205" target="_blank" rel="external">http://blog.csdn.net/chen_zw/article/details/8713205</a><br><a href="http://segmentfault.com/a/1190000000654770" target="_blank" rel="external">http://segmentfault.com/a/1190000000654770</a></p>
+</li>
+</ul>
+<h1 id="CSS">CSS</h1><ul>
+<li><p>实现一个叉号有几种实现方式<br>1.切图 2.先用一个span画一个长方形，圆角，然后使用transform倾斜 3.CSS3中使用Webfont 4.伪类</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">TODO</span> 代码实现</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CSS常用选择器<br>ID、类、伪类、父子选择器等等</p>
+</li>
+</ul>
+<h1 id="Javascript">Javascript</h1><ul>
+<li><p>原型链 prototype<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="external">MDN</a></p>
+</li>
+<li><p>原生ajax写法<br>XMLHttpRequest, XMLHttpResponse</p>
+</li>
+<li><p>事件模型和事件传播机制问题<br>浏览器中事件可以分为三种：鼠标事件；键盘事件；HTML事件；<br>捕获和冒泡的顺序在不同浏览器中不同，IE下事件流采用的是冒泡，基于DOM标准兼容浏览器通常采用先捕获后冒泡方式</p>
+</li>
+<li><p>跨域问题和jsonp实现原理</p>
+</li>
+<li><p>script标签中defer和asyc区别和加载顺序</p>
+</li>
+<li><p>闭包</p>
+</li>
+<li><p>作用域</p>
+</li>
+</ul>
 
         
             
@@ -175,7 +193,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Javascript/">Javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/技术/">技术</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/CSS/">CSS</a> <a class="tag tag--primary tag--small t-link" href="/tags/Front-End/">Front-End</a> <a class="tag tag--primary tag--small t-link" href="/tags/HTML/">HTML</a> <a class="tag tag--primary tag--small t-link" href="/tags/Javascript/">Javascript</a>
 
             </div>
         
@@ -184,7 +202,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/03/20/Read-The-Book-Of-Zhihu/"  data-tooltip="书摘随笔">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -192,7 +210,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/12/05/Eassy-Programmer/" data-tooltip="程序员都是理想主义者">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/11/26/OSC-Party/" data-tooltip="OSC源创回年终盛典">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -202,17 +220,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -251,7 +269,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/03/20/Read-The-Book-Of-Zhihu/"  data-tooltip="书摘随笔">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -259,7 +277,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/12/05/Eassy-Programmer/" data-tooltip="程序员都是理想主义者">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/11/26/OSC-Party/" data-tooltip="OSC源创回年终盛典">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -269,17 +287,17 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/01/10/The-Summary-of-At/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2015/06/27/Question-Of-Front-End/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
