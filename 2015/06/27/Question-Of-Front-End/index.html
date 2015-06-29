@@ -146,6 +146,12 @@
         Jun 27, 2015
     </time>
     
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/blog/">blog</a>
+
+
+    
 </div>
 </div>
     
@@ -168,19 +174,32 @@
 </li>
 </ul>
 <h1 id="Javascript">Javascript</h1><ul>
-<li><p>原型链 prototype<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="external">MDN</a></p>
-</li>
+<li>原型链 prototype<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="external">MDN</a></li>
+</ul>
+<p>实现的本质是重新原型对象。</p>
+<ul>
 <li><p>原生ajax写法<br>XMLHttpRequest, XMLHttpResponse</p>
 </li>
-<li><p>事件模型和事件传播机制问题<br>浏览器中事件可以分为三种：鼠标事件；键盘事件；HTML事件；<br>捕获和冒泡的顺序在不同浏览器中不同，IE下事件流采用的是冒泡，基于DOM标准兼容浏览器通常采用先捕获后冒泡方式</p>
+<li><p>事件模型和事件传播机制问题<br>浏览器中事件可以分为三种：鼠标事件；键盘事件；HTML事件；<br>捕获和冒泡的顺序在不同浏览器中不同，IE下事件流采用的是冒泡，基于DOM标准兼容浏览器通常采用先捕获后冒泡方式。</p>
 </li>
-<li><p>跨域问题和jsonp实现原理</p>
+</ul>
+<p><code>addEventListener() &amp; removeEventListener()</code><br>所有 DOM 节点都包含这两个方法，都接受三个参数：要处理的事件名，作为事件处理程序的函数，一个布尔值。最后这个参数布尔值，<code>true</code>表示在捕获时调用事件处理函数，<code>false</code>表示在冒泡时调用时间处理函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>);</span><br><span class="line">btn.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="string">"click"</span>);</span><br><span class="line">&#125;, flase);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>跨域 JSONP 实现原理<br>原理：回调函数<br>JSONP 由两部分组成：回调函数和数据。</li>
+</ul>
+<p>For Example:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleResponse</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">"You're at IP "</span> + response.ip + <span class="string">", which is in "</span> + response.city);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">script.src = <span class="string">"http://freegeoip.net/json/?callback=handleResponse"</span>;</span><br><span class="line"><span class="built_in">document</span>.body.insertBefore(script, <span class="built_in">document</span>.body.fisrtChild);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>&lt;script&gt;</code>中defer和asyc区别和加载顺序</p>
+<ul>
+<li>asyc: <code>异步脚本</code>虽然立即下载脚本，不应该方案页面中其他操作，比如下载其他资源或等待加载其他脚本。只对外部脚本有效。不能保证按照指定的先后顺序执行，建议异步脚本不要在加载期间修改 DOM。</li>
+<li>defer: <code>延迟脚本</code>可以延迟到文档完全被解析和显示之后再执行。只针对外部脚本有效。在现实当中，延迟脚本不一定按照顺序执行，不一定会在 DOMContentLoaded 事件触发前执行，因此最好只包含一个延迟脚本</li>
+</ul>
 </li>
-<li><p>script标签中defer和asyc区别和加载顺序</p>
+<li><p>闭包：指有权访问另一个函数作用域中的变量和函数。</p>
 </li>
-<li><p>闭包</p>
-</li>
-<li><p>作用域</p>
+<li><p>作用域：当代码在一个环境执行时，会创建变量对象的一个作用域。<br>理解：类似 Java 的成员变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">swapColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">    anotherColor = color;</span><br><span class="line">    color = tempColor;</span><br><span class="line">    <span class="comment">// 这里可以访问 color, anotherColor 和 tempColor</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 这里可以访问 color, anotherColor</span></span><br><span class="line">  swapColor();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里只能访问 color</span></span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
