@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <title><![CDATA[Beanlee Blog]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://beanlee.com//"/>
+  <updated>2015-06-29T00:21:21.000Z</updated>
+  <id>http://beanlee.com//</id>
+  
+  <author>
+    <name><![CDATA[Bean Lee]]></name>
+    <email><![CDATA[irobot039@gmail.com]]></email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Questions Of Front-End]]></title>
+    <link href="http://beanlee.com/2015/06/27/Question-Of-Front-End/"/>
+    <id>http://beanlee.com/2015/06/27/Question-Of-Front-End/</id>
+    <published>2015-06-27T00:32:19.000Z</published>
+    <updated>2015-06-29T00:21:21.000Z</updated>
+    <content type="html"><![CDATA[<p>前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！<br><a id="more"></a></p>
+<blockquote>
+<p>千万不要为了当前不好而跳槽，一定是要因为将来会更好而跳槽！</p>
+</blockquote>
+<h1 id="HTML">HTML</h1><ul>
+<li><p>盒子模型<br>margin - border - padding - content - padding - border - margin<br>上下两个元素之间会有margin合并问题</p>
+</li>
+<li><p>块级元素和行内元素区别<br><a href="http://blog.csdn.net/chen_zw/article/details/8713205" target="_blank" rel="external">http://blog.csdn.net/chen_zw/article/details/8713205</a><br><a href="http://segmentfault.com/a/1190000000654770" target="_blank" rel="external">http://segmentfault.com/a/1190000000654770</a></p>
+</li>
+</ul>
+<h1 id="CSS">CSS</h1><ul>
+<li><p>实现一个叉号有几种实现方式<br>1.切图 2.先用一个span画一个长方形，圆角，然后使用transform倾斜 3.CSS3中使用Webfont 4.伪类</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">TODO</span> 代码实现</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CSS常用选择器<br>ID、类、伪类、父子选择器等等</p>
+</li>
+</ul>
+<h1 id="Javascript">Javascript</h1><ul>
+<li>原型链 prototype<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="external">MDN</a></li>
+</ul>
+<p>实现的本质是重新原型对象。</p>
+<ul>
+<li><p>原生ajax写法<br>XMLHttpRequest, XMLHttpResponse</p>
+</li>
+<li><p>事件模型和事件传播机制问题<br>浏览器中事件可以分为三种：鼠标事件；键盘事件；HTML事件；<br>捕获和冒泡的顺序在不同浏览器中不同，IE下事件流采用的是冒泡，基于DOM标准兼容浏览器通常采用先捕获后冒泡方式。</p>
+</li>
+</ul>
+<p><code>addEventListener() &amp; removeEventListener()</code><br>所有 DOM 节点都包含这两个方法，都接受三个参数：要处理的事件名，作为事件处理程序的函数，一个布尔值。最后这个参数布尔值，<code>true</code>表示在捕获时调用事件处理函数，<code>false</code>表示在冒泡时调用时间处理函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>);</span><br><span class="line">btn.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="string">"click"</span>);</span><br><span class="line">&#125;, flase);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>跨域 JSONP 实现原理<br>原理：回调函数<br>JSONP 由两部分组成：回调函数和数据。</li>
+</ul>
+<p>For Example:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleResponse</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">"You're at IP "</span> + response.ip + <span class="string">", which is in "</span> + response.city);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">script.src = <span class="string">"http://freegeoip.net/json/?callback=handleResponse"</span>;</span><br><span class="line"><span class="built_in">document</span>.body.insertBefore(script, <span class="built_in">document</span>.body.fisrtChild);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>&lt;script&gt;</code>中defer和asyc区别和加载顺序</p>
+<ul>
+<li>asyc: <code>异步脚本</code>虽然立即下载脚本，不应该方案页面中其他操作，比如下载其他资源或等待加载其他脚本。只对外部脚本有效。不能保证按照指定的先后顺序执行，建议异步脚本不要在加载期间修改 DOM。</li>
+<li>defer: <code>延迟脚本</code>可以延迟到文档完全被解析和显示之后再执行。只针对外部脚本有效。在现实当中，延迟脚本不一定按照顺序执行，不一定会在 DOMContentLoaded 事件触发前执行，因此最好只包含一个延迟脚本</li>
+</ul>
+</li>
+<li><p>闭包：指有权访问另一个函数作用域中的变量和函数。</p>
+</li>
+<li><p>作用域：当代码在一个环境执行时，会创建变量对象的一个作用域。<br>理解：类似 Java 的成员变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">swapColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">    anotherColor = color;</span><br><span class="line">    color = tempColor;</span><br><span class="line">    <span class="comment">// 这里可以访问 color, anotherColor 和 tempColor</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 这里可以访问 color, anotherColor</span></span><br><span class="line">  swapColor();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里只能访问 color</span></span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！<br>]]>
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://beanlee.com/tags/CSS/"/>
+    
+      <category term="Front-End" scheme="http://beanlee.com/tags/Front-End/"/>
+    
+      <category term="HTML" scheme="http://beanlee.com/tags/HTML/"/>
+    
+      <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[OSC源创回年终盛典]]></title>
+    <link href="http://beanlee.com/2014/11/26/OSC-Party/"/>
+    <id>http://beanlee.com/2014/11/26/OSC-Party/</id>
+    <published>2014-11-25T21:25:50.000Z</published>
+    <updated>2015-06-28T17:35:36.000Z</updated>
+    <content type="html"><![CDATA[<p>开源中国2014年终盛典大会参会笔记<br><a id="more"></a></p>
+<h1 id="OSC源创会年终盛典">OSC源创会年终盛典</h1><h2 id="开源中国的志向_-_马越">开源中国的志向 - 马越</h2><p>Git，Sonar，Team……JFinal<br>互联网之子-施瓦茨，一切皆开源，要参与其中；年轻人，OSCer“我们就是梦想！”；感谢阿里巴巴、华为贡献开源的力量</p>
+<h2 id="RDS_阿里云_数据通道挑战与实现_褚霸">RDS 阿里云 数据通道挑战与实现 褚霸</h2><p>功能</p>
+<ul>
+<li>高可用/屏蔽后端变化/安全、数据路由，冷热数据区分、数据操作，分库分表、支持多种数据后端，MySQL MSSQL</li>
+</ul>
+<p>约束</p>
+<ul>
+<li>普通PC服务器、高可用、规模/可横向拓展、可运维可控</li>
+</ul>
+<p>可用性</p>
+<ul>
+<li>LVS商业版 SLBv3流量层 —— Proxy负载均衡 —— Master</li>
+<li>流量层：VIP漂移保证用户不要切换DNS，session同步解决单机down机影响</li>
+<li>Proxy层：Erlang VM作为中间件、支持热升级，不用切分流量</li>
+<li>DB层：主备结构、跨机房/跨机架、主备同步/异步复制减少延迟、数据安全</li>
+</ul>
+<p>性能：RT、吞吐量、QPS、短链接性能</p>
+<h2 id="剖析开源技术趋势&amp;华为开源现状">剖析开源技术趋势&amp;华为开源现状</h2><ul>
+<li>趋势：互联网化、平台级、推动硬件电信系统等发展、社区运营公司化、标准化</li>
+<li>华为开源者能力中心，鼓励、支持</li>
+<li>使用策略和原则：参考自行实现，架构解耦、社区同源减少维护成本</li>
+</ul>
+<h1 id="云计算专场">云计算专场</h1><h2 id="开源分布式对象存储_OpenStack_Swift_-_李明宇microwise">开源分布式对象存储 OpenStack Swift - 李明宇microwise</h2><p>OpenStack : A cloud operation system<br>It’s  a group system. 11 projects so huge, but the biggest user use 3.5 projects  . Install in CentOS 7.<br>OpenStack Swift: RESTfull Web API 直接从存储提供REST服务，解决访问无业务的文件的需求<br>Architecture of Swift: 图见CSDN Proxy Server接收请求 — Controller 通过hash等算法保证请求均匀分布 — 存储层<br>Story Policy: 可配置存储，比如保存位置，可靠性<br>OpenStack &amp; Docker<br>Reading: OpenStack 云计算实战手册，OpenStack 企业云<br>Proxy Server 不存在单节点问题，proxy无状态</p>
+<h2 id="CoreOS_与容器管理">CoreOS 与容器管理</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<p>开源中国2014年终盛典大会参会笔记<br>]]>
+    
+    </summary>
+    
+      <category term="OpenSource" scheme="http://beanlee.com/tags/OpenSource/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[科学上网之VPN推荐系列]]></title>
+    <link href="http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/"/>
+    <id>http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/</id>
+    <published>2014-06-27T16:00:01.000Z</published>
+    <updated>2015-06-28T17:34:13.000Z</updated>
+    <content type="html"><![CDATA[<p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。<br><a id="more"></a></p>
+<p>刚刚加班到家，整理一下这篇最近在查阅资料关于VPN的一些内容，以及一些付费VPN的简单介绍。</p>
+<h3 id="什么是VPN">什么是VPN</h3><p>VPN 可以通过特殊的加密通讯协议，在连接 Internet 上位于不同地方的两个或多个企业内部网之间建立一条专有的通讯线路；就好比是架设了一条专线，但它并不需要真正的去铺设光缆之类的物理线路；就像去电信局申请专线，但是不用给铺设线路的费用，也不用购买路由器等硬件设备。</p>
+<p>VPN 技术原是路由器的重要技术之一，在交换机、防火墙设备或各大操作系统里也都支持 VPN 功能，VPN 的核心就是利用公共网络建立虚拟私有网。</p>
+<p>通俗的说，如果你想不被别人探查到你的 IP 地址，如果你想访问大量原本无法登录的国外网站，如果你想更安全进行数据传输，请使用 VPN。</p>
+<h3 id="PPTP和L2TP区别">PPTP和L2TP区别</h3><p>最常见最流行的 VPN 协议包含 PPTP 协议和 L2TP/IPSec 协议。如果你希望设置简单，对通信安全没有太大的要求，那么你配置 PPTP 连接即可；如果你的网络里 PPTP 协议未被允许，或者希望数据通信更安全的话，就推荐设置 L2TP/IPSec 连接。在设置上，步骤基本一致，只是 L2TP/IPSec 协议需要输入共享密钥。</p>
+<ul>
+<li>PPTP（Point to Point Tunneling Protocol）点对点隧道协议：是一种主要用于 VPN 的数据链路层网络协议，PPTP 的协议规范本身并未描述加密或身份验证的特性。</li>
+<li>L2TP（Layer Two Tunneling Protocol) 第二层隧道协议：是一种数据链路层隧道协议，通常用于虚拟专用网。L2TP 协议自身不对传输的数据进行加密，但是可以和加密协议搭配使用，从而实现数据的加密传输。经常与 L2TP 协议搭配的加密协议是 IPsec，当这两个协议搭配使用时，通常合称 L2TP/IPsec。</li>
+</ul>
+<h3 id="优点">优点</h3><ul>
+<li>科学上网</li>
+<li>配置方便，配置好以后，直接连接，就可以使用</li>
+<li>安全，一把双刃剑，因为VPN连接，我们的数据包都是通过中间服务器转发，VPN提供了很多种加密的方式，这样就可以很好地保护我们的隐私，隐藏IP等。</li>
+</ul>
+<h3 id="缺点">缺点</h3><ul>
+<li>受GFW干扰较大，由于使用UDP技术，连接可能受干扰</li>
+<li>比较依赖本地的网络环境</li>
+<li>ISP网络的可能会阻止VPN的连接，导致连不上或者速度慢</li>
+<li>VPN是保持连接，不是特别灵活，要断要连在使用过程中难免有麻烦</li>
+<li>安全，不能排除我们的数据包被中间服务器抓包或者截取的可能。</li>
+</ul>
+<h2 id="选择VPN">选择VPN</h2><p>前面一些“科普”的文字给大家码好字之后，下面笔者在选购VPN的时候主要关注一下几点，在这里和各位分享一下，可能与各位不同，欢迎读者朋友讨论吐槽！</p>
+<ul>
+<li><strong>稳定性</strong>：这是我比较重视一点，所以放在第一个，VPN的连接速度以及连接的稳定性，直接影响到使用者的感受，之所以找付费版VPN，最重要的就是想享受稳定的连接，不希望遇到经常掉线重连，或者经常不得不被动地切换多个连接。</li>
+<li><strong>终端支持</strong>：我的需求是希望支持Mac、iPhone、iPad至少三台终端同时连接，这样在多端就可以无缝享受网络。</li>
+<li><strong>连接速度</strong>（上行/下行）：不知道读者朋友有没有跟笔者一样的感受，网络慢得时候电脑也会有慢得错觉。当然了，“慢”一定有很多原因，也可能是错觉，但是连接VPN后同样拥有普通连接相同或者不会降低很多的网络速度，是非常重要的一点，也同样是申请VPN退款的原因之一。</li>
+<li><strong>价格</strong>（按量付费/按时付费）以及<strong>支付方式</strong>：按时 or 按量，这个取决于使用者的需求，如果像笔者一样是新手或者换种说法是首次希望通过付费VPN的方式“科学上网”，偶尔登录Google查阅资料，而且不用刷Twitter，暂时没有部署在国外服务器上的网站需要维护的话，可以选择价位不高且流量不大的服务；支付方式也被我放在这里，国内的很多朋友可能没有双币信用卡，Paypal付款难免有些麻烦，查了好几个VPN的服务商都已经支持支付宝付款了，还是很方便的。</li>
+<li><strong>配置难易度、客服响应速度</strong>：</li>
+<li><strong>隐私安全</strong>：毕竟我们在通过VPN连接时，本地的数据包是发送到远方服务器再跳转的，这期间是否会被抓包，窃取资料就是一个值得考虑的问题，笔者建议不用在VPN连接时使用网银等，即使VPN已经声明了数据信息已经加密，要保持警惕，保护隐私。</li>
+<li><strong>服务器地点</strong>：这点可能目前阶段不是笔者比较在意的一点，无论VPN服务商提供的是美国、日本、加拿大、台湾等何地的服务器，对于笔者来说不是特别重要，只要可以达到稳定的连接就可以。但是对于一些对服务地有强烈需求的朋友来说，比如一些游戏玩家，PS4和XBOX必须要连接当地的服务才能玩，这时服务器所在的地点就成了比较重要的考虑因素之一了。</li>
+</ul>
+<h2 id="付费VPN收集">付费VPN收集</h2><p>很幸运在微博上认识一位朋友<a href="http://weibo.com/liwei198870" target="_blank" rel="external">聆听潇湘雨</a>，请教了一些知识，也很感谢他推荐了几个付费VPN给我，包括我自己查阅的资料在下面罗列一下，具体服务需要等各位用户先自己试用，稍后再提供我的使用报告：</p>
+<ul>
+<li><a href="https://www.pandafan.org/?r=2885" target="_blank" rel="external">熊猫翻滚</a> 顾名思义，熊猫天朝特产，朋友推荐说智能分流做的很好，就是国内和国外的网站可以自动区分，这样连接VPN的同时国内网站的访问速度影响有效降低。</li>
+<li><a href="https://www.ytvpn.com/" target="_blank" rel="external">云梯</a>  在V2EX社区看到有人推荐过，也注册了一下，同学有需求想下载Google Android文档和源码，于是就买了这家的服务，速度还是很快的，支持3天内退款。</li>
+<li><a href="https://getqujing.com/zh-CN" target="_blank" rel="external">曲径</a>  官网介绍是为了国外音乐类流量服务，有一些大V也在各自的推文中有介绍，想必也积累了一些人气，服务应该做的还是不错的，要不然也不会这么多人推荐。可月付或者季付、限流量，其【冬月】套餐比较适合多终端的用户。</li>
+<li><a href="https://theqingyun.co/r/ncmbi3" target="_blank" rel="external">轻云</a>  资费比较合理，支持的设备较多，同时允许7台设备在线。</li>
+<li><a href="http://98.126.129.242/index.php" target="_blank" rel="external">YesVPN</a>  包月10RMB，包年100RMB</li>
+<li><a href="https://www.shayujsq.net/index.php" target="_blank" rel="external">鲨鱼VPN</a> </li>
+<li>Google搜索 付费VPN 关键字 : )</li>
+</ul>
+<h2 id="VPN_FOR_FREE">VPN FOR FREE</h2><ul>
+<li>Chrome插件 - <a href="http://honx.in/i/U7DdTYKo11MoCLEP" target="_blank" rel="external">红杏</a> 浏览器上的插件，使用者仅仅通过安装Chrome浏览器插件，使用邮箱注册用户，就可以直接访问Google、Facebook和Twitter了。简单使用，缺点非VIP版服务器不是特别稳定，笔者在最近3天的使用过程中有一天下午基本无法使用，服务断断续续。当然也可以购买VIP版，笔者还没有购买体验就不便在这里细说，如果仅限浏览器翻墙，查看网页或者单线程下载一些小文件的话，这颗“红杏”是个不错的选择。</li>
+</ul>
+<p>文章还没写完，今天红杏免费版就挂了，但是红杏VIP版还是很受欢迎的。</p>
+<ul>
+<li>Google搜索 免费VPN 关键字即可 : )</li>
+</ul>
+<h2 id="补充">补充</h2><p>在完成这篇Blog的过程中，查阅的信息逐渐像水滴波纹一样散开，信息量过大，越来越害怕，觉得这里需要做功课的东西还是太多，有些不敢写了，因此标题也是改了又改，缩小范围。后面补补课再给各位带来其他科学上网的方式。</p>
+<p>因为目前对科学上网需求不是那么强烈，因此在写完这篇Blog后，我觉得先买一个熊猫翻滚之学术熊猫试用一个月（这其中也有微博朋友极力推荐的因素）。</p>
+<p>其他科学上网收集如下，以后有机会在研究跟大家分享：</p>
+<ul>
+<li><a href="https://eurekavpt.com" target="_blank" rel="external">eurekavpt</a></li>
+<li><a href="http://ippotsuko.com/blog/shadowsocks/" target="_blank" rel="external">ShadowSocks</a></li>
+<li><a href="https://pcnt.in/" target="_blank" rel="external">PowerConnect</a> &amp;&amp; <a href="https://twitter.com/PowerPACNetwork" target="_blank" rel="external">官方 Twitter</a> 会不定时放出邀请码</li>
+<li>….</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。]]>
+    
+    </summary>
+    
+      <category term="VPN" scheme="http://beanlee.com/tags/VPN/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mac Tool]]></title>
+    <link href="http://beanlee.com/2014/06/19/Mac-Tool-Series-1/"/>
+    <id>http://beanlee.com/2014/06/19/Mac-Tool-Series-1/</id>
+    <published>2014-06-18T16:00:01.000Z</published>
+    <updated>2015-06-28T17:34:11.000Z</updated>
+    <content type="html"><![CDATA[<p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。<br><a id="more"></a></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/454c4867jw9ehyt3n7t8tj20g407lq42.jpg" alt="&#39;tools_1&#39;"></p>
+<h1 id="Dash">Dash</h1><p>相信日常工作或者做个人开发的朋友，浏览器的收藏夹中一定有一个文件夹，里面收藏了n个技术类的在线文档以及各种代码片段，Dash就是这样一款专注于提供各类API文档和收藏代码片段的工具。</p>
+<h3 id="值得推荐">值得推荐</h3><ul>
+<li>推荐点1-内容丰富<br>具备丰富的Docsets，并且都是提供官方原版材料。</li>
+</ul>
+<p><img src="http://ww2.sinaimg.cn/mw690/454c4867jw1emgqaa8qw6j21ki0zw489.jpg" alt="&#39;tools_dash_1&#39;"></p>
+<ul>
+<li>推荐点2-快速查询<br>Dash提供快速的查询，这其中包括多文档的联合查询，以及在某一个Docset中查询，查询流畅度很好。</li>
+</ul>
+<p>图片TODO</p>
+<ul>
+<li>缺点<br>售价昂贵，目前Dash Full Version要RMB128，在淘宝上购买是个不错的选择；如果可以忍受偶尔查询等待8s时间出结果，可以使用免费版；一些SDK和API受限于系统，只提供链接，如Objective-C等，值得高兴的是Swift可以直接查询很下载查阅。</li>
+</ul>
+<h1 id="CheatSheet">CheatSheet</h1><p>这是一款可以显示当前应用所有快捷键列表的软件，使用者只需要按住Command就能见识到他的强大之处。在笔者还没有Mac的时候，关注<a href="http://www.appinn.com" target="_blank" rel="external">小众软件</a>的时候看到他的推荐，于是就在<a href="http://www.cheatsheetapp.com/CheatSheet/" target="_blank" rel="external">CheatSheet官网</a>下载收藏了这款可以提高效率的软件。<br>PS.顾名思义快捷键是可以帮助使用者提高效率，善用、习惯快捷键，以及调整自己数字的快捷键可以更有效的提高自己的效率，这无疑也是帮助我们自己提高的方式之一。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Mac OSX 下佳软推荐 Dash 和 CheatSheet]]>
+    
+    </summary>
+    
+      <category term="Mac" scheme="http://beanlee.com/tags/Mac/"/>
+    
+      <category term="Tool" scheme="http://beanlee.com/tags/Tool/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Swift Study 1]]></title>
+    <link href="http://beanlee.com/2014/06/08/Study-Swift-1/"/>
+    <id>http://beanlee.com/2014/06/08/Study-Swift-1/</id>
+    <published>2014-06-07T16:00:01.000Z</published>
+    <updated>2015-06-28T17:36:00.000Z</updated>
+    <content type="html"><![CDATA[<p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!<br><a id="more"></a></p>
+<h2 id="Swift_学习笔记_一">Swift 学习笔记 一</h2><p>从2014-06-09开始每日更新，督促自己学习坚持，一周为一篇周期，加油！</p>
+<h3 id="材料收集">材料收集</h3><p><a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11" target="_blank" rel="external">官方iBook版</a></p>
+<p>IDE Xcode 6 Beta</p>
+<h3 id="Hello_World">Hello World</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println</span>(<span class="string">"Hello World!"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2014-06-09记录">2014-06-09记录</h3><p>学习常量(let)、变量(var)定义的方法，字符串参数传递()，Swift类型推导 var numValue = 123, strValue = “abc”，数组和字典定义方式等等。</p>
+<p>函数的定义func，如:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, Today is <span class="subst">\(day)</span> !"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可变参数的函数定义，如：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sumOf</span><span class="params">(numbers: Int...)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        sum += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line">sumOf()</span><br><span class="line">sumOf(<span class="number">42</span>, <span class="number">597</span>, <span class="number">12</span>)”</span><br></pre></td></tr></table></figure></p>
+<p>正在看极客学院的 Weather App 的教学视频，看来需要恶补的一些交互还有很多，加油！</p>
+<h3 id="2014-06-10记录">2014-06-10记录</h3><p>看完做Weather App的Demo视频，熟悉一个可以解析JSON的工具API</p>
+<pre><code><span class="built_in">NSJSONSerialization</span>
+</code></pre><p>重新回头继续看文档，最近加班和参加Interview，阅读的时间少了，要坚持看！</p>
+<p><a href="http://numbbbbb.github.io/the-swift-programming-language-in-chinese/" target="_blank" rel="external">GitBook 中文版Swift文档</a></p>
+<h4 id="控制流">控制流</h4><p>使用if和switch来进行条件操作，使用for-in、for、while和do-while来进行循环。包裹条件和循环变量括号可以省略，但是语句体的大括号是必须的。</p>
+<p>在类型后面加一个问号来标记这个变量的值是可选的。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionalString: <span class="type">String</span>? = <span class="string">"Hello"</span></span><br><span class="line">optionalString == <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalName: <span class="type">String</span>? = <span class="string">"John Appleseed"</span></span><br><span class="line"><span class="keyword">var</span> greeting = <span class="string">"Hello!"</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> name = optionalName &#123;</span><br><span class="line">    greeting = <span class="string">"Hello, <span class="subst">\(name)</span>"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>if的条件如果是 nil 就是false。</p>
+<p>switch case中一定要有default否则编译会报错，因为进入这个条件操作可能会没有出口。</p>
+<p>循环中使用 .. 创建的范围不包含上界，如果想包含的话需要使用 … ，如（0…10 表达从0开始到10，且包括10；0..10 则表单从0开始到10但不包括10）</p>
+<h4 id="函数与闭包">函数与闭包</h4><p>前面在视频里面看到了函数的定义方法，这里通过文档再整理一下。</p>
+<p>使用func来声明一个函数，使用名字和参数来调用函数。使用-&gt;来指定函数返回值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">greet</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, today is <span class="subst">\(day)</span>."</span></span><br><span class="line">&#125;</span><br><span class="line">greet(<span class="string">"Bob"</span>, <span class="string">"Tuesday"</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="2014-06-11">2014-06-11</h3><p>枚举、闭包实践。</p>
+<p>今天公司足球赛，太累就暂时依照视频教程做了个读取天气的demo，明天继续！</p>
+<h3 id="2014-06-15">2014-06-15</h3><p>遇上公司加班延误了三天，世界杯开幕熬夜看比赛又导致晚上需要稍微早一点睡，最近学习计划有些延后，今天反省一下！Swift学习今天暂缓停一下，整理了一下个人Resume，同时在这期间了解Mac一个很有用的软件<a href="https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12" target="_blank" rel="external">Dash</a>（汇集SDK文档和Sheets快速查询查看工具），推荐给在Mac环境下做开发的各位朋友！</p>
+<p>to be continue…</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!]]>
+    
+    </summary>
+    
+      <category term="Apple" scheme="http://beanlee.com/tags/Apple/"/>
+    
+      <category term="Swift" scheme="http://beanlee.com/tags/Swift/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java基础集合类复习]]></title>
+    <link href="http://beanlee.com/2014/06/06/Java-Collection-Review/"/>
+    <id>http://beanlee.com/2014/06/06/Java-Collection-Review/</id>
+    <published>2014-06-05T16:00:01.000Z</published>
+    <updated>2015-06-28T17:33:30.000Z</updated>
+    <content type="html"><![CDATA[<p>Java基础集合类的问题简单整理<br><a id="more"></a></p>
+<h1 id="JAVA基础集合类Review">JAVA基础集合类Review</h1><h2 id="JAVA集合类分类">JAVA集合类分类</h2><ul>
+<li>Collection：通常是一组有一定规律的独立元素。List必须按照特定的顺序持有这些元素，而Set则不能保存重复的元素。</li>
+<li>Map：一组以“键－－值”（key-value）形式出现的pairs。</li>
+</ul>
+<h3 id="Collection_Interface">Collection Interface</h3><p>Collection是最基本的集合接口，它下面的实现类包括List(LinkedList, ArrayList,Vector)、Set等。</p>
+<ul>
+<li><p>List接口是有序的Collection，每一个元素都能够被用户使用索引来访问，类似Java中的数组。与Set不同，List允许存在相同的元素。</p>
+<p>LinkedList:它是有序的允许元素为null，并且提供额外的get，remove，insert方法来操作LinkedList的首或尾部，类似链表的结构，可以用来实现堆栈（Stack）、队列（Queue）或者双向队列（Deque），它是不同步的。</p>
+<p>ArrayList:它的内部实现机制实际上使用的是Object数组，且一个大小可变，但是每一个ArrayList在初始化时都有一个容量，外部看这个容量是可以根据元素的添加自动增加。当容量不够时，系统就会创建一个更大的数组（1.5倍左右）并且把老的数组完全拷贝到新的数组中，同时老数组就自动进入GC待处理状态，等待垃圾回收。</p>
+<p>相比LinkedList，ArrayList中的get(index)的方法速度较快，效率高。</p>
+<p>Vector:线程同步的ArrayList，当一个线程开始迭代Vector时，另一个线程来添加、删除等改变Vector时，就会抛出ConcurrentModificationException。</p>
+<p>Stack:继承自Vector，从名字可以看出堆栈，它实现了一个后进先出的堆栈。</p>
+</li>
+</ul>
+<ul>
+<li>Set接口是一种不允许重复的Collection，即任意的两个元素e1和e2都有e1.equals(e2)=false，Set最多有一个null元素。这其中equals方法就是依靠元素的hashCode来判断是否相等，有时可以通过重写一些对象的HashCode方法来改变判断相等的判断逻辑。</li>
+</ul>
+<h3 id="Map_Interface">Map Interface</h3><ul>
+<li><p>HashTable</p>
+<p>HashTable集成Map接口，实现了一个key-value映射的哈希表。任何非空（non-null）的对象都可以作为key或value。HashTable是线程同步的。</p>
+<p>不了解的知识点：Hashtable通过initial capacity和load factor两个参数调整性能。通常缺省的load factor 0.75较好地实现了时间和空间的均衡。增大load factor可以节省空间但相应的查找时间将增大，这会影响像get和put这样的操作。</p>
+<p>hashCode和equals方法是否重写相关：</p>
+</li>
+<li><p>HashMap</p>
+<p>HashMap和Hashtable类似，不同之处在于HashMap是非同步的，并且允许null，即null value和null key。，但是将HashMap视为Collection时（values()方法可返回Collection），其迭代子操作时间开销和HashMap 的容量成比例。因此，如果迭代操作的性能相当重要的话，不要将HashMap的初始化容量设得过高，或者load factor过低。</p>
+</li>
+<li><p>WeakHashMap</p>
+<p>WeakHashMap是一种改进的HashMap，它对key实行“弱引用”，如果一个key不再被外部所引用，那么该key可以被GC回收。实际开发中还没有用过，可以尝试用一下。</p>
+</li>
+</ul>
+<h2 id="总结">总结</h2><ul>
+<li>List集合是有序集合，集合中的元素可以重复，访问集合中的元素可以根据元素的索引来访问。</li>
+<li>Set集合是无序集合，集合中的元素不可以重复，访问集合中的元素只能根据元素本身来访问（也是不能集合里元素不允许重复的原因）。</li>
+<li>Map集合中保存Key-value对形式的元素，访问时只能根据每项元素的key来访问其value。</li>
+<li>如果涉及到堆栈，队列等操作，应该考虑用List，对于需要快速插入，删除元素，应该使用LinkedList，如果需要快速随机访问元素，应该使用ArrayList。</li>
+<li>如果程序在单线程环境中，或者访问仅仅在一个线程中进行，考虑非同步的类，其效率较高，如果多个线程可能同时操作一个类，应该使用同步的类。要特别注意对哈希表的操作，作为key的对象要正确复写equals和hashCode方法。</li>
+<li>尽量返回接口而非实际的类型，如返回List而非ArrayList，这样如果以后需要将ArrayList换成LinkedList时，客户端代码不用改变。这就是针对抽象编程。</li>
+</ul>
+<h2 id="参考">参考</h2><p><a href="http://liuzhichao.com/p/652.html" target="_blank" rel="external">柳志超Blog中一篇文章《Java集合类》</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Java基础集合类的问题简单整理]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://beanlee.com/tags/Java/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[有设计感的数码产品才能打动人心]]></title>
+    <link href="http://beanlee.com/2014/04/12/Misfit-Shine/"/>
+    <id>http://beanlee.com/2014/04/12/Misfit-Shine/</id>
+    <published>2014-04-11T16:00:01.000Z</published>
+    <updated>2015-06-28T13:04:10.000Z</updated>
+    <content type="html"><![CDATA[<p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p>
+<h3 id="运动快乐">运动快乐</h3><p>笔者很喜爱有氧运动，偏爱足球和跑步，小时候就经常抱着足球跟着一帮小伙伴去虽然满是尘土的足球场。（PS.这里吐槽一下，很多人吐槽国足，国内的足球氛围不浓，连基础设备完善的足球场都很少，尤其是在二三线城市）</p>
+<p>先来和各位分享一下当时购买这款运动手环的初衷，应该说早在2012年的Google Glass在全球兴起了穿戴式数码设备的热潮，诸多厂商都在各自的领域跟进，这其中运动检测类的运动手环，种类颇为丰富。笔者一直是个夜跑爱好者，期初对此并没有太大需求也就没有关注。直到时隔2年后，无意间在网络中看到百度旗下公司也有一款运动手环，即将发布的新闻才再次被勾起兴趣，通过网络搜索一些资料查阅了解，越发感觉穿戴式数码产品对生活的重要性越来越大，因此决定购入，以此激励自己加强运动，运动最快乐！</p>
+<h3 id="简单介绍">简单介绍</h3><p>根据Shine的名字自行Google :)</p>
+<h3 id="三款手环简单对比">三款手环简单对比</h3><p>笔者的数码硬件消费级别，尚处于“屌丝”级别，包括每次买很多数码电子产品都要经过一段时间研究和对比，纠结过才会购买，这款也同样不例外。这里只简单说明一下三种智能手环的差异。</p>
+<ul>
+<li>Jawbone UP</li>
+<li>Fitbit Flex</li>
+<li>Misfit Shine</li>
+</ul>
+<p><img src="http://ww4.sinaimg.cn/mw690/454c4867gw1efc2f6n55ij20ug0ee41k.jpg" alt="&#39;compare&#39;"></p>
+<h3 id="Some_Pics">Some Pics</h3><p><img src="http://ww3.sinaimg.cn/mw690/454c4867gw1efc2cbmd5lj20qo140wor.jpg" alt="&#39;misfit&#39;"></p>
+<h3 id="Shine优缺点">Shine优缺点</h3><h3 id="优点">优点</h3><ul>
+<li>科技感、设计感十足，硬币大小戴在手上非常酷，通过几天的使用测试，运动记忆比较精准，包括睡眠模式中记录深度睡眠的时长，相对比较准确。</li>
+<li>在2013年获得红点设计奖，小小的运动检测器，戴的时间长了存在感非常小，不会影响正常生活，在收集资料的过程中，笔者看到很多网上的朋友甚至丢了好几天，想起来同步运动信息的时候才发现找不到的情况。（这也可能变相的算是一种缺点吧:P）</li>
+<li>Shine没有具象的显示器或者曲面屏幕，而且采用防水设计材质非常好的金属，用激光蚀刻的小孔伴随着小小的LED，轻拍两下，显示目前完成了当天既定目标的百分比，和很酷的点数时间，初看有些摸不到头脑但笔者使用几天下来基本习惯快速时间时间；轻拍三下，就可以自动切换运动模式，比如跑步、游泳、足球等。</li>
+</ul>
+<h3 id="缺点">缺点</h3><ul>
+<li>缺少其他手环中比较方便实用的智能唤醒闹钟，通过在手腕上的轻微震动达到闹钟作用的功能，相信不少上班族的朋友每天清晨都偶尔会被刺耳的闹铃叫醒，非常不爽！PS.如果想永远不再想听一首歌，那就把它设置成闹钟吧！</li>
+<li>与手机App同步没有实现真正的自动同步，由于新鲜感，笔者会每天多次拿起手机点开Shine的App点击同步，相信以后频率会下降，目前每天早上打开App看自己前一天晚上深度睡眠时间倒是一件非常有意思的事。</li>
+<li>App的SNS特性，相比国内相似运动类App略差，但换个思路，也许Shine团队是为了人们更加关注运动，他们比较和互动不应该喧宾夺主也说不定。</li>
+</ul>
+<h3 id="The_End">The End</h3><p>Misfit Shine对于笔者来说是个很好的选择，我可以接受它的全部优缺点，并且在使用过程中会把自己的意见和体验结果通过邮件的方式反馈给Misfit的团队。（天晓得我的邮件中的英文他们能不能看懂或者根本被忽视掉也说不定）</p>
+<p>原本想在这篇写完之前可以戴着Shine踢球，看看记录是什么样的，碰巧本周没有机会</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享]]>
+    
+    </summary>
+    
+      <category term="数码" scheme="http://beanlee.com/tags/%E6%95%B0%E7%A0%81/"/>
+    
+      <category term="数码生活" scheme="http://beanlee.com/categories/%E6%95%B0%E7%A0%81%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[书摘随笔]]></title>
+    <link href="http://beanlee.com/2014/03/20/Read-The-Book-Of-Zhihu/"/>
+    <id>http://beanlee.com/2014/03/20/Read-The-Book-Of-Zhihu/</id>
+    <published>2014-03-19T16:00:01.000Z</published>
+    <updated>2015-06-28T13:04:00.000Z</updated>
+    <content type="html"><![CDATA[<p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote>
+<p>建议：</p>
+<ul>
+<li>1、尽量地使用现成的代码框架、末班、开源项目、API，使用现成的工具，哪怕不是100%符合需要，有了用户量之后再重构。</li>
+<li>2、第一版可以简单解决，部分可用静态页面或者人工干预。</li>
+<li>3、在完成功能的过程中考虑后续版本的可升级性，但不要过分专注，否则会影响进度。</li>
+<li>4、找到所有相似、相关、上下游产品重新学习。</li>
+<li>5、如果是互联网产品想清楚需要验证什么用户行为和数据，并在产品中跟踪收集，不要盲目收集。</li>
+<li>6、界面简洁，保证核心功能在主要位置，且一键访问无歧义最好。</li>
+<li>7、专注80%精力在核心功能上，核心要完美，其余部分可以后完善，否则顾此失彼。</li>
+<li>8、快速、稳定，很多东西不是一定必须，能砍则砍。</li>
+<li>9、重视用户反馈，建立社区或者有效沟通平台。</li>
+<li>10、外围也不可忽视，类似门户网站等尽量有新意。</li>
+<li>11、如果专职严格进度，日毕日清，不为严重问题拖延。</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[读《创业时，我们在知乎聊什么》书摘随笔一]]>
+    
+    </summary>
+    
+      <category term="读书" scheme="http://beanlee.com/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[微博等SNS@功能探索技术验证总结]]></title>
+    <link href="http://beanlee.com/2014/01/10/The-Summary-of-At/"/>
+    <id>http://beanlee.com/2014/01/10/The-Summary-of-At/</id>
+    <published>2014-01-09T16:00:01.000Z</published>
+    <updated>2015-06-28T13:03:52.000Z</updated>
+    <content type="html"><![CDATA[<p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p>
+<h3 id="功能对比">功能对比</h3><p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jb40u64j21kw16jwun.jpg" alt="&#39;at1&#39;"></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/454c4867tw1eh7jbxfjq2j21kw16l7ji.jpg" alt="&#39;at2&#39;"></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/454c4867tw1eh7jckue5ij21kw16i4di.jpg" alt="&#39;at3&#39;"></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/454c4867tw1eh7jd9hmrdj21kw16oard.jpg" alt="&#39;at4&#39;"></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/454c4867tw1eh7jdwwe68j21kw16m4dc.jpg" alt="&#39;at5&#39;"></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jekivd4j21kw16f4f4.jpg" alt="&#39;at6&#39;"></p>
+<p><img src="http://ww2.sinaimg.cn/mw690/454c4867tw1eh7jf7bxdqj21kw16lwty.jpg" alt="&#39;at7&#39;"></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/454c4867tw1eh7jfykgw8j21kw16ined.jpg" alt="&#39;at8&#39;"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享]]>
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
+    
+      <category term="技术" scheme="http://beanlee.com/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[程序员都是理想主义者]]></title>
+    <link href="http://beanlee.com/2013/12/05/Eassy-Programmer/"/>
+    <id>http://beanlee.com/2013/12/05/Eassy-Programmer/</id>
+    <published>2013-12-04T16:00:01.000Z</published>
+    <updated>2014-08-16T02:37:48.000Z</updated>
+    <content type="html"><![CDATA[<p>今天看到微博上转发的一篇长博文中写到一段话很有感触。</p>
+<p>“每个夜晚来临的时候，孤独总在我左右，在我苍白的笑容背后，有多少落寞和哀愁面对日益发达的，极具诱惑力的夜生活，少有人能置之开外。但就有那么一群人，即使黑幕高垂还栖守在工作之位，面对夜晚的繁荣和喧嚣视若无睹”。是的，他们就是程序员，一群成天编写代码的程序员，难怪有人感叹程序员是被流行和时髦给遗忘的部落“</p>
+<p>“或许，每一个属于程序员的夜晚，都是沉静的夜。但是每一个程序员都是理想主义者，内心的沉静是一股强大的力量，支持着我们坚定第一点一点地去改变这个世界”</p>
+<p>你我共勉！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[程序员都是理想主义者]]>
+    
+    </summary>
+    
+      <category term="文字" scheme="http://beanlee.com/tags/%E6%96%87%E5%AD%97/"/>
+    
+      <category term="生活" scheme="http://beanlee.com/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[英雄再见]]></title>
+    <link href="http://beanlee.com/2013/12/04/Finished-the-book/"/>
+    <id>http://beanlee.com/2013/12/04/Finished-the-book/</id>
+    <published>2013-12-03T16:00:01.000Z</published>
+    <updated>2014-08-16T02:38:03.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="《獵命師傳奇》最终章完结">《獵命師傳奇》最终章完结</h3><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p>
+<p>这是一个有趣的作家，在大陆很多人还在看盗版书或是用手机下载看免费网络小说的时候，这个人联合出版社出资定制了一个iOS上的应用“真·九把刀全集”来免费为读者提供他的书籍和小说。我还记得app一打开，一段5s的视频，九把刀说着：“打魔兽要钱，玩电动要钱，泡妹妹要钱，看真正的九把刀小说，不要钱！”且不说迎合了很多大陆同胞“偏爱”免费的“习惯”，说实在的，我也是这样，当意识到这个App免费就立马下载，但作为软件开发者，深知开发同胞的辛苦，小开发制作的软件还是尽量保持限免活动或者购买的方式在使用，否则还陷在网上搜来质量良莠不齐的盗版书，再拷贝到kindle中来读的境地。</p>
+<p>啰嗦了几句，简单说说，看完这部魔幻小说的感受，九把刀的热血从头贯穿至结尾，乌拉拉与乌霆奸兄弟情谊让人热血沸腾，剧情不错，文字画面感很强，推荐各位在读《獵命師傳奇》之前一定先去看短篇《卧底》，九把刀在最终章完结的时候说过，正事因为9年写《卧底》这部短篇才构思出来，吸血鬼英雄与命运掌控者猎命师，命格等等等等独立且完整的一个热血世界。</p>
+<p>第二十章是猎命师的首部曲完结，整整9年的连载，9年的时光对于任何一个人来说，之间经历过的事都是弥足珍贵的“宝藏”，作者在连载小说的几年间，经历了母亲患病、女朋友分手、服兵役、忠犬去世、交新女朋友等等，都没有过多地打扰或中断他，这种毅力也是我最喜欢他的地方，虽然他的文字有时有些无厘头，但是他的这部小说，尤其是小说里的男主角乌拉拉总是给我一种积极的态度，每天挤在地铁却也能感受到这样的能量。</p>
+<p>“正能量”这个词，我总觉得社会上用的越多越失去它真正的意义！</p>
+<p>不废话太多，这部热血的小说，推荐大家闲暇时看一看，和豆先生一起期待后续的剧情！</p>
+<p>另外看新闻说，九把刀的第二部同名小说改编电影《少林寺第八铜人》也在紧锣密鼓地拍摄中，非常期待早日上映！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[断断续续地在地铁上读完这本小说，九把刀的长篇《獵命師傳奇》，乱写点随笔]]>
+    
+    </summary>
+    
+      <category term="生活" scheme="http://beanlee.com/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="阅读" scheme="http://beanlee.com/tags/%E9%98%85%E8%AF%BB/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[开篇]]></title>
+    <link href="http://beanlee.com/2013/11/28/First-Blog/"/>
+    <id>http://beanlee.com/2013/11/28/First-Blog/</id>
+    <published>2013-11-27T16:00:01.000Z</published>
+    <updated>2015-06-28T13:03:05.000Z</updated>
+    <content type="html"><![CDATA[<p>欢迎阅读豆子先生的Blog自介绍开篇</p>
+<p><a href="http://beanlee.com">Bean Blog</a></p>
+<h3 id="What">What</h3><p>这是一个独立的Blog，基于Github Pages + Jekyll，托管在Git服务器上，编写语言是Mardown，图床待定，网盘待定。</p>
+<h3 id="Who">Who</h3><p>作者<a href="http://about.me/bean_lee" target="_blank" rel="external">About me</a>常常自称豆子先生，目标成为海贼王，啊！不对，是成为架构师的程序猿一枚。</p>
+<p>关于写Blog没有任何经验，文字功底不深，但有一腔热血和语言想记录下来。</p>
+<p>目前的工作，是做一些J2EE的软件开发，自然个人最熟悉的开发语言是Java，同时也对Python，Groovy，Javascript等脚本语言有一些研究和实际应用；</p>
+<h3 id="When">When</h3><p>Blog创建于2013年11月27日凌晨1:00</p>
+<h3 id="Why">Why</h3><p>豆子先生年初制定2013年个人计划中的一项：搭建独立的个人Blog。希望这个基于Github Pages + Jekyll下搭建的Blog能够坚持维护下去，虽然目前还是雏形，还需要继续学习逐渐完善。建立Blog的初衷很简单，就是想记录豆子先生日常生活中工作、学习、生活中的一些积累和感悟。</p>
+<p>下个月找时间把个人搭建这个blog过程写一篇小教程，把整个过程，包括Blog选型，对比，搭建过程，遇到的问题，查询的资料和文档等等经验，分享给想通过GitHub Pages快速搭建Blog朋友。</p>
+<h3 id="How">How</h3><p>经常关注各类新技术，热衷于尝试新鲜事物和新技术，收集各类有意思的软件，自从年初MacBook Pro with Retina成为主力机之后近期逐渐追加关注Mac下的各类有趣的软件，也希望有兴趣开发出有趣的App，所以今后可能在Blog中写一些软件试用的推荐小文；</p>
+<p>关注各类数码产品，半个发烧玩家！</p>
+<p>这个Blog中也会记录一些个人从之前零散记录的内容，后续也会整理总结的一些技术相关的内容，欢迎大家关注订阅<a href="http://beanlee.github.io/rss.xml" target="_blank" rel="external">RSS</a>和拍砖留言。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Blog第一篇文章]]>
+    
+    </summary>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+</feed>
