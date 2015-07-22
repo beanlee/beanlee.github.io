@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://beanlee.com//"/>
-  <updated>2015-06-29T00:21:21.000Z</updated>
+  <updated>2015-07-22T07:15:54.000Z</updated>
   <id>http://beanlee.com//</id>
   
   <author>
@@ -16,11 +16,77 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Try My Best]]></title>
+    <link href="http://beanlee.com/2015/07/19/Try-My-Best/"/>
+    <id>http://beanlee.com/2015/07/19/Try-My-Best/</id>
+    <published>2015-07-19T08:47:21.000Z</published>
+    <updated>2015-07-22T07:15:54.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.</p>
+<p>— Bernard Baruch</p>
+</blockquote>
+<h2 id="机遇_Opportunity">机遇 Opportunity</h2><p>这里先要对我拒绝过公司道一声抱歉，也对原公司对我有知遇之恩的前 BOSS 说一声“感谢对我的认可，感谢能够再次给我机会，只可惜‘回归’现在不是我想做的事”。</p>
+<p>很幸运的是，高中同学的前同事所在公司有一个岗位空缺，通过多方面的了解和考虑，这是一次非常好的机会。</p>
+<p>周四我会参加复试，这家公司之前只在关注移动互联新闻中无意中扫过，由于一直没有在工作中投入到移动互联中，所以也从来没有认真关注过，有一些因缘的是，一起在北京奋斗的同学无意中提醒，如果想转职前端相关。</p>
+<h2 id="准备_Prepare">准备 Prepare</h2><p>整个7月，我都在为寻找新机会而准备（中间抽空和女朋友一起去了一趟厦门短期旅行），早在一年前来到 JD 之前就有朋友跟我说过，要想好为什么跳槽，对于自己而言，为什么要寻找新机会？</p>
+<ul>
+<li>是否是自己感兴趣想做的？或者说能不能在这份新工作找到乐趣？想清楚要做什么？</li>
+<li>在这份新工作有多大的上升空间？</li>
+<li>能否满足薪资收入预期？</li>
+</ul>
+<p>为了在这次面试，我特别针对这家工作做了很多准备工作，因为电话面之后，有一个 on-site 面试，需要提前在线限时完成三个算法题，于是翻出以前的书恶补了一些算法和数据结构相关的知识，虽然如此还是没有在答题当天表现出让自己满意的水平，还好把题目记下来自己私下里再做一次。</p>
+<p>因为是外企，工作语言是英语，因此专门准备口语！<code>Practice! Practice! Practice!</code> </p>
+<p>在 Glassdoor, Quora 等等网站查询关于这个公司的信息以及面试经验，在linkedin、V2EX、知乎、微博SNS上搜索他们员工和相关信息。</p>
+<h2 id="尽力_Try">尽力 Try</h2><p>最近一周我已经在充分调整自己，包括公司目前工作进度控制，近期的作息调整，希望能够有一个非常好的状态来参加复试，临阵磨枪一直不是我中意做事的方式，虽然做了很多准备，但更多的还是需要平时的积累、经验以及临场发挥，希望能够有个好结果！如果面试通过，一定要仔细整理一份面经。</p>
+<blockquote>
+<p>最好的休息，就是重新燃起生活的激情！</p>
+</blockquote>
+<hr>
+<h2 id="其他_Others">其他 Others</h2><p>目前公司在做一件事，有一个经验分享：<br>网站在支持 http 和 https 双协议，页面开发过程中有一处 tips</p>
+<p><code>如果静态文件没有单独放在其他服务器上，这种问题可以直接使用相对路径解决。</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"//url/abc/bcd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//url/mnb/xxx.js"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> <span class="attribute">async</span> <span class="attribute">defer</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在链接中不必写 <code>https://</code> 或 <code>http://</code> Javascript 中也可以通过 document 来获取当前页面的协议<code>document.location.protocol</code></p>
+<p>如果一定要在页面写绝对路径包括协议头可以这样写<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hp = (<span class="string">"https:"</span> == <span class="built_in">document</span>.location.protocol ? <span class="string">"https://"</span> : <span class="string">"http:"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>访问速度优化策略几个关键步骤：<br>请求优化、压缩合并、无状态域名（减少cookie传输）、上传静态服务器如 CDN（推模式响应慢，主动拉模型更新响应快）</p>
+<hr>
+<p>2015下半年读书单（暂定）</p>
+<p>技术方向</p>
+<ul>
+<li>Javascript 高级程序设计</li>
+<li>你不知道的 Javascript（上卷）</li>
+<li>CSS 权威指南</li>
+<li>Javascript 设计模式</li>
+</ul>
+<p>非技术方向</p>
+<ul>
+<li>从0到1</li>
+<li>羊毛战记</li>
+<li>天才在左，疯子在右</li>
+<li>断舍离</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.</p>
+<p>— Bernard ]]>
+    </summary>
+    
+      <category term="Life" scheme="http://beanlee.com/tags/Life/"/>
+    
+      <category term="Share" scheme="http://beanlee.com/tags/Share/"/>
+    
+      <category term="Work" scheme="http://beanlee.com/tags/Work/"/>
+    
+      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Questions Of Front-End]]></title>
     <link href="http://beanlee.com/2015/06/27/Question-Of-Front-End/"/>
     <id>http://beanlee.com/2015/06/27/Question-Of-Front-End/</id>
     <published>2015-06-27T00:32:19.000Z</published>
-    <updated>2015-06-29T00:21:21.000Z</updated>
+    <updated>2015-07-20T14:49:44.000Z</updated>
     <content type="html"><![CDATA[<p>前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！<br><a id="more"></a></p>
 <blockquote>
 <p>千万不要为了当前不好而跳槽，一定是要因为将来会更好而跳槽！</p>
@@ -81,7 +147,7 @@
     
       <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
     
-      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+      <category term="技术分享" scheme="http://beanlee.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
   </entry>
   
@@ -345,7 +411,7 @@
     <link href="http://beanlee.com/2014/04/12/Misfit-Shine/"/>
     <id>http://beanlee.com/2014/04/12/Misfit-Shine/</id>
     <published>2014-04-11T16:00:01.000Z</published>
-    <updated>2015-06-28T13:04:10.000Z</updated>
+    <updated>2015-07-20T14:50:25.000Z</updated>
     <content type="html"><![CDATA[<p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p>
 <h3 id="运动快乐">运动快乐</h3><p>笔者很喜爱有氧运动，偏爱足球和跑步，小时候就经常抱着足球跟着一帮小伙伴去虽然满是尘土的足球场。（PS.这里吐槽一下，很多人吐槽国足，国内的足球氛围不浓，连基础设备完善的足球场都很少，尤其是在二三线城市）</p>
 <p>先来和各位分享一下当时购买这款运动手环的初衷，应该说早在2012年的Google Glass在全球兴起了穿戴式数码设备的热潮，诸多厂商都在各自的领域跟进，这其中运动检测类的运动手环，种类颇为丰富。笔者一直是个夜跑爱好者，期初对此并没有太大需求也就没有关注。直到时隔2年后，无意间在网络中看到百度旗下公司也有一款运动手环，即将发布的新闻才再次被勾起兴趣，通过网络搜索一些资料查阅了解，越发感觉穿戴式数码产品对生活的重要性越来越大，因此决定购入，以此激励自己加强运动，运动最快乐！</p>
@@ -376,9 +442,13 @@
     
     </summary>
     
+      <category term="Digital" scheme="http://beanlee.com/tags/Digital/"/>
+    
+      <category term="体验分享" scheme="http://beanlee.com/tags/%E4%BD%93%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
       <category term="数码" scheme="http://beanlee.com/tags/%E6%95%B0%E7%A0%81/"/>
     
-      <category term="数码生活" scheme="http://beanlee.com/categories/%E6%95%B0%E7%A0%81%E7%94%9F%E6%B4%BB/"/>
+      <category term="数码" scheme="http://beanlee.com/categories/%E6%95%B0%E7%A0%81/"/>
     
   </entry>
   
@@ -476,7 +546,7 @@
     <link href="http://beanlee.com/2013/12/04/Finished-the-book/"/>
     <id>http://beanlee.com/2013/12/04/Finished-the-book/</id>
     <published>2013-12-03T16:00:01.000Z</published>
-    <updated>2014-08-16T02:38:03.000Z</updated>
+    <updated>2015-07-22T02:38:05.000Z</updated>
     <content type="html"><![CDATA[<h3 id="《獵命師傳奇》最终章完结">《獵命師傳奇》最终章完结</h3><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p>
 <p>这是一个有趣的作家，在大陆很多人还在看盗版书或是用手机下载看免费网络小说的时候，这个人联合出版社出资定制了一个iOS上的应用“真·九把刀全集”来免费为读者提供他的书籍和小说。我还记得app一打开，一段5s的视频，九把刀说着：“打魔兽要钱，玩电动要钱，泡妹妹要钱，看真正的九把刀小说，不要钱！”且不说迎合了很多大陆同胞“偏爱”免费的“习惯”，说实在的，我也是这样，当意识到这个App免费就立马下载，但作为软件开发者，深知开发同胞的辛苦，小开发制作的软件还是尽量保持限免活动或者购买的方式在使用，否则还陷在网上搜来质量良莠不齐的盗版书，再拷贝到kindle中来读的境地。</p>
 <p>啰嗦了几句，简单说说，看完这部魔幻小说的感受，九把刀的热血从头贯穿至结尾，乌拉拉与乌霆奸兄弟情谊让人热血沸腾，剧情不错，文字画面感很强，推荐各位在读《獵命師傳奇》之前一定先去看短篇《卧底》，九把刀在最终章完结的时候说过，正事因为9年写《卧底》这部短篇才构思出来，吸血鬼英雄与命运掌控者猎命师，命格等等等等独立且完整的一个热血世界。</p>
@@ -492,7 +562,7 @@
     
       <category term="生活" scheme="http://beanlee.com/tags/%E7%94%9F%E6%B4%BB/"/>
     
-      <category term="阅读" scheme="http://beanlee.com/tags/%E9%98%85%E8%AF%BB/"/>
+      <category term="读书" scheme="http://beanlee.com/tags/%E8%AF%BB%E4%B9%A6/"/>
     
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
