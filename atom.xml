@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://beanlee.com//"/>
-  <updated>2015-07-22T07:15:54.000Z</updated>
+  <updated>2015-11-22T15:21:03.000Z</updated>
   <id>http://beanlee.com//</id>
   
   <author>
@@ -14,6 +14,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Notes Of 360 Front-End Lesson]]></title>
+    <link href="http://beanlee.com/2015/11/22/Notes-Of-360FE-Lesson/"/>
+    <id>http://beanlee.com/2015/11/22/Notes-Of-360FE-Lesson/</id>
+    <published>2015-11-22T15:32:19.000Z</published>
+    <updated>2015-11-22T15:21:03.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="360前端训练营课堂笔记_－_奇舞团与Facebook畅聊大前端">360前端训练营课堂笔记 － 奇舞团与Facebook畅聊大前端</h1><h2 id="HTTP/2_深入浅出">HTTP/2 深入浅出</h2><ul>
+<li>屈光宇 Ququ老师 <a href="https://imququ.com" target="_blank" rel="external">JerryQu 的小站</a></li>
+</ul>
+<h3 id="Before_HTTP/2">Before HTTP/2</h3><p>应用层协议，基于TCP<br>HTTP 0.9 没有请求头，GET<br>HTTP 1.0 增加请求／响应头，可以响应media，content-type，refere来源<br>HTTP 1.1 支持持久连接，keep-alive，支持传输编码，content-length，请求范围range（断点续传），cache-control,expires<br>SPDY协议截止2015</p>
+<p>统计：页面大小和连接数，同一个页面多域名<br>TCP一个连接对应一个请求<br>keep-alive、管道pipelining（合并请求）、域名散列（多域名增加并发连接数）、协议开销、合并请求（改写Ajax，雪碧图、cssjs合并、cssjs内联、图片和音频内联base64、阻塞渲染，样式内联（多用于移动端，感知缓存）</p>
+<p>input标签type＝text是默认值<br>H2O，can I use、cleartext协商，HTTPS，mozilla免费证书，全球已经开通HTTPS网站占63%</p>
+<p>chrome在非HTTPS禁用关于设备使用的API，ALPN<br>HTTP／2-enabled，net-internals/#http2、Wireshark<br>优化，TLS，非对称加密，证书减少层级，ECC证书（很小，但是兼容性问题，vista才开始支持，移动端可以考虑）<br>HSTS，强制HTTPS、TLS安全清单SSL</p>
+<h3 id="HTTP/2">HTTP/2</h3><ul>
+<li>优化</li>
+</ul>
+<p>优化：减少DNS查询，减少域名、启用预读，减少重定向，使用CDN，压缩（PNGout，pngcrush）、HTTP缓存<br>不需要：域名散列，资源合并，资源内联</p>
+<ul>
+<li>最佳实践</li>
+</ul>
+<p>对HTTP/2优化的域名散列，多域名指向同一IP<br>感知缓存资源内联货Server Push，cookie标记内联过资源server-push<br>基于node的node-http2</p>
+<p>Google QUIC协议，基于UDP协议</p>
+<h2 id="Why_React_Matters?">Why React Matters?</h2><ul>
+<li>為什麼 React 牛？</li>
+<li>Facebook 黄士旗</li>
+</ul>
+<ul>
+<li>Predictable/Immutable</li>
+<li>React Native For iOS &amp; Android</li>
+<li>ImmutableJS</li>
+</ul>
+<h2 id="ES6/ES7_Node_Project,_ThinkJS">ES6/ES7 Node Project, ThinkJS</h2><ul>
+<li>如何使用ES6/ES7开发NodeJS项目</li>
+<li>李成银 ThinkJS 作者 @360齐舞团</li>
+</ul>
+<ul>
+<li>callback、promise，async functions</li>
+<li>babel javascript compile</li>
+<li>更多特性，class，Arrows，enhanced object literals，template</li>
+<li>性能问题，class，generators</li>
+<li>自动更新，fs.watch（重启node服务），chokidar，nodemonitor；问题，无法保存临时数据</li>
+<li>解决方案，热更新，依赖文件更新</li>
+<li>require.cache，解决依赖和缓存，重写require方法</li>
+<li>ThinkJS解决方案<a href="https://www.thinkjs.org" target="_blank" rel="external">ThinkJS</a></li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="360前端训练营课堂笔记_－_奇舞团与Facebook畅聊大前端">360前端训练营课堂笔记 － 奇舞团与Facebook畅聊大前端</h1><h2 id="HTTP/2_深入浅出">HTTP/2 深入浅出</h2><ul>
+<li>屈光宇 Ququ老师 <a h]]>
+    </summary>
+    
+      <category term="Front-End" scheme="http://beanlee.com/tags/Front-End/"/>
+    
+      <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
+    
+      <category term="NodeJS" scheme="http://beanlee.com/tags/NodeJS/"/>
+    
+      <category term="ReractJS" scheme="http://beanlee.com/tags/ReractJS/"/>
+    
+      <category term="技术分享" scheme="http://beanlee.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[July And August]]></title>
+    <link href="http://beanlee.com/2015/07/26/Jul-And-Aug/"/>
+    <id>http://beanlee.com/2015/07/26/Jul-And-Aug/</id>
+    <published>2015-07-26T07:02:20.000Z</published>
+    <updated>2015-08-21T15:04:50.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="七下八上">七下八上</h1>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="七下八上">七下八上</h1>]]>
+    </summary>
+    
+      <category term="life" scheme="http://beanlee.com/tags/life/"/>
+    
+      <category term="movie" scheme="http://beanlee.com/tags/movie/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Try My Best]]></title>
@@ -573,13 +653,14 @@
     <link href="http://beanlee.com/2013/11/28/First-Blog/"/>
     <id>http://beanlee.com/2013/11/28/First-Blog/</id>
     <published>2013-11-27T16:00:01.000Z</published>
-    <updated>2015-06-28T13:03:05.000Z</updated>
+    <updated>2015-07-22T07:33:33.000Z</updated>
     <content type="html"><![CDATA[<p>欢迎阅读豆子先生的Blog自介绍开篇</p>
 <p><a href="http://beanlee.com">Bean Blog</a></p>
 <h3 id="What">What</h3><p>这是一个独立的Blog，基于Github Pages + Jekyll，托管在Git服务器上，编写语言是Mardown，图床待定，网盘待定。</p>
-<h3 id="Who">Who</h3><p>作者<a href="http://about.me/bean_lee" target="_blank" rel="external">About me</a>常常自称豆子先生，目标成为海贼王，啊！不对，是成为架构师的程序猿一枚。</p>
+<p><code>Update 2015</code> 目前基于 Hexo 搭建，图床临时使用微博做载体。</p>
+<h3 id="Who">Who</h3><p>作者<a href="http://about.me/bean_lee" target="_blank" rel="external">About me</a>常常自称豆子先生，目标成为海贼王，啊！不对，是成为架构师的攻城狮一枚。</p>
 <p>关于写Blog没有任何经验，文字功底不深，但有一腔热血和语言想记录下来。</p>
-<p>目前的工作，是做一些J2EE的软件开发，自然个人最熟悉的开发语言是Java，同时也对Python，Groovy，Javascript等脚本语言有一些研究和实际应用；</p>
+<p>目前的工作，是做一些J2EE的WEB 系统开发，自然个人最熟悉的开发语言是Java，同时也对Python, Groovy, Javascript等脚本语言有一些研究和实际应用；</p>
 <h3 id="When">When</h3><p>Blog创建于2013年11月27日凌晨1:00</p>
 <h3 id="Why">Why</h3><p>豆子先生年初制定2013年个人计划中的一项：搭建独立的个人Blog。希望这个基于Github Pages + Jekyll下搭建的Blog能够坚持维护下去，虽然目前还是雏形，还需要继续学习逐渐完善。建立Blog的初衷很简单，就是想记录豆子先生日常生活中工作、学习、生活中的一些积累和感悟。</p>
 <p>下个月找时间把个人搭建这个blog过程写一篇小教程，把整个过程，包括Blog选型，对比，搭建过程，遇到的问题，查询的资料和文档等等经验，分享给想通过GitHub Pages快速搭建Blog朋友。</p>

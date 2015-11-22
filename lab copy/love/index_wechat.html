@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Bean Love Grace</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <style type="text/css">
+    @font-face {
+      font-family: digit;
+      src: url('digital-7_mono.ttf') format("truetype");
+    }
+  </style>
+  <link href="css/default_wechat.css" type="text/css" rel="stylesheet">
+  <!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/garden.js"></script>
+  <script type="text/javascript" src="js/function_wechat.js"></script>
+</head>
+
+<body>
+  <div id="mainDiv">
+    <div id="content">
+      <div id="loveHeart">
+        <canvas id="garden"></canvas>
+        <div id="words">
+          <div id="messages">
+            Grace, I have fallen in love with you for
+            <div id="elapseClock"></div>
+          </div>
+          <div id="loveu">
+            Love u forever and ever.<br/>
+            <div class="signature">- BeanLee</div>
+          </div>
+        </div>
+      </div>
+      <div id="code">
+        <span class="comments">/**</span><br />
+        <span class="space"/><span class="comments">* 嘉慧, 这是我们在一起，第二个情人节，为了准备礼物我想了很久。 </span><br />
+        <span class="space"/><span class="comments">* 我平时话少，但是我希望你看到我的确为了我们做了很多。这是我最近熬夜完成的一个礼物来庆祝我们的这个情人节，希望你喜欢。</span><br />
+        <br />
+        <br />
+        <span class="space"/><span class="comments">* 2013年6月30日，我们在王府井附近的小路上，我跟你说，我喜欢你，想跟你在一起。</span><br />
+        <span class="space"/><span class="comments">* 非常幸运的是你答应了，做我的女朋友^_^</span><br />
+        <span class="space"/><span class="comments">* 自从那一刻起，我对你日夜思念</span><br />
+        <span class="space"/><span class="comments">* 尽自己最大的努力照顾你，维护我们的爱情</span><br />
+        <span class="space"/><span class="comments">* 我们之间的喜怒哀乐每一天值得纪念</span><br />
+        <br />
+        <br />
+        <span class="space"/><span class="comments">* 这是个会一直在线计时的时钟，记录我们在一起的每一分一秒</span><br />
+        <span class="space"/><span class="comments">* 希望你看的到我的努力</span><br />
+        <span class="space"/><span class="comments">* 也请你和我一起坚信，我们的日子一定会越过越好！</span><br />
+        <br />
+        <br />
+        <span class="space"/><span class="comments">* 亲爱的，情人节快乐！</span><br />
+        <span class="space"/><span class="comments">*</span><br />
+        <span class="space"/><span class="comments">*/</span><br />
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var offsetX = $("#loveHeart").width() / 2;
+    var offsetY = $("#loveHeart").height() / 2 - 55;
+    var together = new Date();
+    together.setFullYear(2013,5,30);//月份是0~11
+    together.setHours(0);
+    together.setMinutes(0);
+    together.setSeconds(0);
+    together.setMilliseconds(0);
+    
+    if (!document.createElement('canvas').getContext) {
+      var msg = document.createElement("div");
+      msg.id = "errorMsg";
+      msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
+      document.body.appendChild(msg);
+      $("#code").css("display", "none")
+      $("#copyright").css("position", "absolute");
+      $("#copyright").css("bottom", "10px");
+        document.execCommand("stop");
+    } else {
+      setTimeout(function () {
+        startHeartAnimation();
+      }, 800);
+      timeElapse(together);
+      setInterval(function () {
+        timeElapse(together);
+      }, 500);
+      adjustCodePosition();
+      $("#code").typewriter();
+    }
+  </script>
+</body>
+</html>
