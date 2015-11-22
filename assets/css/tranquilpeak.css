@@ -160,7 +160,7 @@ abbr {
 
 blockquote {
   border-left: 2px solid #d1dced;
-  padding: 10px 20px; }
+  padding: 0px 20px; }
   blockquote cite:before {
     content: ' — ';
     padding: 0 0.3em; }
