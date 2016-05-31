@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Beanlee Blog">
-    <title>科学上网之VPN推荐系列 - Beanlee Blog</title>
+    <title>Simple HTTP Server on OSX - Beanlee Blog</title>
     <meta name="author" content="Bean Lee">
     
     
@@ -15,16 +15,22 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。">
+    <meta name="description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。
+12$cd path/project/folder$python -m SimpleHTTPServer 8080
+control + c 终止">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="科学上网之VPN推荐系列">
-<meta property="og:url" content="http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/index.html">
+<meta property="og:title" content="Simple HTTP Server on OSX">
+<meta property="og:url" content="http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/index.html">
 <meta property="og:site_name" content="Beanlee Blog">
-<meta property="og:description" content="“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。">
-<meta property="og:updated_time" content="2016-05-17T13:06:44.000Z">
+<meta property="og:description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。
+12$cd path/project/folder$python -m SimpleHTTPServer 8080
+control + c 终止">
+<meta property="og:updated_time" content="2016-05-31T06:42:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="科学上网之VPN推荐系列">
-<meta name="twitter:description" content="“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。">
+<meta name="twitter:title" content="Simple HTTP Server on OSX">
+<meta name="twitter:description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。
+12$cd path/project/folder$python -m SimpleHTTPServer 8080
+control + c 终止">
 <meta name="twitter:creator" content="@MrBean_Lee">
     
     
@@ -231,86 +237,24 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            科学上网之VPN推荐系列
+            Simple HTTP Server on OSX
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Sat Jun 28 2014 00:00:01 GMT+0800">
+    <time itemprop="datePublished" content="Tue May 31 2016 14:18:32 GMT+0800">
 	
-		    Jun 28, 2014
+		    May 31, 2016
     	
     </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/blog/">blog</a>
-
-
     
 </div>
 </div>
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p>
-<a id="more"></a>
-<p>刚刚加班到家，整理一下这篇最近在查阅资料关于VPN的一些内容，以及一些付费VPN的简单介绍。</p>
-<h3 id="什么是VPN"><a href="#什么是VPN" class="headerlink" title="什么是VPN"></a>什么是VPN</h3><p>VPN 可以通过特殊的加密通讯协议，在连接 Internet 上位于不同地方的两个或多个企业内部网之间建立一条专有的通讯线路；就好比是架设了一条专线，但它并不需要真正的去铺设光缆之类的物理线路；就像去电信局申请专线，但是不用给铺设线路的费用，也不用购买路由器等硬件设备。</p>
-<p>VPN 技术原是路由器的重要技术之一，在交换机、防火墙设备或各大操作系统里也都支持 VPN 功能，VPN 的核心就是利用公共网络建立虚拟私有网。</p>
-<p>通俗的说，如果你想不被别人探查到你的 IP 地址，如果你想访问大量原本无法登录的国外网站，如果你想更安全进行数据传输，请使用 VPN。</p>
-<h3 id="PPTP和L2TP区别"><a href="#PPTP和L2TP区别" class="headerlink" title="PPTP和L2TP区别"></a>PPTP和L2TP区别</h3><p>最常见最流行的 VPN 协议包含 PPTP 协议和 L2TP/IPSec 协议。如果你希望设置简单，对通信安全没有太大的要求，那么你配置 PPTP 连接即可；如果你的网络里 PPTP 协议未被允许，或者希望数据通信更安全的话，就推荐设置 L2TP/IPSec 连接。在设置上，步骤基本一致，只是 L2TP/IPSec 协议需要输入共享密钥。</p>
-<ul>
-<li>PPTP（Point to Point Tunneling Protocol）点对点隧道协议：是一种主要用于 VPN 的数据链路层网络协议，PPTP 的协议规范本身并未描述加密或身份验证的特性。</li>
-<li>L2TP（Layer Two Tunneling Protocol) 第二层隧道协议：是一种数据链路层隧道协议，通常用于虚拟专用网。L2TP 协议自身不对传输的数据进行加密，但是可以和加密协议搭配使用，从而实现数据的加密传输。经常与 L2TP 协议搭配的加密协议是 IPsec，当这两个协议搭配使用时，通常合称 L2TP/IPsec。</li>
-</ul>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
-<li>科学上网</li>
-<li>配置方便，配置好以后，直接连接，就可以使用</li>
-<li>安全，一把双刃剑，因为VPN连接，我们的数据包都是通过中间服务器转发，VPN提供了很多种加密的方式，这样就可以很好地保护我们的隐私，隐藏IP等。</li>
-</ul>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>受GFW干扰较大，由于使用UDP技术，连接可能受干扰</li>
-<li>比较依赖本地的网络环境</li>
-<li>ISP网络的可能会阻止VPN的连接，导致连不上或者速度慢</li>
-<li>VPN是保持连接，不是特别灵活，要断要连在使用过程中难免有麻烦</li>
-<li>安全，不能排除我们的数据包被中间服务器抓包或者截取的可能。</li>
-</ul>
-<h2 id="选择VPN"><a href="#选择VPN" class="headerlink" title="选择VPN"></a>选择VPN</h2><p>前面一些“科普”的文字给大家码好字之后，下面笔者在选购VPN的时候主要关注一下几点，在这里和各位分享一下，可能与各位不同，欢迎读者朋友讨论吐槽！</p>
-<ul>
-<li><strong>稳定性</strong>：这是我比较重视一点，所以放在第一个，VPN的连接速度以及连接的稳定性，直接影响到使用者的感受，之所以找付费版VPN，最重要的就是想享受稳定的连接，不希望遇到经常掉线重连，或者经常不得不被动地切换多个连接。</li>
-<li><strong>终端支持</strong>：我的需求是希望支持Mac、iPhone、iPad至少三台终端同时连接，这样在多端就可以无缝享受网络。</li>
-<li><strong>连接速度</strong>（上行/下行）：不知道读者朋友有没有跟笔者一样的感受，网络慢得时候电脑也会有慢得错觉。当然了，“慢”一定有很多原因，也可能是错觉，但是连接VPN后同样拥有普通连接相同或者不会降低很多的网络速度，是非常重要的一点，也同样是申请VPN退款的原因之一。</li>
-<li><strong>价格</strong>（按量付费/按时付费）以及<strong>支付方式</strong>：按时 or 按量，这个取决于使用者的需求，如果像笔者一样是新手或者换种说法是首次希望通过付费VPN的方式“科学上网”，偶尔登录Google查阅资料，而且不用刷Twitter，暂时没有部署在国外服务器上的网站需要维护的话，可以选择价位不高且流量不大的服务；支付方式也被我放在这里，国内的很多朋友可能没有双币信用卡，Paypal付款难免有些麻烦，查了好几个VPN的服务商都已经支持支付宝付款了，还是很方便的。</li>
-<li><strong>配置难易度、客服响应速度</strong>：</li>
-<li><strong>隐私安全</strong>：毕竟我们在通过VPN连接时，本地的数据包是发送到远方服务器再跳转的，这期间是否会被抓包，窃取资料就是一个值得考虑的问题，笔者建议不用在VPN连接时使用网银等，即使VPN已经声明了数据信息已经加密，要保持警惕，保护隐私。</li>
-<li><strong>服务器地点</strong>：这点可能目前阶段不是笔者比较在意的一点，无论VPN服务商提供的是美国、日本、加拿大、台湾等何地的服务器，对于笔者来说不是特别重要，只要可以达到稳定的连接就可以。但是对于一些对服务地有强烈需求的朋友来说，比如一些游戏玩家，PS4和XBOX必须要连接当地的服务才能玩，这时服务器所在的地点就成了比较重要的考虑因素之一了。</li>
-</ul>
-<h2 id="付费VPN收集"><a href="#付费VPN收集" class="headerlink" title="付费VPN收集"></a>付费VPN收集</h2><p>很幸运在微博上认识一位朋友<a href="http://weibo.com/liwei198870" target="_blank" rel="external">聆听潇湘雨</a>，请教了一些知识，也很感谢他推荐了几个付费VPN给我，包括我自己查阅的资料在下面罗列一下，具体服务需要等各位用户先自己试用，稍后再提供我的使用报告：</p>
-<ul>
-<li><a href="https://www.pandafan.org/?r=2885" target="_blank" rel="external">熊猫翻滚</a> 顾名思义，熊猫天朝特产，朋友推荐说智能分流做的很好，就是国内和国外的网站可以自动区分，这样连接VPN的同时国内网站的访问速度影响有效降低。</li>
-<li><a href="https://www.ytvpn.com/" target="_blank" rel="external">云梯</a>  在V2EX社区看到有人推荐过，也注册了一下，同学有需求想下载Google Android文档和源码，于是就买了这家的服务，速度还是很快的，支持3天内退款。</li>
-<li><a href="https://getqujing.com/zh-CN" target="_blank" rel="external">曲径</a>  官网介绍是为了国外音乐类流量服务，有一些大V也在各自的推文中有介绍，想必也积累了一些人气，服务应该做的还是不错的，要不然也不会这么多人推荐。可月付或者季付、限流量，其【冬月】套餐比较适合多终端的用户。</li>
-<li><a href="https://theqingyun.co/r/ncmbi3" target="_blank" rel="external">轻云</a>  资费比较合理，支持的设备较多，同时允许7台设备在线。</li>
-<li><a href="http://98.126.129.242/index.php" target="_blank" rel="external">YesVPN</a>  包月10RMB，包年100RMB</li>
-<li><a href="https://www.shayujsq.net/index.php" target="_blank" rel="external">鲨鱼VPN</a> </li>
-<li>Google搜索 付费VPN 关键字 : )</li>
-</ul>
-<h2 id="VPN-FOR-FREE"><a href="#VPN-FOR-FREE" class="headerlink" title="VPN FOR FREE"></a>VPN FOR FREE</h2><ul>
-<li>Chrome插件 - <a href="http://honx.in/i/U7DdTYKo11MoCLEP" target="_blank" rel="external">红杏</a> 浏览器上的插件，使用者仅仅通过安装Chrome浏览器插件，使用邮箱注册用户，就可以直接访问Google、Facebook和Twitter了。简单使用，缺点非VIP版服务器不是特别稳定，笔者在最近3天的使用过程中有一天下午基本无法使用，服务断断续续。当然也可以购买VIP版，笔者还没有购买体验就不便在这里细说，如果仅限浏览器翻墙，查看网页或者单线程下载一些小文件的话，这颗“红杏”是个不错的选择。</li>
-</ul>
-<p>文章还没写完，今天红杏免费版就挂了，但是红杏VIP版还是很受欢迎的。</p>
-<ul>
-<li>Google搜索 免费VPN 关键字即可 : )</li>
-</ul>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在完成这篇Blog的过程中，查阅的信息逐渐像水滴波纹一样散开，信息量过大，越来越害怕，觉得这里需要做功课的东西还是太多，有些不敢写了，因此标题也是改了又改，缩小范围。后面补补课再给各位带来其他科学上网的方式。</p>
-<p>因为目前对科学上网需求不是那么强烈，因此在写完这篇Blog后，我觉得先买一个熊猫翻滚之学术熊猫试用一个月（这其中也有微博朋友极力推荐的因素）。</p>
-<p>其他科学上网收集如下，以后有机会在研究跟大家分享：</p>
-<ul>
-<li><a href="https://eurekavpt.com" target="_blank" rel="external">eurekavpt</a></li>
-<li><a href="http://ippotsuko.com/blog/shadowsocks/" target="_blank" rel="external">ShadowSocks</a></li>
-<li><a href="https://pcnt.in/" target="_blank" rel="external">PowerConnect</a> &amp;&amp; <a href="https://twitter.com/PowerPACNetwork" target="_blank" rel="external">官方 Twitter</a> 会不定时放出邀请码</li>
-<li>….</li>
-</ul>
+            <p>很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$cd path/project/folder</span><br><span class="line">$python -m SimpleHTTPServer 8080</span><br></pre></td></tr></table></figure>
+<p>control + c 终止</p>
 
             
         </div>
@@ -320,7 +264,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/VPN/">VPN</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Mac/">Mac</a>
 
             </div>
         
@@ -329,7 +273,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/11/26/OSC-Party/"  data-tooltip="OSC源创回年终盛典">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -337,7 +281,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/" data-tooltip="Mac Tool">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/19/WANQU-Program-Beginning/" data-tooltip="I know how to program, but I don&#39;t know what to program">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -352,17 +296,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -410,7 +354,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/11/26/OSC-Party/"  data-tooltip="OSC源创回年终盛典">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -418,7 +362,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/" data-tooltip="Mac Tool">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/19/WANQU-Program-Beginning/" data-tooltip="I know how to program, but I don&#39;t know what to program">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -433,17 +377,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -469,17 +413,17 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="4">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
@@ -539,9 +483,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/';
+                 this.page.url = 'http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/';
                  
-                    this.page.identifier = '2014/06/28/How-To-Connect-Internet-With-VPN/';
+                    this.page.identifier = '2016/05/31/Simple-HTTP-Server-on-OSX/';
                                   
              };
             (function() {
