@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Beanlee Blog">
+    <title>【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack - Beanlee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="http://beanlee.com/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack">
+<meta property="og:url" content="http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/index.html">
+<meta property="og:site_name" content="Beanlee Blog">
+<meta property="og:description" content="这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑">
+<meta property="og:updated_time" content="2016-06-20T06:34:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack">
+<meta name="twitter:description" content="这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑">
+<meta name="twitter:creator" content="@MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Beanlee Blog</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="4">
+    <!-- 
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
+            </a>
+            <span class="sidebar-profile-name">Bean Lee</span>
+        </div>
+     -->
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/beanlab"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-flask"></i>
+                    <span class="sidebar-button-desc">Lab</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-instagram"></i>
+                    <span class="sidebar-button-desc">Instagram</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri Jun 17 2016 14:35:33 GMT+0800">
+	
+		    Jun 17, 2016
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/译文计划/">译文计划</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑</p>
+<a id="more"></a>
+<p><a href="http://stackoverflow.com/questions/35062852/npm-vs-bower-vs-browserify-vs-gulp-vs-grunt-vs-webpack" target="_blank" rel="external">Source Link</a></p>
+<h2 id="作者问题"><a href="#作者问题" class="headerlink" title="作者问题"></a>作者问题</h2><blockquote>
+<p>描述：我正在试着总结关于最流行的 Javascript 包管理器，打包器和任务执行器的知识。如果有错误请纠正我。</p>
+</blockquote>
+<ul>
+<li><code>npm</code> &amp; <code>bower</code> 是包管理工具。他们只是将依赖文件下载，并不知道在下载这些文件的基础上如何编译项目。他们知道的是在获取所有依赖之后去调用 <code>webpack</code>/<code>gulp</code>/<code>grunt</code> 。</li>
+<li><code>bower</code> 很像 <code>npm</code> ，但是编译依赖树不在行（不像 <code>npm</code> 那样递归着进行）。意味着 <code>npm</code> 获取每一依赖（可能获取几次相同的文件），然而 <code>bower</code> 期望你手动去包含子依赖。有时候 <code>bower</code> 和 <code>npm</code> 可以一起被使用，分别作用前端和后端（在前端每一mb都很重要）。</li>
+<li><code>glup</code> 和 <code>gulp</code> 是任务运行器，目的是将能够被自动化的所有事任务自动化执行。（比如编译css/sass，处理图片，打包还有最小化混淆代码）。</li>
+<li><code>grunt</code> vs <code>gulp</code> （就像<code>maven</code> vs <code>gradle</code> 或是 配置 vs 编码）。Grunt 是基于分离独立的任务配置的，每一个任务开始／处理／关闭文件。Gulp 需要少量代码，并且基于 node streams，那允许它编译链（w/o重复打开相同文件）而且执行很快。</li>
+<li><code>webpack</code> (<code>webpack-dev-server</code>) 对于我来说，它是任务执行器随着变化热加载，那些允许你忘记关于所有js/css的监视器。</li>
+<li><code>npm</code>/<code>bower</code>+plugin 可以替代任务运行器。他们的能力经常交叉因此如果你需要使用 <code>gulp</code>/<code>grunt</code> 在 npm+plugin 之上时存在着不同的潜在影响。但是任务运行器处理复杂任务定义的更好（比如 “在每一个编译打包，从ES6转义成ES5，在所有浏览器仿真器上运行，制作镜像还有通过ftp部署到dropbox”）。</li>
+<li><code>browserify</code> 允许为浏览器打包node模块。<code>browserify</code> vs <code>node&#39;s require</code> 就像 <a href="https://addyosmani.com/writing-modular-js/" target="_blank" rel="external">AMD vs CommonJS</a></li>
+</ul>
+<h3 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h3><ul>
+<li>什么是 webpack 和 webpack-dev-server ？官方文档说它是模块打包器，但对于我而言，它知识任务运行工具。有什么不同？</li>
+<li>你在哪里用到 browserify ？我们能不能和 node／ES6 一样做？</li>
+<li>你什么时候在 npm + plugins 基础上使用 <code>gulp</code>/<code>grunt</code> ？</li>
+</ul>
+<h2 id="Beat-Answer"><a href="#Beat-Answer" class="headerlink" title="Beat Answer"></a>Beat Answer</h2><p><code>Webpack</code> 和 <code>Browerify</code> 做了很多相同的工作，比如用于在一个浏览器环境钟打包你的模块。这个模块就是一个 Node 特征，它不在浏览器中存在，并且 ES6 中的 <code>import</code> 还没有在任何浏览器中实现，这就是为什么需要被打包。但是，他们在很多方式上是有区别的，<code>Webpack</code> 默认提供很多工具（比如代码拆分），<code>Browerify</code> 只能在下载插件之后才能做这些，但是使用这两种都能实现相似的效果。它取决于个人习惯（我常使用 <code>Webpack</code> ）。<code>Webpack</code> 不是一个任务运行器，它只是你通过CLI或是任务运行器直接运行文件的一个中间过程器。</p>
+<p><code>Webpack-dev-server</code> 提供一些类似于 <code>Browser-sync</code> -a server，你可以将你的 app 部署的地方，并且验证你的前端开发进程直接通过 dev-server 自动刷新浏览器或者在没有热部署的情况下传播变化（比如 React components）。</p>
+<p>我为了项目的完整和简单的任务编写已经使用<code>Gulp</code>，但是我后来发现我既不需要<code>Gulp</code>也不需要<code>Grunt</code>。所有我需要的都可以使用<code>npm</code>组合脚本去运行第三方工具利用它们的 API 完成。在<code>Gulp</code>，<code>Grunt</code>和<code>npm script</code>之间选择取决于你的需要、JS 经验和你工作时的开发经验。</p>
+<p>当然<code>Gulp</code>中的任务是易读的，甚至与JS不是很相似，它还是引用和学习另一个工具，并且我个人倾向于缩小我的依赖并且保持简单。另外一面，使用npm组合脚本和运行文件（配置和执行<code>Webpack</code>文件中函数）替代这些任务是更具有挑战性的。但是重要的是他们三个的结果是相同的。</p>
+<p>举例说我建议你看一看 <a href="https://github.com/kriasoft/react-starter-kit" target="_blank" rel="external">react starter project</a> ，它可以向你很好的展示<code>npm</code>组合脚本，<code>Webpack</code>和<code>browser-sync</code>。即使你可以处理你的源文件，如果你愿意，你可以使用<code>Gulp</code>或者<code>Grunt</code>运行你的开发服务，我更喜欢第一个选项。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Front-End/">Front-End</a> <a class="tag tag--primary tag--small t-link" href="/tags/Javascript/">Javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/翻译/">翻译</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/03/How-to-Write-Maintainable-JavaScript/" data-tooltip="【译】How to Write Maintainable JavaScript">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/03/How-to-Write-Maintainable-JavaScript/" data-tooltip="【译】How to Write Maintainable JavaScript">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <h5 id="about-card-bio"><p><a href="https://about.me/bean_lee">https://about.me/bean_lee</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE @ JD.COM</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing.CHN
+            </h5>
+        
+    </div>
+</div>
+
+        
+<!-- <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div> -->
+<div id="cover" style="background-image:url('http://78renz.com1.z0.glb.clouddn.com/blogcover.png');"></div>
+
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/';
+                 
+                    this.page.identifier = '2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+</html>

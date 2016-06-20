@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://beanlee.com/"/>
-  <updated>2016-05-31T06:42:42.000Z</updated>
+  <updated>2016-06-20T06:34:46.000Z</updated>
   <id>http://beanlee.com/</id>
   
   <author>
@@ -16,15 +16,97 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack</title>
+    <link href="http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/"/>
+    <id>http://beanlee.com/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/</id>
+    <published>2016-06-17T06:35:33.000Z</published>
+    <updated>2016-06-20T06:34:46.000Z</updated>
+    
+    <content type="html">&lt;p&gt;这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/35062852/npm-vs-bower-vs-browserify-vs-gulp-vs-grunt-vs-webpack&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Source Link&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;作者问题&quot;&gt;&lt;a href=&quot;#作者问题&quot; class=&quot;headerlink&quot; title=&quot;作者问题&quot;&gt;&lt;/a&gt;作者问题&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;描述：我正在试着总结关于最流行的 Javascript 包管理器，打包器和任务执行器的知识。如果有错误请纠正我。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;npm&lt;/code&gt; &amp;amp; &lt;code&gt;bower&lt;/code&gt; 是包管理工具。他们只是将依赖文件下载，并不知道在下载这些文件的基础上如何编译项目。他们知道的是在获取所有依赖之后去调用 &lt;code&gt;webpack&lt;/code&gt;/&lt;code&gt;gulp&lt;/code&gt;/&lt;code&gt;grunt&lt;/code&gt; 。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bower&lt;/code&gt; 很像 &lt;code&gt;npm&lt;/code&gt; ，但是编译依赖树不在行（不像 &lt;code&gt;npm&lt;/code&gt; 那样递归着进行）。意味着 &lt;code&gt;npm&lt;/code&gt; 获取每一依赖（可能获取几次相同的文件），然而 &lt;code&gt;bower&lt;/code&gt; 期望你手动去包含子依赖。有时候 &lt;code&gt;bower&lt;/code&gt; 和 &lt;code&gt;npm&lt;/code&gt; 可以一起被使用，分别作用前端和后端（在前端每一mb都很重要）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;glup&lt;/code&gt; 和 &lt;code&gt;gulp&lt;/code&gt; 是任务运行器，目的是将能够被自动化的所有事任务自动化执行。（比如编译css/sass，处理图片，打包还有最小化混淆代码）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;grunt&lt;/code&gt; vs &lt;code&gt;gulp&lt;/code&gt; （就像&lt;code&gt;maven&lt;/code&gt; vs &lt;code&gt;gradle&lt;/code&gt; 或是 配置 vs 编码）。Grunt 是基于分离独立的任务配置的，每一个任务开始／处理／关闭文件。Gulp 需要少量代码，并且基于 node streams，那允许它编译链（w/o重复打开相同文件）而且执行很快。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;webpack&lt;/code&gt; (&lt;code&gt;webpack-dev-server&lt;/code&gt;) 对于我来说，它是任务执行器随着变化热加载，那些允许你忘记关于所有js/css的监视器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;npm&lt;/code&gt;/&lt;code&gt;bower&lt;/code&gt;+plugin 可以替代任务运行器。他们的能力经常交叉因此如果你需要使用 &lt;code&gt;gulp&lt;/code&gt;/&lt;code&gt;grunt&lt;/code&gt; 在 npm+plugin 之上时存在着不同的潜在影响。但是任务运行器处理复杂任务定义的更好（比如 “在每一个编译打包，从ES6转义成ES5，在所有浏览器仿真器上运行，制作镜像还有通过ftp部署到dropbox”）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;browserify&lt;/code&gt; 允许为浏览器打包node模块。&lt;code&gt;browserify&lt;/code&gt; vs &lt;code&gt;node&amp;#39;s require&lt;/code&gt; 就像 &lt;a href=&quot;https://addyosmani.com/writing-modular-js/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AMD vs CommonJS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Questions&quot;&gt;&lt;a href=&quot;#Questions&quot; class=&quot;headerlink&quot; title=&quot;Questions&quot;&gt;&lt;/a&gt;Questions&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;什么是 webpack 和 webpack-dev-server ？官方文档说它是模块打包器，但对于我而言，它知识任务运行工具。有什么不同？&lt;/li&gt;
+&lt;li&gt;你在哪里用到 browserify ？我们能不能和 node／ES6 一样做？&lt;/li&gt;
+&lt;li&gt;你什么时候在 npm + plugins 基础上使用 &lt;code&gt;gulp&lt;/code&gt;/&lt;code&gt;grunt&lt;/code&gt; ？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Beat-Answer&quot;&gt;&lt;a href=&quot;#Beat-Answer&quot; class=&quot;headerlink&quot; title=&quot;Beat Answer&quot;&gt;&lt;/a&gt;Beat Answer&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Webpack&lt;/code&gt; 和 &lt;code&gt;Browerify&lt;/code&gt; 做了很多相同的工作，比如用于在一个浏览器环境钟打包你的模块。这个模块就是一个 Node 特征，它不在浏览器中存在，并且 ES6 中的 &lt;code&gt;import&lt;/code&gt; 还没有在任何浏览器中实现，这就是为什么需要被打包。但是，他们在很多方式上是有区别的，&lt;code&gt;Webpack&lt;/code&gt; 默认提供很多工具（比如代码拆分），&lt;code&gt;Browerify&lt;/code&gt; 只能在下载插件之后才能做这些，但是使用这两种都能实现相似的效果。它取决于个人习惯（我常使用 &lt;code&gt;Webpack&lt;/code&gt; ）。&lt;code&gt;Webpack&lt;/code&gt; 不是一个任务运行器，它只是你通过CLI或是任务运行器直接运行文件的一个中间过程器。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Webpack-dev-server&lt;/code&gt; 提供一些类似于 &lt;code&gt;Browser-sync&lt;/code&gt; -a server，你可以将你的 app 部署的地方，并且验证你的前端开发进程直接通过 dev-server 自动刷新浏览器或者在没有热部署的情况下传播变化（比如 React components）。&lt;/p&gt;
+&lt;p&gt;我为了项目的完整和简单的任务编写已经使用&lt;code&gt;Gulp&lt;/code&gt;，但是我后来发现我既不需要&lt;code&gt;Gulp&lt;/code&gt;也不需要&lt;code&gt;Grunt&lt;/code&gt;。所有我需要的都可以使用&lt;code&gt;npm&lt;/code&gt;组合脚本去运行第三方工具利用它们的 API 完成。在&lt;code&gt;Gulp&lt;/code&gt;，&lt;code&gt;Grunt&lt;/code&gt;和&lt;code&gt;npm script&lt;/code&gt;之间选择取决于你的需要、JS 经验和你工作时的开发经验。&lt;/p&gt;
+&lt;p&gt;当然&lt;code&gt;Gulp&lt;/code&gt;中的任务是易读的，甚至与JS不是很相似，它还是引用和学习另一个工具，并且我个人倾向于缩小我的依赖并且保持简单。另外一面，使用npm组合脚本和运行文件（配置和执行&lt;code&gt;Webpack&lt;/code&gt;文件中函数）替代这些任务是更具有挑战性的。但是重要的是他们三个的结果是相同的。&lt;/p&gt;
+&lt;p&gt;举例说我建议你看一看 &lt;a href=&quot;https://github.com/kriasoft/react-starter-kit&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;react starter project&lt;/a&gt; ，它可以向你很好的展示&lt;code&gt;npm&lt;/code&gt;组合脚本，&lt;code&gt;Webpack&lt;/code&gt;和&lt;code&gt;browser-sync&lt;/code&gt;。即使你可以处理你的源文件，如果你愿意，你可以使用&lt;code&gt;Gulp&lt;/code&gt;或者&lt;code&gt;Grunt&lt;/code&gt;运行你的开发服务，我更喜欢第一个选项。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是一篇在 Stack overflow 看到的一篇问题和回答，对于自己有一些解惑&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="译文计划" scheme="http://beanlee.com/categories/%E8%AF%91%E6%96%87%E8%AE%A1%E5%88%92/"/>
+    
+    
+      <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
+    
+      <category term="Front-End" scheme="http://beanlee.com/tags/Front-End/"/>
+    
+      <category term="翻译" scheme="http://beanlee.com/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】How to Write Maintainable JavaScript</title>
+    <link href="http://beanlee.com/2016/06/03/How-to-Write-Maintainable-JavaScript/"/>
+    <id>http://beanlee.com/2016/06/03/How-to-Write-Maintainable-JavaScript/</id>
+    <published>2016-06-03T06:24:27.000Z</published>
+    <updated>2016-06-20T03:04:53.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;湾区日报推荐：里面提到的不少实践也适合其他编程语言。推荐使用 .editorconfig 保持团队的代码风格。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;coming…&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;湾区日报推荐：里面提到的不少实践也适合其他编程语言。推荐使用 .editorconfig 保持团队的代码风格。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;coming…&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="译文计划" scheme="http://beanlee.com/categories/%E8%AF%91%E6%96%87%E8%AE%A1%E5%88%92/"/>
+    
+    
+      <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Simple HTTP Server on OSX</title>
     <link href="http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/"/>
     <id>http://beanlee.com/2016/05/31/Simple-HTTP-Server-on-OSX/</id>
     <published>2016-05-31T06:18:32.000Z</published>
-    <updated>2016-05-31T06:42:42.000Z</updated>
+    <updated>2016-06-01T06:54:13.000Z</updated>
     
     <content type="html">&lt;p&gt;很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$cd path/project/folder&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$python -m SimpleHTTPServer 8080&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;control + c 终止&lt;/p&gt;
+&lt;p&gt;Tada, thus you have got a HTTP server which port is 8080.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;control + c // stop it&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 </content>
     
     <summary type="html">
@@ -40,31 +122,31 @@
   </entry>
   
   <entry>
-    <title>I know how to program, but I don&#39;t know what to program</title>
+    <title>【译】I know how to program, but I don&#39;t know what to program</title>
     <link href="http://beanlee.com/2016/05/19/WANQU-Program-Beginning/"/>
     <id>http://beanlee.com/2016/05/19/WANQU-Program-Beginning/</id>
     <published>2016-05-19T14:10:01.000Z</published>
-    <updated>2016-05-31T15:04:44.000Z</updated>
+    <updated>2016-06-20T06:47:45.000Z</updated>
     
-    <content type="html">&lt;h1 id=&quot;我知道如何变成，但是我不知道拿来干什么&quot;&gt;&lt;a href=&quot;#我知道如何变成，但是我不知道拿来干什么&quot; class=&quot;headerlink&quot; title=&quot;我知道如何变成，但是我不知道拿来干什么&quot;&gt;&lt;/a&gt;我知道如何变成，但是我不知道拿来干什么&lt;/h1&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;blockquote&gt;
+    <content type="html">&lt;blockquote&gt;
 &lt;p&gt;湾区简评：这是很多初学编程的人，尤其是通过大学里的编程课学习写程序的人面临的问题。除了刷编程竞赛题、做课后编程题外，写程序能做什么？文章给的建议我赞同：先尝试去写自己也会用到的自动化的小工具。如果顺序反过来，已经知道要做什么了（比如做网站、做某个具体功能的app、做某个有实际用途的工具），再去学编程，会不会效果更好？&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.devdungeon.com/content/i-know-how-program-i-dont-know-what-program?utm_source=wanqu.co&amp;amp;utm_campaign=Wanqu+Daily&amp;amp;utm_medium=ios&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文链接&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;当我面对刚入门的开发者时总有一个重复的主题。他们已经把他们的时间投入到学习一门或者两门编程语言的基础上并且他们已经在做编程练习的时候感觉非常轻松，但是他们不知道怎么接受他们已经学习的东西。通常来说就像“我知道如何编程，但是我不知道编写什么程序”。标志性的回答是“完成一些编程挑战”，“给开源项目贡献代码”或者是“做一款游戏”。&lt;/p&gt;
-&lt;p&gt;完成编程挑战有益于脑力练习，但是它们却在帮助某人学习如何创建一个新程序上帮助很少。给开源项目贡献代码是一个提高。你可能学习到一个真是的项目是如何架构并且在编程语言方便提升你的技巧，但是不会学习很多到关于一个项目整个生命环的内容。某些项目非常复杂，这可能会对新手来说是非常恐怖的事。编写一款游戏是另一个提高。游戏是有趣的！我以前曾开始于在QBASIC编写游戏。然而发生了同样的困境。“我想要做一个游戏，但是我不知道做什么游戏”。&lt;/p&gt;
-&lt;p&gt;教导音乐学生跟编程一样，我已经意识到在音乐学生中是同样的模式。“我知道全部的和弦，并且我弹奏很熟练，但是我不知道怎么样写一首歌曲。”在音乐上，我们确实有一个很好的回答。在学习创作中有一个途径。音乐家通常不仅仅从一开始就写自己的音乐。有些音乐家永远不会向拼凑音乐和花掉一生只是从演奏其他人的音乐方向发展。在编程的世界，然后态度有一点不同。&lt;/p&gt;
-&lt;p&gt;在软件社区规则是“不要重复发明轮子”。当一个成熟稳定的选择存在时，如果你重写一个库通常是不赞成的。虽然这对于一般人来说是一个好的规则，新手不应该害怕重复发明轮子。当为了学习或者练习完成时，发明轮子是 OK 的！它是学习中一个重要的部分。举例来说，编写你自己版本的 ls，mv，wget 或者 cowsay 命令。如果你想要走游戏路线那可以克隆 Pong，Tetris 或者 Space Invaders 游戏。它们不需要全部相同的特点或者精确复制，但是你可以带着你的目标和空白的计划开始编程，你将它成为现实。&lt;/p&gt;
-&lt;p&gt;在你写程序之前不要有你必须有最佳的 idea 才开始动手这种念头。我见到过在音乐家身上相同的心态。在他们第一次尝试就努力创造一个高水平，花费他们全部的精力投入到一首乐曲中看的不长远。长远的事情是你将会写出很多很多乐曲，不仅仅是一首。你完成的第一支乐曲可能不好，你很可能抛弃它。这没什么。在你第一次尝试时，不要试着想要写出最好的章节。你需要学习谱曲的过程。在你写好程序之前你将会编写出糟糕的程序。迈过它，征服它，获取经验你就能开始在需求上自由创作发挥。&lt;/p&gt;
-&lt;p&gt;有一个原因我们告诉人们用“Hello , world”开始。因为这是他们行程的一个点，完成这个以为这征服了一个基础原理。你理解如何编译，如何运行，如何调用一个函数并且给它传递参数。编写一份已经存在软件的克隆版本是另外一个大的进步，跟 hello world 同等重要。当你完成它时，你已经克服了很多挑战。你已经发现哪里开始，如何计划，怎么组织，如何处理 bug ，给它一个人为的处理，并且打包最后它就成为一个可用的版本。即使你编写一个简单程序的克隆版本，你也能学习到全部过程。&lt;/p&gt;
-&lt;p&gt;你可能会好奇如何克隆已经存在的项目，它将帮助你产生一些新想法。比如像音乐，它需要创新。演奏他人的乐曲怎么做才能帮助你谱写自己的乐谱呢？你必须首先理解其他人。你必须去了解他们如何创造，还有他们使用了什么模式。当你做完这些足够时间你就开始看更大的事情，并且你有丰富的知识用来总结。你讲你从不同地方学习到的小部分音节组合在一起，并且重复一些你了解的模式。你可能改进，组合，或者完全打破你学习到的模式。就像他们所说的，你需要了解规则目的是用来突破他们。在编程过程中我们也有通用的模式比如 MVC 。这是一个稳定的被接受的编写软件的模式。在音乐中，我们也有通用的模式。比如 I-V-vi-IV。当然他不是唯一的一个，但他是已知很好的一个。&lt;/p&gt;
-&lt;p&gt;总而言之，这是经验和创新的一个组合。创新是一部分人们经常在编程过程中被忽略但他非常重要。你曾留意过有多少程序员也同样是作曲家吗？乐曲包含很多技术上分析，架构，模式尽管很多人认为他是一个纯粹的创作行为。编程是经常被看成技术性的动作尽量它多数是创作性的行为。你可以复制其他项目过程中培养创新性。随着你完成他们，你将会发现你自己新的想法去改进程序，或者可能是一个新的个人性质的特点添加进去。它将也会为新项目启发思路。创新随时会出现，但是你需要学习如何把它首先谱写成歌曲。&lt;/p&gt;
-&lt;p&gt;总有一天，你将会发现你继续能够为所有东西编程。你可以让人物自动化并且熟练处理问题。当面对很多事情，这些事情将是你没有时间应对的情况你也会没有问题的。你也将有能力随时解决问题。“哦，这有一个100个Sheet的表格需要被格式化，拆分成文件，转成一个 CSV 文件？马上就解决！”不要耽误去尝试做未来最好的事。编写一些你将会使用到的东西。其他项目的点子也会随之而来。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;【译】我知道如何编程，但是我不知道拿来干什么&quot;&gt;&lt;a href=&quot;#【译】我知道如何编程，但是我不知道拿来干什么&quot; class=&quot;headerlink&quot; title=&quot;【译】我知道如何编程，但是我不知道拿来干什么&quot;&gt;&lt;/a&gt;【译】我知道如何编程，但是我不知道拿来干什么&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://www.devdungeon.com/content/i-know-how-program-i-dont-know-what-program?utm_source=wanqu.co&amp;amp;utm_campaign=Wanqu+Daily&amp;amp;utm_medium=ios&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当我面对刚入门的开发者时总有一个重复的主题。他们已经把他们的时间投入到学习一门或者两门编程语言的基础上，并且他们轻松地完成一些编程练习，但是他们不知道怎么接受他们已经学习的东西。通常来说，就像“我知道如何编程，但是我不知道编写什么程序”。标志性的回答是“完成一些编程挑战”，“给开源项目贡献代码”或者是“做一款游戏”。&lt;/p&gt;
+&lt;p&gt;完成编程挑战有益于脑力练习，但是它们却在某人学习如何创建一个新程序上的帮助很少。给开源项目贡献代码是一个提高。你可能学习到一个真实项目是如何架构的，并且在编程语言方面提升你的编程技巧，但是不会学习到很多的关于一个项目整个生命环的内容。某些项目非常复杂，这可能会对新手来说是非常恐怖的事。编写一款游戏是另一个提高。游戏是有趣的！我以前曾开始用 QBASIC 编写游戏。然而发生了同样的困境。“我想要做一个游戏，但是我不知道做什么游戏”。&lt;/p&gt;
+&lt;p&gt;教导音乐系学生跟编程一样，我已经意识到在音乐系学生中存在同样的模式。“我知道全部的和弦，并且我弹奏很熟练，但是我不知道怎么样写一首歌曲。”在音乐中，我们确实有一个很好的解答。在学习创作中有一个途径。音乐家通常不仅仅从一开始就写自己的音乐。有些音乐家永远不会向拼凑音乐和花掉一生时间演奏他人音乐的方向发展。在编程的世界，态度有一点不同。&lt;/p&gt;
+&lt;p&gt;在软件社区有一个规则是“不要重复发明轮子”。当一个成熟稳定的选择存在时，如果你重写一个库通常是不被赞成的。虽然这对于一般人来说是一个好的规则，但新手不应该害怕重复发明轮子。当为了学习或者练习完成时，发明轮子是可以的！它是学习中一个重要的部分。比如，编写你自己版本的 ls，mv，wget 或者 cowsay 命令。如果你想要走游戏路线那可以克隆 Pong，Tetris 或者 Space Invaders 游戏。它们不需要全部相同的特点或者精确复制，但是你可以带着你的目标和空白的计划开始编程，你要把游戏实现出来。&lt;/p&gt;
+&lt;p&gt;在你写程序之前不要有’必须有个最佳的 idea 才开始动手’这种念头。我见到过在音乐家中有相同的心态。在他们第一次尝试时就努力创造一个高水平，这花费他们全部的精力投入到一首乐曲中。长远的是你将会写出很多很多乐曲，不仅仅是这一首。你完成的第一支乐曲可能不好，你很可能抛弃它。这没什么。在你第一次尝试时，不要试着想要写出最好的章节。你需要学习谱曲的过程。在你写好程序之前你将会编写出糟糕的程序。迈过它，征服它，获取经验你就能开始在需求上自由创作发挥。&lt;/p&gt;
+&lt;p&gt;我们告诉人们用“Hello , world”做开端。因为这是他们行程的一个点，完成这个以为这征服了一个基础原理。你就理解了如何编译，如何运行，如何调用一个函数并且给它传递参数。编写一份已经存在软件的克隆版本是另外一个大的进步，跟 hello world 同等重要。当你完成它时，你已经克服了很多挑战。你已经发现哪里开始，如何计划，怎么组织，如何处理 bug ，给它一个人为的处理，并且打包最后它就成为一个可用的版本。即使你编写一个简单程序的克隆版本，你也能学习到全部过程。&lt;/p&gt;
+&lt;p&gt;你可能会好奇如何克隆已经存在的项目，它将帮助你产生一些新想法。比如像音乐，它需要创新。演奏他人的乐曲怎么做才能帮助你谱写自己的乐谱呢？你必须首先理解其他人。你必须去了解他们如何创作的，还有他们使用了什么模式。当你做完这些足够时间你就开始着眼以后，并且你已经有丰富的知识用来总结。你将从不同地方学习到的小部分音节组合在一起，并且重复一些你了解的模式。你可能改进，组合，或者完全打破你学习到的这些模式。就像他们所说的，你需要了解规则目的是用来突破他们。在编程过程中我们也有通用的模式比如 MVC 。这是一个稳定的被接受的编写软件的模式。在音乐中，我们也有通用的模式。比如 &lt;a href=&quot;https://en.wikipedia.org/wiki/I%E2%80%93V%E2%80%93vi%E2%80%93IV_progression&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I-V-vi-IV&lt;/a&gt;。当然它不是唯一的一个，但它是已知很好的一个模式。&lt;/p&gt;
+&lt;p&gt;总而言之，这是经验和创新的一个组合。创新是一部分人们经常在编程过程中被忽略的但他非常重要。你曾留意过有多少程序员也同样是作曲家吗？乐曲包含很多技术上分析，架构，模式尽管很多人认为他是一个纯粹的创作行为。编程是经常被看成技术性的动作尽管它多数是创作性的行为。你可以在复制其他项目过程中培养创新性。伴随着你逐渐完成他们，你将会发现你有了自己新的想法去改进程序，抑或是一个新的带有些许个性的特点被添加进去。它将会为新项目启发思路。创新随时会出现，但是你需要先学习如何把它首先谱写成歌曲。&lt;/p&gt;
+&lt;p&gt;总有一天，你将会发现你继续能够为所有东西编程。你可以让人物自动化并且熟练处理问题。当面对很多事情，这些事情将会是你没有时间应对的情况，你处理起来也会没有问题的。你也将有能力随时解决问题。“哦，这有一个100个Sheet的表格需要被格式化，拆分成文件，转成一个 CSV 文件？马上就解决！”不要耽误时间去尝试做未来最好的事。编写一些你将会使用到的东西。其他项目的点子也会随之而来。&lt;/p&gt;
 &lt;p&gt;你们中有多少人已经处于你想象的“我不知道写什么程序？”这种的状态？你怎么解决它？如果处于这种状态你有什么建议？&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.devdungeon.com/content/i-know-how-program-i-dont-know-what-program?utm_source=wanqu.co&amp;amp;utm_campaign=Wanqu+Daily&amp;amp;utm_medium=ios&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文链接&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;湾区日报推荐&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;豆子简评：对自己有一些启发，现在刚刚转职专门做前端相关的工作，从 Java SQL Server … 到 HTML CSS Javascript NodeJS … 。目前可以达到基本熟悉一门新的编程语言可以花费不长的时间，但是一直没有找到很好的方向和目标去拿着这些“工具”去做事，就是因为“I Know how to program, but I don’t know what to program.”，首先先造一些自己能用得上的轮子吧，在自己的 Lab 页多多更新。&lt;/p&gt;
+&lt;p&gt;豆子简评：对自己有一些启发，现在转职专门做前端相关的工作时间不长，从 J2EE Spring SQL  … 到 HTML CSS Javascript NodeJS … 。虽然可以达到基本熟悉一门新的编程语言可以花费不长的时间这样一个状态，但是一直没有找到很好的办法再接触到一个新技术或框架，短时间地拿着这些“新工具”去做事，其中原因很类似于“I Know how to program, but I don’t know what to program.”，先造一些自己能用得上的轮子吧，在自己的 Lab 页多更新。&lt;/p&gt;
 &lt;/blockquote&gt;
 </content>
     
@@ -74,7 +156,7 @@
     
     </summary>
     
-      <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
+      <category term="译文计划" scheme="http://beanlee.com/categories/%E8%AF%91%E6%96%87%E8%AE%A1%E5%88%92/"/>
     
     
       <category term="翻译" scheme="http://beanlee.com/tags/%E7%BF%BB%E8%AF%91/"/>
@@ -88,7 +170,7 @@
     <link href="http://beanlee.com/2015/11/22/Notes-Of-360FE-Lesson/"/>
     <id>http://beanlee.com/2015/11/22/Notes-Of-360FE-Lesson/</id>
     <published>2015-11-22T15:32:19.000Z</published>
-    <updated>2016-05-30T08:41:29.000Z</updated>
+    <updated>2016-06-20T03:43:11.000Z</updated>
     
     <content type="html">&lt;p&gt;360前端训练营笔记&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h1 id=&quot;360前端训练营课堂笔记-－-奇舞团与Facebook畅聊大前端&quot;&gt;&lt;a href=&quot;#360前端训练营课堂笔记-－-奇舞团与Facebook畅聊大前端&quot; class=&quot;headerlink&quot; title=&quot;360前端训练营课堂笔记 － 奇舞团与Facebook畅聊大前端&quot;&gt;&lt;/a&gt;360前端训练营课堂笔记 － 奇舞团与Facebook畅聊大前端&lt;/h1&gt;&lt;h2 id=&quot;HTTP-2-深入浅出&quot;&gt;&lt;a href=&quot;#HTTP-2-深入浅出&quot; class=&quot;headerlink&quot; title=&quot;HTTP/2 深入浅出&quot;&gt;&lt;/a&gt;HTTP/2 深入浅出&lt;/h2&gt;&lt;ul&gt;
@@ -138,7 +220,7 @@
     
     </summary>
     
-      <category term="Record" scheme="http://beanlee.com/categories/Record/"/>
+      <category term="Note" scheme="http://beanlee.com/categories/Note/"/>
     
     
       <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
@@ -182,7 +264,7 @@
     <link href="http://beanlee.com/2015/07/19/Try-My-Best/"/>
     <id>http://beanlee.com/2015/07/19/Try-My-Best/</id>
     <published>2015-07-19T08:47:21.000Z</published>
-    <updated>2016-05-14T13:55:12.000Z</updated>
+    <updated>2016-06-20T03:43:01.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.&lt;/p&gt;
@@ -242,11 +324,7 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
-      <category term="Life" scheme="http://beanlee.com/tags/Life/"/>
-    
-      <category term="Work" scheme="http://beanlee.com/tags/Work/"/>
-    
-      <category term="Share" scheme="http://beanlee.com/tags/Share/"/>
+      <category term="life" scheme="http://beanlee.com/tags/life/"/>
     
   </entry>
   
@@ -255,7 +333,7 @@
     <link href="http://beanlee.com/2015/06/27/Question-Of-Front-End/"/>
     <id>http://beanlee.com/2015/06/27/Question-Of-Front-End/</id>
     <published>2015-06-27T00:32:19.000Z</published>
-    <updated>2016-05-30T08:35:49.000Z</updated>
+    <updated>2016-06-20T03:42:41.000Z</updated>
     
     <content type="html">&lt;p&gt;前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -312,7 +390,7 @@
     
     </summary>
     
-      <category term="Tech Share" scheme="http://beanlee.com/categories/Tech-Share/"/>
+      <category term="Note" scheme="http://beanlee.com/categories/Note/"/>
     
     
       <category term="Javascript" scheme="http://beanlee.com/tags/Javascript/"/>
@@ -330,7 +408,7 @@
     <link href="http://beanlee.com/2014/11/26/OSC-Party/"/>
     <id>http://beanlee.com/2014/11/26/OSC-Party/</id>
     <published>2014-11-25T21:25:50.000Z</published>
-    <updated>2016-05-30T08:41:10.000Z</updated>
+    <updated>2016-06-20T03:42:45.000Z</updated>
     
     <content type="html">&lt;p&gt;开源中国2014年终盛典大会参会笔记&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -365,10 +443,10 @@
     
     </summary>
     
-      <category term="Record" scheme="http://beanlee.com/categories/Record/"/>
+      <category term="Note" scheme="http://beanlee.com/categories/Note/"/>
     
     
-      <category term="OpenSource" scheme="http://beanlee.com/tags/OpenSource/"/>
+      <category term="note" scheme="http://beanlee.com/tags/note/"/>
     
   </entry>
   
@@ -377,7 +455,7 @@
     <link href="http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/"/>
     <id>http://beanlee.com/2014/06/28/How-To-Connect-Internet-With-VPN/</id>
     <published>2014-06-27T16:00:01.000Z</published>
-    <updated>2016-05-17T13:06:44.000Z</updated>
+    <updated>2016-06-20T03:39:50.000Z</updated>
     
     <content type="html">&lt;p&gt;“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -450,6 +528,8 @@
     
     
       <category term="VPN" scheme="http://beanlee.com/tags/VPN/"/>
+    
+      <category term="Share" scheme="http://beanlee.com/tags/Share/"/>
     
   </entry>
   
@@ -547,7 +627,7 @@
     <link href="http://beanlee.com/2014/06/06/Java-Collection-Review/"/>
     <id>http://beanlee.com/2014/06/06/Java-Collection-Review/</id>
     <published>2014-06-05T16:00:01.000Z</published>
-    <updated>2016-05-17T13:06:14.000Z</updated>
+    <updated>2016-06-20T03:39:27.000Z</updated>
     
     <content type="html">&lt;p&gt;Java基础集合类的问题简单整理&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -602,6 +682,8 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
+      <category term="总结" scheme="http://beanlee.com/tags/%E6%80%BB%E7%BB%93/"/>
+    
       <category term="Java" scheme="http://beanlee.com/tags/Java/"/>
     
   </entry>
@@ -611,7 +693,7 @@
     <link href="http://beanlee.com/2014/04/12/Misfit-Shine/"/>
     <id>http://beanlee.com/2014/04/12/Misfit-Shine/</id>
     <published>2014-04-11T16:00:01.000Z</published>
-    <updated>2016-05-30T08:42:06.000Z</updated>
+    <updated>2016-06-20T06:45:40.000Z</updated>
     
     <content type="html">&lt;p&gt;夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -649,9 +731,9 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
-      <category term="分享" scheme="http://beanlee.com/tags/%E5%88%86%E4%BA%AB/"/>
+      <category term="数码" scheme="http://beanlee.com/tags/%E6%95%B0%E7%A0%81/"/>
     
-      <category term="Digital" scheme="http://beanlee.com/tags/Digital/"/>
+      <category term="digital" scheme="http://beanlee.com/tags/digital/"/>
     
   </entry>
   
@@ -660,7 +742,7 @@
     <link href="http://beanlee.com/2014/03/20/Read-The-Book-Of-Zhihu/"/>
     <id>http://beanlee.com/2014/03/20/Read-The-Book-Of-Zhihu/</id>
     <published>2014-03-19T16:00:01.000Z</published>
-    <updated>2016-05-30T08:39:32.000Z</updated>
+    <updated>2016-06-20T03:41:47.000Z</updated>
     
     <content type="html">&lt;p&gt;读《创业时，我们在知乎聊什么》书摘随笔一&lt;/p&gt;
 &lt;blockquote&gt;
@@ -692,9 +774,7 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
-      <category term="读书" scheme="http://beanlee.com/tags/%E8%AF%BB%E4%B9%A6/"/>
-    
-      <category term="Reading" scheme="http://beanlee.com/tags/Reading/"/>
+      <category term="reading" scheme="http://beanlee.com/tags/reading/"/>
     
   </entry>
   
@@ -754,9 +834,9 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
-      <category term="文字" scheme="http://beanlee.com/tags/%E6%96%87%E5%AD%97/"/>
-    
       <category term="生活" scheme="http://beanlee.com/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+      <category term="文字" scheme="http://beanlee.com/tags/%E6%96%87%E5%AD%97/"/>
     
   </entry>
   
@@ -765,7 +845,7 @@
     <link href="http://beanlee.com/2013/12/04/Finished-the-book/"/>
     <id>http://beanlee.com/2013/12/04/Finished-the-book/</id>
     <published>2013-12-03T16:00:01.000Z</published>
-    <updated>2016-05-17T13:05:30.000Z</updated>
+    <updated>2016-06-20T03:41:32.000Z</updated>
     
     <content type="html">&lt;h1 id=&quot;《獵命師傳奇》最终章完结&quot;&gt;&lt;a href=&quot;#《獵命師傳奇》最终章完结&quot; class=&quot;headerlink&quot; title=&quot;《獵命師傳奇》最终章完结&quot;&gt;&lt;/a&gt;《獵命師傳奇》最终章完结&lt;/h1&gt;&lt;p&gt;断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -786,9 +866,7 @@
       <category term="blog" scheme="http://beanlee.com/categories/blog/"/>
     
     
-      <category term="生活" scheme="http://beanlee.com/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-      <category term="读书" scheme="http://beanlee.com/tags/%E8%AF%BB%E4%B9%A6/"/>
+      <category term="reading" scheme="http://beanlee.com/tags/reading/"/>
     
   </entry>
   
