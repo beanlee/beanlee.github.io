@@ -1,2 +1,2 @@
 # Bean Lee Personal Blog
-[Blog](http://beanlee.com)
+[Blog](https://beanlee.github.io)
