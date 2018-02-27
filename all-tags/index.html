@@ -1,31 +1,29 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
     
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Beanlee Blog">
-    <title>all-tags - Beanlee Blog</title>
+    <meta name="generator" content="BeanLee Blog">
+    <title>all-tags - BeanLee Blog</title>
     <meta name="author" content="Bean Lee">
     
     
-        <link rel="icon" href="http://beanlee.com/assets/images/favicon.ico">
+        <link rel="icon" href="http://beanlee.github.io/favicon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="Mac Javascript Bean Blog">
-<meta property="og:type" content="blog">
+    <meta property="og:type" content="blog">
 <meta property="og:title" content="all-tags">
-<meta property="og:url" content="http://beanlee.com/all-tags/index.html">
-<meta property="og:site_name" content="Beanlee Blog">
-<meta property="og:description" content="Mac Javascript Bean Blog">
-<meta property="og:updated_time" content="2016-05-30T06:38:48.000Z">
+<meta property="og:url" content="http://beanlee.github.io/all-tags/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-02-24T09:51:04.144Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="all-tags">
-<meta name="twitter:description" content="Mac Javascript Bean Blog">
-<meta name="twitter:creator" content="@MrBean_Lee">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
     
     
         
@@ -39,10 +37,21 @@
     <!--STYLES-->
     <link rel="stylesheet" href="/assets/css/font-awesome.css">
     <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
     <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
     <!--STYLES END-->
     
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46079069-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
     
 </head>
 
@@ -57,16 +66,16 @@
 
 <header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">Beanlee Blog</a>
-    </h1>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
     
         
             <a  class="header-right-picture "
                 href="#about">
         
         
-            <img class="header-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90"/>
+            <img class="header-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90" alt="作者的图片"/>
         
         </a>
     
@@ -78,145 +87,168 @@
     
 
 <nav id="sidebar" data-behavior="2">
-    <!-- 
-        <div class="sidebar-profile">
-            <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
-            </a>
-            <span class="sidebar-profile-name">Bean Lee</span>
-        </div>
-     -->
-    
-        <ul class="sidebar-buttons">
+    <div class="sidebar-container">
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
                 </a>
-        </li>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>爱做白日梦</p>
+</h5>
+                
+            </div>
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/links"
+                            
+                            title="链接"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/beanlib"
+                            
+                            title="实验室"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/beanlab"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-flask"></i>
-                    <span class="sidebar-button-desc">Lab</span>
-                </a>
-        </li>
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
         
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-instagram"></i>
-                    <span class="sidebar-button-desc">Instagram</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/atom.xml"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">RSS</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/links"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
-                    <span class="sidebar-button-desc">Links</span>
-                </a>
-        </li>
-        
-    </ul>
-    
+    </div>
 </nav>
 
             
@@ -226,12 +258,12 @@
                         ">
                 <div id="tags-archives" class="main-content-wrap">
     <form id="filter-form" action="#">
-        <input name="tag" type="text" class="form-control input--xlarge" placeholder="Search tag" autofocus="autofocus">
+        <input name="tag" type="text" class="form-control input--xlarge" placeholder="搜索标签" autofocus="autofocus">
     </form>
     <h4 class="archive-result text-color-base text-xlarge"
-        data-message-zero="no tag found"
-        data-message-one="1 tag found"
-        data-message-other="{n} tags found"></h4>
+        data-message-zero="没有找到标签"
+        data-message-one="找到 1 个标签"
+        data-message-other="找到 {n} 个标签"></h4>
 
         <section>
         
@@ -239,16 +271,8 @@
                 Apple
             </a>
         
-            <a class="tag tag--primary tag--small" href="#CSS-list" data-tag="css">
-                CSS
-            </a>
-        
             <a class="tag tag--primary tag--small" href="#Front-End-list" data-tag="front-end">
                 Front-End
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#HTML-list" data-tag="html">
-                HTML
             </a>
         
             <a class="tag tag--primary tag--small" href="#Java-list" data-tag="java">
@@ -259,24 +283,20 @@
                 Javascript
             </a>
         
-            <a class="tag tag--primary tag--small" href="#Life-list" data-tag="life">
-                Life
-            </a>
-        
             <a class="tag tag--primary tag--small" href="#Mac-list" data-tag="mac">
                 Mac
+            </a>
+        
+            <a class="tag tag--primary tag--small" href="#NPM-list" data-tag="npm">
+                NPM
             </a>
         
             <a class="tag tag--primary tag--small" href="#NodeJS-list" data-tag="nodejs">
                 NodeJS
             </a>
         
-            <a class="tag tag--primary tag--small" href="#ReractJS-list" data-tag="reractjs">
-                ReractJS
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#Share-list" data-tag="share">
-                Share
+            <a class="tag tag--primary tag--small" href="#ReactJS-list" data-tag="reactjs">
+                ReactJS
             </a>
         
             <a class="tag tag--primary tag--small" href="#Swift-list" data-tag="swift">
@@ -291,52 +311,24 @@
                 VPN
             </a>
         
-            <a class="tag tag--primary tag--small" href="#digital-list" data-tag="digital">
-                digital
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#jQuery-list" data-tag="jquery">
-                jQuery
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#life-list" data-tag="life">
-                life
+            <a class="tag tag--primary tag--small" href="#Webpack-list" data-tag="webpack">
+                Webpack
             </a>
         
             <a class="tag tag--primary tag--small" href="#note-list" data-tag="note">
                 note
             </a>
         
-            <a class="tag tag--primary tag--small" href="#reading-list" data-tag="reading">
-                reading
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#分享-list" data-tag="分享">
-                分享
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#工作-list" data-tag="工作">
-                工作
-            </a>
-        
             <a class="tag tag--primary tag--small" href="#总结-list" data-tag="总结">
                 总结
             </a>
         
-            <a class="tag tag--primary tag--small" href="#技术-list" data-tag="技术">
-                技术
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#数码-list" data-tag="数码">
-                数码
+            <a class="tag tag--primary tag--small" href="#数码产品-list" data-tag="数码产品">
+                数码产品
             </a>
         
             <a class="tag tag--primary tag--small" href="#文字-list" data-tag="文字">
                 文字
-            </a>
-        
-            <a class="tag tag--primary tag--small" href="#新年计划-list" data-tag="新年计划">
-                新年计划
             </a>
         
             <a class="tag tag--primary tag--small" href="#生活-list" data-tag="生活">
@@ -347,8 +339,12 @@
                 翻译
             </a>
         
-            <a class="tag tag--primary tag--small" href="#英语学习-list" data-tag="英语学习">
-                英语学习
+            <a class="tag tag--primary tag--small" href="#译文-list" data-tag="译文">
+                译文
+            </a>
+        
+            <a class="tag tag--primary tag--small" href="#阅读-list" data-tag="阅读">
+                阅读
             </a>
         
     </section>
@@ -363,31 +359,11 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/08/Study-Swift-1/">
+                            <a class="archive-post-title" href="/2014/06/08/2014-06-08-Study-Swift-1/">
                                 Swift Study 1
                             </a>
                             <span class="archive-post-date">
-                                 - jun 08, 2014
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="CSS-list" class="archive box" data-tag="css">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/CSS">
-                        CSS (1)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/06/27/Question-Of-Front-End/">
-                                Questions Of Front-End
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 27, 2015
+                                 - 6月 08, 2014
                             </span>
                         </li>
                     
@@ -397,55 +373,26 @@
             <div id="Front-End-list" class="archive box" data-tag="front-end">
                 <h4 class="archive-title">
                     <a class="link-unstyled" href="/tags/Front-End">
-                        Front-End (3)
+                        Front-End (2)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/06/27/Question-Of-Front-End/">
-                                Questions Of Front-End
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 27, 2015
-                            </span>
-                        </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/11/22/Notes-Of-360FE-Lesson/">
+                            <a class="archive-post-title" href="/2015/11/22/2015-11-22-Notes-Of-360FE-Lesson/">
                                 Notes Of 360 Front-End Lesson
                             </a>
                             <span class="archive-post-date">
-                                 - nov 22, 2015
+                                 - 11月 22, 2015
                             </span>
                         </li>
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
-                                【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 17, 2016
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="HTML-list" class="archive box" data-tag="html">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/HTML">
-                        HTML (1)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/06/27/Question-Of-Front-End/">
+                            <a class="archive-post-title" href="/2015/06/27/2015-06-27-Question-Of-Front-End/">
                                 Questions Of Front-End
                             </a>
                             <span class="archive-post-date">
-                                 - jun 27, 2015
+                                 - 6月 27, 2015
                             </span>
                         </li>
                     
@@ -461,11 +408,11 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/06/Java-Collection-Review/">
+                            <a class="archive-post-title" href="/2014/06/06/2014-06-06-Java-Collection-Review/">
                                 Java基础集合类复习
                             </a>
                             <span class="archive-post-date">
-                                 - jun 06, 2014
+                                 - 6月 06, 2014
                             </span>
                         </li>
                     
@@ -475,57 +422,19 @@
             <div id="Javascript-list" class="archive box" data-tag="javascript">
                 <h4 class="archive-title">
                     <a class="link-unstyled" href="/tags/Javascript">
-                        Javascript (4)
+                        Javascript (1)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/06/27/Question-Of-Front-End/">
-                                Questions Of Front-End
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 27, 2015
-                            </span>
-                        </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/11/22/Notes-Of-360FE-Lesson/">
+                            <a class="archive-post-title" href="/2015/11/22/2015-11-22-Notes-Of-360FE-Lesson/">
                                 Notes Of 360 Front-End Lesson
                             </a>
                             <span class="archive-post-date">
-                                 - nov 22, 2015
+                                 - 11月 22, 2015
                             </span>
                         </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/06/03/How-to-Write-Maintainable-JavaScript/">
-                                【译】How to Write Maintainable JavaScript
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 03, 2016
-                            </span>
-                        </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
-                                【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 17, 2016
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="Life-list" class="archive box" data-tag="life">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/Life">
-                        Life (0)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
                     
                 </ul>
             </div>
@@ -533,26 +442,37 @@
             <div id="Mac-list" class="archive box" data-tag="mac">
                 <h4 class="archive-title">
                     <a class="link-unstyled" href="/tags/Mac">
-                        Mac (2)
+                        Mac (1)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/19/Mac-Tool-Series-1/">
+                            <a class="archive-post-title" href="/2014/06/19/2014-06-19-Mac-Tool-Series-1/">
                                 Mac Tool
                             </a>
                             <span class="archive-post-date">
-                                 - jun 19, 2014
+                                 - 6月 19, 2014
                             </span>
                         </li>
                     
+                </ul>
+            </div>
+        
+            <div id="NPM-list" class="archive box" data-tag="npm">
+                <h4 class="archive-title">
+                    <a class="link-unstyled" href="/tags/NPM">
+                        NPM (1)
+                    </a>
+                </h4>
+                <ul class="archive-posts">
+                    
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/05/31/Simple-HTTP-Server-on-OSX/">
-                                Simple HTTP Server on OSX
+                            <a class="archive-post-title" href="/2016/06/17/2016-06-17-NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                                【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
                             </a>
                             <span class="archive-post-date">
-                                 - may 31, 2016
+                                 - 6月 17, 2016
                             </span>
                         </li>
                     
@@ -568,51 +488,31 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/11/22/Notes-Of-360FE-Lesson/">
+                            <a class="archive-post-title" href="/2015/11/22/2015-11-22-Notes-Of-360FE-Lesson/">
                                 Notes Of 360 Front-End Lesson
                             </a>
                             <span class="archive-post-date">
-                                 - nov 22, 2015
+                                 - 11月 22, 2015
                             </span>
                         </li>
                     
                 </ul>
             </div>
         
-            <div id="ReractJS-list" class="archive box" data-tag="reractjs">
+            <div id="ReactJS-list" class="archive box" data-tag="reactjs">
                 <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/ReractJS">
-                        ReractJS (1)
+                    <a class="link-unstyled" href="/tags/ReactJS">
+                        ReactJS (1)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/11/22/Notes-Of-360FE-Lesson/">
+                            <a class="archive-post-title" href="/2015/11/22/2015-11-22-Notes-Of-360FE-Lesson/">
                                 Notes Of 360 Front-End Lesson
                             </a>
                             <span class="archive-post-date">
-                                 - nov 22, 2015
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="Share-list" class="archive box" data-tag="share">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/Share">
-                        Share (1)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/28/How-To-Connect-Internet-With-VPN/">
-                                科学上网之VPN推荐系列
-                            </a>
-                            <span class="archive-post-date">
-                                 - jun 28, 2014
+                                 - 11月 22, 2015
                             </span>
                         </li>
                     
@@ -628,11 +528,11 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/08/Study-Swift-1/">
+                            <a class="archive-post-title" href="/2014/06/08/2014-06-08-Study-Swift-1/">
                                 Swift Study 1
                             </a>
                             <span class="archive-post-date">
-                                 - jun 08, 2014
+                                 - 6月 08, 2014
                             </span>
                         </li>
                     
@@ -648,11 +548,11 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/19/Mac-Tool-Series-1/">
+                            <a class="archive-post-title" href="/2014/06/19/2014-06-19-Mac-Tool-Series-1/">
                                 Mac Tool
                             </a>
                             <span class="archive-post-date">
-                                 - jun 19, 2014
+                                 - 6月 19, 2014
                             </span>
                         </li>
                     
@@ -668,71 +568,40 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/28/How-To-Connect-Internet-With-VPN/">
+                            <a class="archive-post-title" href="/2014/06/28/2014-06-28-How-To-Connect-Internet-With-VPN/">
                                 科学上网之VPN推荐系列
                             </a>
                             <span class="archive-post-date">
-                                 - jun 28, 2014
+                                 - 6月 28, 2014
                             </span>
                         </li>
                     
                 </ul>
             </div>
         
-            <div id="digital-list" class="archive box" data-tag="digital">
+            <div id="Webpack-list" class="archive box" data-tag="webpack">
                 <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/digital">
-                        digital (1)
+                    <a class="link-unstyled" href="/tags/Webpack">
+                        Webpack (2)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/04/12/Misfit-Shine/">
-                                有设计感的数码产品才能打动人心
+                            <a class="archive-post-title" href="/2018/02/11/2018-02-11-blog-translate-web-performance-optimization-with-webpack-from-google/">
+                                【译】利用 webpack 做 web 性能优化
                             </a>
                             <span class="archive-post-date">
-                                 - apr 12, 2014
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="jQuery-list" class="archive box" data-tag="jquery">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/jQuery">
-                        jQuery (0)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                </ul>
-            </div>
-        
-            <div id="life-list" class="archive box" data-tag="life">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/life">
-                        life (2)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/07/19/Try-My-Best/">
-                                Try My Best
-                            </a>
-                            <span class="archive-post-date">
-                                 - jul 19, 2015
+                                 - 2月 11, 2018
                             </span>
                         </li>
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2015/07/26/Jul-And-Aug/">
-                                July And August
+                            <a class="archive-post-title" href="/2016/06/17/2016-06-17-NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                                【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
                             </a>
                             <span class="archive-post-date">
-                                 - jul 26, 2015
+                                 - 6月 17, 2016
                             </span>
                         </li>
                     
@@ -748,73 +617,13 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/11/26/OSC-Party/">
+                            <a class="archive-post-title" href="/2014/11/26/2014-11-25-OSC-Party/">
                                 OSC源创回年终盛典
                             </a>
                             <span class="archive-post-date">
-                                 - nov 26, 2014
+                                 - 11月 26, 2014
                             </span>
                         </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="reading-list" class="archive box" data-tag="reading">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/reading">
-                        reading (2)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2013/12/04/Finished-the-book/">
-                                英雄再见
-                            </a>
-                            <span class="archive-post-date">
-                                 - dec 04, 2013
-                            </span>
-                        </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/03/20/Read-The-Book-Of-Zhihu/">
-                                书摘随笔
-                            </a>
-                            <span class="archive-post-date">
-                                 - mar 20, 2014
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="分享-list" class="archive box" data-tag="分享">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/分享">
-                        分享 (1)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/01/10/The-Summary-of-At/">
-                                微博等SNS@功能探索技术验证总结
-                            </a>
-                            <span class="archive-post-date">
-                                 - jan 10, 2014
-                            </span>
-                        </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="工作-list" class="archive box" data-tag="工作">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/工作">
-                        工作 (0)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
                     
                 </ul>
             </div>
@@ -828,51 +637,40 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/01/10/The-Summary-of-At/">
-                                微博等SNS@功能探索技术验证总结
-                            </a>
-                            <span class="archive-post-date">
-                                 - jan 10, 2014
-                            </span>
-                        </li>
-                    
-                        <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/06/06/Java-Collection-Review/">
+                            <a class="archive-post-title" href="/2014/06/06/2014-06-06-Java-Collection-Review/">
                                 Java基础集合类复习
                             </a>
                             <span class="archive-post-date">
-                                 - jun 06, 2014
+                                 - 6月 06, 2014
+                            </span>
+                        </li>
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2014/01/10/2014-01-10-The-Summary-of-At/">
+                                微博等SNS@功能探索技术验证总结
+                            </a>
+                            <span class="archive-post-date">
+                                 - 1月 10, 2014
                             </span>
                         </li>
                     
                 </ul>
             </div>
         
-            <div id="技术-list" class="archive box" data-tag="技术">
+            <div id="数码产品-list" class="archive box" data-tag="数码产品">
                 <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/技术">
-                        技术 (0)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
-                    
-                </ul>
-            </div>
-        
-            <div id="数码-list" class="archive box" data-tag="数码">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/数码">
-                        数码 (1)
+                    <a class="link-unstyled" href="/tags/数码产品">
+                        数码产品 (1)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2014/04/12/Misfit-Shine/">
+                            <a class="archive-post-title" href="/2014/04/12/2014-04-12-Misfit-Shine/">
                                 有设计感的数码产品才能打动人心
                             </a>
                             <span class="archive-post-date">
-                                 - apr 12, 2014
+                                 - 4月 12, 2014
                             </span>
                         </li>
                     
@@ -888,24 +686,13 @@
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2013/12/05/Eassy-Programmer/">
+                            <a class="archive-post-title" href="/2013/12/05/2013-12-05-Eassy-Programmer/">
                                 程序员都是理想主义者
                             </a>
                             <span class="archive-post-date">
-                                 - dec 05, 2013
+                                 - 12月 05, 2013
                             </span>
                         </li>
-                    
-                </ul>
-            </div>
-        
-            <div id="新年计划-list" class="archive box" data-tag="新年计划">
-                <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/新年计划">
-                        新年计划 (0)
-                    </a>
-                </h4>
-                <ul class="archive-posts">
                     
                 </ul>
             </div>
@@ -913,17 +700,35 @@
             <div id="生活-list" class="archive box" data-tag="生活">
                 <h4 class="archive-title">
                     <a class="link-unstyled" href="/tags/生活">
-                        生活 (1)
+                        生活 (3)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2013/12/05/Eassy-Programmer/">
+                            <a class="archive-post-title" href="/2015/07/26/2015-07-26-Jul-And-Aug/">
+                                July And August
+                            </a>
+                            <span class="archive-post-date">
+                                 - 7月 26, 2015
+                            </span>
+                        </li>
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2015/07/19/2015-07-19-Try-My-Best/">
+                                Try My Best
+                            </a>
+                            <span class="archive-post-date">
+                                 - 7月 19, 2015
+                            </span>
+                        </li>
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2013/12/05/2013-12-05-Eassy-Programmer/">
                                 程序员都是理想主义者
                             </a>
                             <span class="archive-post-date">
-                                 - dec 05, 2013
+                                 - 12月 05, 2013
                             </span>
                         </li>
                     
@@ -933,46 +738,75 @@
             <div id="翻译-list" class="archive box" data-tag="翻译">
                 <h4 class="archive-title">
                     <a class="link-unstyled" href="/tags/翻译">
-                        翻译 (2)
+                        翻译 (3)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/05/19/WANQU-Program-Beginning/">
-                                【译】I know how to program, but I don&#39;t know what to program
+                            <a class="archive-post-title" href="/2018/02/11/2018-02-11-blog-translate-web-performance-optimization-with-webpack-from-google/">
+                                【译】利用 webpack 做 web 性能优化
                             </a>
                             <span class="archive-post-date">
-                                 - may 19, 2016
+                                 - 2月 11, 2018
                             </span>
                         </li>
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
+                            <a class="archive-post-title" href="/2016/06/17/2016-06-17-NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/">
                                 【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack
                             </a>
                             <span class="archive-post-date">
-                                 - jun 17, 2016
+                                 - 6月 17, 2016
+                            </span>
+                        </li>
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2016/05/19/2016-05-19-WANQU-Program-Beginning/">
+                                【译】I know how to program, but I don&#39;t know what to program
+                            </a>
+                            <span class="archive-post-date">
+                                 - 5月 19, 2016
                             </span>
                         </li>
                     
                 </ul>
             </div>
         
-            <div id="英语学习-list" class="archive box" data-tag="英语学习">
+            <div id="译文-list" class="archive box" data-tag="译文">
                 <h4 class="archive-title">
-                    <a class="link-unstyled" href="/tags/英语学习">
-                        英语学习 (1)
+                    <a class="link-unstyled" href="/tags/译文">
+                        译文 (0)
+                    </a>
+                </h4>
+                <ul class="archive-posts">
+                    
+                </ul>
+            </div>
+        
+            <div id="阅读-list" class="archive box" data-tag="阅读">
+                <h4 class="archive-title">
+                    <a class="link-unstyled" href="/tags/阅读">
+                        阅读 (2)
                     </a>
                 </h4>
                 <ul class="archive-posts">
                     
                         <li class="archive-post">
-                            <a class="archive-post-title" href="/2016/05/19/WANQU-Program-Beginning/">
-                                【译】I know how to program, but I don&#39;t know what to program
+                            <a class="archive-post-title" href="/2014/03/20/2014-03-20-Read-The-Book-Of-Zhihu/">
+                                书摘随笔
                             </a>
                             <span class="archive-post-date">
-                                 - may 19, 2016
+                                 - 3月 20, 2014
+                            </span>
+                        </li>
+                    
+                        <li class="archive-post">
+                            <a class="archive-post-title" href="/2013/12/04/2013-12-04-Finished-the-book/">
+                                英雄再见
+                            </a>
+                            <span class="archive-post-date">
+                                 - 12月 04, 2013
                             </span>
                         </li>
                     
@@ -984,7 +818,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2016 Bean Lee. All Rights Reserved.
+        Copyrights &copy; 2018 Bean Lee. All Rights Reserved.
     </span>
 </footer>
 
@@ -1002,43 +836,275 @@
             <i class="fa fa-remove"></i>
         </div>
         
-            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110"/>
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <h5 id="about-card-bio"><p><a href="https://about.me/bean_lee">https://about.me/bean_lee</a></p>
-</h5>
+            <div id="about-card-bio"><p>爱做白日梦</p>
+</div>
         
         
-            <h5 id="about-card-job">
+            <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>FE @ JD.COM</p>
+                <p>JDC FE</p>
 
-            </h5>
+            </div>
         
         
-            <h5 id="about-card-location">
+            <div id="about-card-location">
                 <i class="fa fa-map-marker"></i>
                 <br/>
-                Beijing.CHN
-            </h5>
+                Beijing
+            </div>
         
     </div>
 </div>
 
         
-<!-- <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div> -->
-<div id="cover" style="background-image:url('http://78renz.com1.z0.glb.clouddn.com/blogcover.png');"></div>
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/11/28/2013-11-28-First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/12/04/2013-12-04-Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/12/05/2013-12-05-Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/01/10/2014-01-10-The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/03/20/2014-03-20-Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/04/12/2014-04-12-Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/06/2014-06-06-Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/08/2014-06-08-Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/19/2014-06-19-Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/28/2014-06-28-How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 19 篇文章
+            </p>
+        </div>
+    </div>
+</div>
 
-    </body>
-    <!--SCRIPTS-->
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
 <script src="/assets/js/jquery.js"></script>
 <script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/thumbs.js"></script>
 <script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
 
+
+    </body>
 </html>
