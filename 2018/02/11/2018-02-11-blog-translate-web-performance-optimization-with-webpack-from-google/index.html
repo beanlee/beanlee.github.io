@@ -15,13 +15,13 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="Google 出品 - 利用 webpack 做 web 性能优化 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
+    <meta name="description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
 <meta name="keywords" content="翻译,Webpack">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="【译】利用 webpack 做 web 性能优化">
 <meta property="og:url" content="http://beanlee.github.io/2018/02/11/2018-02-11-blog-translate-web-performance-optimization-with-webpack-from-google/index.html">
 <meta property="og:site_name" content="BeanLee Blog">
-<meta property="og:description" content="Google 出品 - 利用 webpack 做 web 性能优化 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
+<meta property="og:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://img20.360buyimg.com/uba/jfs/t15217/149/2229580840/12989/54324b99/5a815957N5bb3e0c6.png">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t17569/325/476871633/18187/a1e34f41/5a81597fNd77bb5b8.png">
@@ -31,10 +31,10 @@
 <meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t15808/165/2111159728/110001/633e93ab/5a8159cdN1c575a1f.jpg">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png">
 <meta property="og:image" content="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png">
-<meta property="og:updated_time" content="2018-02-27T04:24:39.449Z">
+<meta property="og:updated_time" content="2018-03-20T08:16:28.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】利用 webpack 做 web 性能优化">
-<meta name="twitter:description" content="Google 出品 - 利用 webpack 做 web 性能优化 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
+<meta name="twitter:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
 <meta name="twitter:image" content="https://img20.360buyimg.com/uba/jfs/t15217/149/2229580840/12989/54324b99/5a815957N5bb3e0c6.png">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
     
@@ -243,6 +243,15 @@
                     </a>
             </li>
             
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
         </ul>
         
             <ul class="sidebar-buttons">
@@ -301,7 +310,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>Google 出品 - 利用 webpack 做 web 性能优化</p>
+            <p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a>，<a href="https://developers.google.com/web/resources/contributors/iamakulov" target="_blank" rel="noopener">Ivan Akulov</a></p>
 <p>原文 <a href="https://developers.google.com/web/fundamentals/performance/webpack/" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/webpack/</a></p>
 <a id="more"></a>
 <h2 id="Instroduction-介绍"><a href="#Instroduction-介绍" class="headerlink" title="Instroduction 介绍"></a>Instroduction 介绍</h2><p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a></p>
@@ -690,7 +699,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/01/2018-03-01-iOS-https/" data-tooltip="iOS HTTPS 抓包工具配置说明" aria-label="上一篇: iOS HTTPS 抓包工具配置说明">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -709,7 +719,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -749,7 +759,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -785,7 +795,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/01/2018-03-01-iOS-https/" data-tooltip="iOS HTTPS 抓包工具配置说明" aria-label="上一篇: iOS HTTPS 抓包工具配置说明">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -804,7 +815,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -844,7 +855,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -1143,7 +1154,7 @@
                 data-message-zero="没有找到文章"
                 data-message-one="找到 1 篇文章"
                 data-message-other="找到 {n} 篇文章">
-                找到 19 篇文章
+                找到 20 篇文章
             </p>
         </div>
     </div>
