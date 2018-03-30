@@ -58,7 +58,7 @@ body {
   background: white;
   font-family: "Open Sans", sans-serif;
   font-size: 1.6rem;
-  line-height: 1.9em;
+  line-height: 1.6em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
   font-smoothing: subpixel-antialiased; }
@@ -108,7 +108,7 @@ h6 {
   font-size: 1.6rem; }
 
 p {
-  margin: 0 0 1.5em 0; }
+  margin: 0 0 0.5em 0; }
 
 ul,
 ol,
@@ -266,7 +266,7 @@ blockquote {
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
       font-size: 1.6rem;
-      line-height: 1.9em;
+      line-height: 1.6em;
       font-weight: 400;
       color: #5d686f; }
 
@@ -1923,9 +1923,8 @@ a.fancybox {
     .post .post-content img {
       display: block;
       width: auto;
-      max-width: 100%; }
-    .post .post-content :not(blockquote):not(.alert) > p {
-      margin: 1.5em 0 0 0; }
+      max-width: 100%;
+      margin: 0 auto; }
   .post .post-footer {
     margin-top: 20px; }
     .post .post-footer-tags {
@@ -1943,7 +1942,7 @@ a.fancybox {
 
 @media only screen and (min-width: 768px) {
   .post-content {
-    font-size: 1.7rem; } }
+    font-size: 1.6rem; } }
 
 .post-actions-wrap {
   height: 60px;
@@ -2481,7 +2480,7 @@ a.tag--small,
     color: #fff;
     content: attr(data-tooltip);
     font-size: 0.93em;
-    line-height: 1.9em;
+    line-height: 1.6em;
     border-radius: 5px; }
   .tooltip:before, [data-tooltip]:before, .tooltip:after, [data-tooltip]:after {
     position: absolute;
