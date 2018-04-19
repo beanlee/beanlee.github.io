@@ -1,0 +1,987 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="BeanLee Blog">
+    <title>【译】Webpack 4 mode and optimization - BeanLee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="http://beanlee.github.io/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="原文 https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a 作者 Tobias Koppers webpack 增加了一个模式配置（mode option）。下面来解释一下具体内容。">
+<meta name="keywords" content="Webpack,构建工具">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="【译】Webpack 4 mode and optimization">
+<meta property="og:url" content="http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:description" content="原文 https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a 作者 Tobias Koppers webpack 增加了一个模式配置（mode option）。下面来解释一下具体内容。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://img14.360buyimg.com/uba/s750x500_jfs/t17446/171/1782320374/354853/1568df4e/5ad6eac5Na2c1d8ee.jpg!cc_2x1">
+<meta property="og:updated_time" content="2018-04-18T09:15:50.273Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】Webpack 4 mode and optimization">
+<meta name="twitter:description" content="原文 https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a 作者 Tobias Koppers webpack 增加了一个模式配置（mode option）。下面来解释一下具体内容。">
+<meta name="twitter:image" content="https://img14.360buyimg.com/uba/s750x500_jfs/t17446/171/1782320374/354853/1568df4e/5ad6eac5Na2c1d8ee.jpg!cc_2x1">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46079069-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>爱做白日梦</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/links"
+                            
+                            title="链接"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/beanlib"
+                            
+                            title="实验室"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            【译】Webpack 4 mode and optimization
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-04-18T14:26:11+08:00">
+	
+		    4月 18, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
+
+
+    
+    <!-- <span class="post-count">2,102</span> -->
+    <span class="post-count">about 8 min </span>
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>原文 <a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a</a></p>
+<p>作者 <a href="https://medium.com/@sokra" target="_blank" rel="noopener">Tobias Koppers</a></p>
+<p>webpack 增加了一个模式配置（mode option）。下面来解释一下具体内容。</p>
+<a id="more"></a>
+<p><img src="https://img14.360buyimg.com/uba/s750x500_jfs/t17446/171/1782320374/354853/1568df4e/5ad6eac5Na2c1d8ee.jpg!cc_2x1" alt=""></p>
+<p>webpack 4 增加了一个<code>模式</code>选项（<code>mode</code> option）。<strong>并且这个配置是必须存在的</strong>。（实际上它不是必须的配置项，但如果你省略掉没有配就会有警告。）</p>
+<p>webpack 4 目前有<strong>两个默认配置</strong>，<code>development</code> 和 <code>production</code> 。这两个值可以在 <code>mode</code> 中设置。</p>
+<p>设置 <code>development</code> 将会带给你最好*的开发体验，它专注于以下几点：</p>
+<ul>
+<li>浏览器 debug 工具</li>
+<li>开发周期内的快速增量编译</li>
+<li>运行时有用的错误信息</li>
+</ul>
+<p>（*实际上这里指最好的体验取决于你使用的方式，我们尽力在这里囊括了大多数通用部分）</p>
+<p>设置 <code>production</code> 将会带给你在发布应用时的一系列有用的默认设置，它专注于以下几点：</p>
+<ul>
+<li>更小的输出包尺寸</li>
+<li>运行时高效的代码</li>
+<li>忽略掉只在开发时启用（<code>development-only</code>）的代码</li>
+<li>不会暴露源码或者文件路径</li>
+<li>简化使用打包后资源过程</li>
+</ul>
+<p>最后一点非常重要。它基本意味着 <code>production</code> 会提供给你优化后的资源包，但这不是完美的优化有的资源包。这里还存在着很多可优化点，但是它们会让结果更难使用。这些优化点是有意被忽略的，因为在这里，我们更看重入门的体验高于完美的优化。大部分优化点也只在大型应用上起作用。</p>
+<hr>
+<p>随着这个 <code>mode</code> 配置的引入，我们尝试去减少 build 时必要配置。我们尝试着去用一些默认项去覆盖通用的配置。</p>
+<p>然而从我们的经验来看我们也知道默认配置并不适用于所有人。不同的团队有不同的需求，有时候会因为遗留代码、有时候会因为个人喜好、有时候会因为特殊的应用或者有时候使用者会认为这并不是最好通用解决方案。许多人确实想要修改默认配置以适应他们自己的项目。We got you covered. 增加 <code>mode</code> 并不意味这我们移除掉了这些配置。这里面仍然是一切皆可配置。实际上我们使内部大多数优化都是可配置的（你可以禁用掉他们）。</p>
+<p><code>mode</code> 选项是通过在配置中设置默认项实现的。这个不会被其他配置执行的 <code>mode</code> 也不会做任何行为。</p>
+<p>下一部分就会更深入地讨论因为<code>mode</code>或其他选项而影响的配置。</p>
+<hr>
+<h3 id="devtool"><a href="#devtool" class="headerlink" title="devtool"></a>devtool</h3><p>在 <code>development</code> 模式下默认是 <code>eval</code>。否则不使用 devtool。</p>
+<p><code>eval</code> devtool 没有提供最佳的质量，但是拥有很好的性能。这就是我们选择的折中方案。看一看这些配置的文档，这可以获取更高质量的 sourcemap。</p>
+<ul>
+<li>📉📉📉缺点：慢，bundle 体积大</li>
+<li>📈📈📈优点：优化 debug 的体验</li>
+</ul>
+<h3 id="cache"><a href="#cache" class="headerlink" title="cache"></a>cache</h3><p>只在 <code>development</code> 模式下启用，否则禁用缓存。</p>
+<p>缓存模块可以避免在没有改变时重建。</p>
+<p>在内存缓存只在 <code>watch</code> 模式下有用，并且我们假设你在开发时正在使用 <code>watch</code> 模式。不用缓存时，内存占用率更低。</p>
+<ul>
+<li>📉缺点：内存占用</li>
+<li>📈📈📈优点：更快的增量编译</li>
+</ul>
+<h3 id="module-unsafeCache"><a href="#module-unsafeCache" class="headerlink" title="module.unsafeCache"></a>module.unsafeCache</h3><p>只在 <code>cache</code> 启用时启用，否则禁用。</p>
+<p>缓存机械依赖项可以避免重新解析它们。</p>
+<ul>
+<li>📉缺点：内存占用，缓存入口可能错误</li>
+<li>📈📈📈优点：更快的增量编译</li>
+</ul>
+<h3 id="output-pathinfo"><a href="#output-pathinfo" class="headerlink" title="output.pathinfo"></a>output.pathinfo</h3><p>只在 <code>development</code> 模式下启用，否则禁用。</p>
+<p>这些额外的注释对于 debug 很有作用，尤其是使用 <code>eval</code> devtool。</p>
+<ul>
+<li>📉缺点：bundle 体积大，暴露路径信息</li>
+<li>📈优点：提升生成代码的可阅读性</li>
+</ul>
+<h3 id="performance"><a href="#performance" class="headerlink" title="performance"></a>performance</h3><p>只在 <code>production</code> 模式下启用，否则禁用。</p>
+<p>体积限制只对最小化资源起作用，同时伴随着性能开销。因此它只在生产模式下启用。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈优点：对打包 bundle 体积大小产出警告</li>
+</ul>
+<h3 id="optimization-removeAvailableModules"><a href="#optimization-removeAvailableModules" class="headerlink" title="optimization.removeAvailableModules"></a>optimization.removeAvailableModules</h3><p>总是开启。</p>
+<p>当他们在父级 chunk groups 中都可用时，这些模块会被移除掉。它可以减少资源包的体积。因为有更少的代码生成，更小的资源包就意味着更快的 build 过程。</p>
+<ul>
+<li>📉📉缺点：算法消耗</li>
+<li>📈📈📈优点：bundle 体积优化</li>
+</ul>
+<h3 id="optimization-removeEmptyChunks"><a href="#optimization-removeEmptyChunks" class="headerlink" title="optimization.removeEmptyChunks"></a>optimization.removeEmptyChunks</h3><p>总是开启。</p>
+<p>空 chunks 会被移除掉。这些在文件系统中减少 load 会导致更快的 build。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈📈📈优点：更少的请求</li>
+</ul>
+<h3 id="optimization-mergeDuplicateChunks"><a href="#optimization-mergeDuplicateChunks" class="headerlink" title="optimization.mergeDuplicateChunks"></a>optimization.mergeDuplicateChunks</h3><p>总是开启。</p>
+<p>相等的 chunks 会被合并。结果就是更少的生成代码，更快的 build。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈📈📈优点：更少的请求和下载</li>
+</ul>
+<h3 id="optimization-flagIncludedChunks"><a href="#optimization-flagIncludedChunks" class="headerlink" title="optimization.flagIncludedChunks"></a>optimization.flagIncludedChunks</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>确定作为其他 chunks 子集的 chunks，并且这样方式对齐标记，即当加载较大 chunks 时，不必加载子集。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈📈📈优点：更少的请求和下载</li>
+</ul>
+<h3 id="optimization-occurrenceOrder"><a href="#optimization-occurrenceOrder" class="headerlink" title="optimization.occurrenceOrder"></a>optimization.occurrenceOrder</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>提供更常用的 ids 更小（更短）的值。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈优点：bundle 体积优化</li>
+</ul>
+<h3 id="optimization-providedExports"><a href="#optimization-providedExports" class="headerlink" title="optimization.providedExports"></a>optimization.providedExports</h3><p>总是开启。</p>
+<p>尽可能地确定每一个 module 的 exports。这个信息被用于其他优化或者生成代码。为了消除歧义：为 <code>export * from</code> 生成更有效率的代码。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈优点：bundle 体积优化，其他优化需求</li>
+</ul>
+<h3 id="optimization-usedExports"><a href="#optimization-usedExports" class="headerlink" title="optimization.usedExports"></a>optimization.usedExports</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>尽可能地确定每一个 module 的 exports。它依赖于 <code>optimization.providedExports</code>。这个信息被用于其他优化或者生成代码。消除歧义：导出不会生成无用的 exports， 当所有的用途都被兼容的时候导出 names 就是零碎的单独字符定义。在最小化中 DCE 会有一处，同时移除掉无用的 exports。</p>
+<ul>
+<li>📉📉缺点：算法消耗</li>
+<li>📈📈优点：bundle 体积优化</li>
+</ul>
+<h3 id="optimization-sideEffects"><a href="#optimization-sideEffects" class="headerlink" title="optimization.sideEffects"></a>optimization.sideEffects</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>认可在 <code>package.json</code> 或 <code>rules</code> 中的 <code>sideEffects</code> 标志去消除 modules。 它依赖 <code>optimization.providedExports</code>  和 <code>optimization.usedExports</code>。这些依赖都有所开销，但是消除依赖通过减少生成代码在性能上有积极的影响。它也依赖于你自己的代码。为了更好的性能，去尝试吧。</p>
+<ul>
+<li>📉缺点：算法消耗</li>
+<li>📈📈📈优点：bundle 体积优化，更少生成代码</li>
+</ul>
+<h3 id="optimization-concatenateModules"><a href="#optimization-concatenateModules" class="headerlink" title="optimization.concatenateModules"></a>optimization.concatenateModules</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>尝试查找模块图中可以安全连接到单个模块中的段。它依赖于<code>optimization.providedExports</code> 和 <code>optimization.usedExports</code>。</p>
+<ul>
+<li>📉📉📉缺点：额外的语法分析，作用域分析和定义重命名</li>
+<li>📈📈📈优点：运行时性能、bundle 体积优化</li>
+</ul>
+<h3 id="optimization-splitChunks"><a href="#optimization-splitChunks" class="headerlink" title="optimization.splitChunks"></a>optimization.splitChunks</h3><p>总是开启。</p>
+<p>查找在 chunks 之间哪些 module 被共享，同时将他们拆分到独立的 chunks 中，目的是减少重复或者从 application modules 中分离 vendor modules。</p>
+<ul>
+<li>📉缺点：算法消耗，额外的请求</li>
+<li>📈📈📈优点：更少生成代码，更好的缓存，更少的下载请求</li>
+</ul>
+<h3 id="optimization-runtimeChunk"><a href="#optimization-runtimeChunk" class="headerlink" title="optimization.runtimeChunk"></a>optimization.runtimeChunk</h3><p>总是开启。</p>
+<p>为 webpack 运行时和 chunk manifest 创建一个独立的 chunk。这个 chunk 应该内联到 HTML 中。</p>
+<ul>
+<li>📉缺点：更大的 HTML 文件</li>
+<li>📈优点：更好的缓存</li>
+</ul>
+<h3 id="optimization-noEmitOnErrors"><a href="#optimization-noEmitOnErrors" class="headerlink" title="optimization.noEmitOnErrors"></a>optimization.noEmitOnErrors</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>当发生编译错误的时候不输出资源包。</p>
+<ul>
+<li>📉缺点：无法使用应用程序的起作用的部分</li>
+<li>📈优点：没有损坏的 bundles</li>
+</ul>
+<h3 id="optimization-namedModules"><a href="#optimization-namedModules" class="headerlink" title="optimization.namedModules"></a>optimization.namedModules</h3><p>只在 <code>development</code> 模式下开启，否则禁用。</p>
+<p>取代数值型 ID，提供给 module 更有用的命名。</p>
+<ul>
+<li>📉缺点：bundle 体积增加</li>
+<li>📈优点：更好的错误报告和 debug</li>
+</ul>
+<h3 id="optimization-nodeEnv"><a href="#optimization-nodeEnv" class="headerlink" title="optimization.nodeEnv"></a>optimization.nodeEnv</h3><p><code>mode</code> 值得默认项：<code>development</code> 或者 <code>production</code>。</p>
+<p>定义 <code>process.env.NODE_ENV</code> 成为编译时常量值。这就允许移除掉 development only 的代码。</p>
+<ul>
+<li>📉缺点：开发环境的代码与生产环境的代码不同</li>
+<li>📈📈优点：减小 bundle 体积，提高运行效率</li>
+</ul>
+<h3 id="optimization-minimize"><a href="#optimization-minimize" class="headerlink" title="optimization.minimize"></a>optimization.minimize</h3><p>只在 <code>production</code> 模式下开启，否则禁用。</p>
+<p>使用最小化工具来压缩输出的资源包，比如（<code>optimization.minimizer</code>默认使用的<code>uglify-js</code>）。</p>
+<ul>
+<li>📉📉📉缺点：编译速度降低</li>
+<li>📈📈📈优点：减小 bundle 体积</li>
+</ul>
+<h3 id="optimization-portableRecords"><a href="#optimization-portableRecords" class="headerlink" title="optimization.portableRecords"></a>optimization.portableRecords</h3><p>在文件内记录时启用，否则禁用。</p>
+<p>记录中使用的标识与上下文目录有关。</p>
+<ul>
+<li>📉缺点：影响速度降低</li>
+<li>📈优点：记录与目录无关</li>
+</ul>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        <div style="text-align: center;">
+  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+</div>
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Webpack/">Webpack</a> <a class="tag tag--primary tag--small t-link" href="/tags/构建工具/">构建工具</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/29/mobile-https-config/" data-tooltip="移动端 HTTPS 抓包工具配置说明" aria-label="下一篇: 移动端 HTTPS 抓包工具配置说明">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/29/mobile-https-config/" data-tooltip="移动端 HTTPS 抓包工具配置说明" aria-label="下一篇: 移动端 HTTPS 抓包工具配置说明">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <div id="about-card-bio"><p>爱做白日梦</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>JDC FE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/11/28/First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/12/04/Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2013/12/05/Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/01/10/The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/03/20/Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/04/12/Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/06/Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/08/Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/19/Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="http://beanlee.github.io/2014/06/28/How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 22 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://beanlee.github.io/2018/04/18/blog-translate-webpack-4-mode-and-optimization/';
+                 
+                    this.page.identifier = '2018/04/18/blog-translate-webpack-4-mode-and-optimization/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
+
+
+    </body>
+</html>
