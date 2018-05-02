@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="BeanLee Blog">
-    <title>Swift Study 1 - BeanLee Blog</title>
+    <title>归档: 2018/5 - BeanLee Blog</title>
     <meta name="author" content="Bean Lee">
     
     
@@ -15,18 +15,13 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!">
-<meta name="keywords" content="Apple,Swift">
-<meta property="og:type" content="blog">
-<meta property="og:title" content="Swift Study 1">
-<meta property="og:url" content="http://beanlee.github.io/2014/06/08/Study-Swift-1/index.html">
+    <meta property="og:type" content="blog">
+<meta property="og:title" content="BeanLee Blog">
+<meta property="og:url" content="http://beanlee.github.io/archives/2018/05/index.html">
 <meta property="og:site_name" content="BeanLee Blog">
-<meta property="og:description" content="Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-27T04:14:08.976Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift Study 1">
-<meta name="twitter:description" content="Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!">
+<meta name="twitter:title" content="BeanLee Blog">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
     
     
@@ -271,169 +266,67 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    <section class="postShorten-group main-content-wrap">
     
     
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title" itemprop="headline">
-            Swift Study 1
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time itemprop="datePublished" datetime="2014-06-08T00:00:01+08:00">
+    <!-- <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting"> -->
+    <article class="postShorten" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2018/05/02/blog-translate-web-performance-optimization-with-webpack-from-google-webpack4/">
+                            【译】利用 webpack 做 web 性能优化（补充 Webpack 4 内容）+ 重新校对
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2018-05-02T14:35:33+08:00">
 	
-		    6月 08, 2014
+		    5月 02, 2018
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/技术/">技术</a>
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
 
 
     
-    <!-- <span class="post-count">721</span> -->
-    <span class="post-count">about 3 min </span>
+    <!-- <span class="post-count">10,841</span> -->
+    <span class="post-count">about 48 min </span>
 </div>
-
-    
-</div>
-    
-    <div class="post-content markdown" itemprop="articleBody">
-        <div class="main-content-wrap">
-            <p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p>
-<a id="more"></a>
-<h2 id="Swift-学习笔记-一"><a href="#Swift-学习笔记-一" class="headerlink" title="Swift 学习笔记 一"></a>Swift 学习笔记 一</h2><p>从2014-06-09开始每日更新，督促自己学习坚持，一周为一篇周期，加油！</p>
-<h3 id="材料收集"><a href="#材料收集" class="headerlink" title="材料收集"></a>材料收集</h3><p><a href="https://itunes.apple.com/us/book/the-swift-programming-language/id881256329?mt=11" target="_blank" rel="noopener">官方iBook版</a></p>
-<p>IDE Xcode 6 Beta</p>
-<h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println</span>(<span class="string">"Hello World!"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="2014-06-09记录"><a href="#2014-06-09记录" class="headerlink" title="2014-06-09记录"></a>2014-06-09记录</h3><p>学习常量(let)、变量(var)定义的方法，字符串参数传递()，Swift类型推导 var numValue = 123, strValue = “abc”，数组和字典定义方式等等。</p>
-<p>函数的定义func，如:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, Today is <span class="subst">\(day)</span> !"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可变参数的函数定义，如：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sumOf</span><span class="params">(numbers: Int...)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        sum += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line">sumOf()</span><br><span class="line">sumOf(<span class="number">42</span>, <span class="number">597</span>, <span class="number">12</span>)”</span><br></pre></td></tr></table></figure></p>
-<p>正在看极客学院的 Weather App 的教学视频，看来需要恶补的一些交互还有很多，加油！</p>
-<h3 id="2014-06-10记录"><a href="#2014-06-10记录" class="headerlink" title="2014-06-10记录"></a>2014-06-10记录</h3><p>看完做Weather App的Demo视频，熟悉一个可以解析JSON的工具API</p>
-<pre><code>NSJSONSerialization
-</code></pre><p>重新回头继续看文档，最近加班和参加Interview，阅读的时间少了，要坚持看！</p>
-<p><a href="http://numbbbbb.github.io/the-swift-programming-language-in-chinese/" target="_blank" rel="noopener">GitBook 中文版Swift文档</a></p>
-<h4 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h4><p>使用if和switch来进行条件操作，使用for-in、for、while和do-while来进行循环。包裹条件和循环变量括号可以省略，但是语句体的大括号是必须的。</p>
-<p>在类型后面加一个问号来标记这个变量的值是可选的。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionalString: <span class="type">String</span>? = <span class="string">"Hello"</span></span><br><span class="line">optionalString == <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> optionalName: <span class="type">String</span>? = <span class="string">"John Appleseed"</span></span><br><span class="line"><span class="keyword">var</span> greeting = <span class="string">"Hello!"</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> name = optionalName &#123;</span><br><span class="line">    greeting = <span class="string">"Hello, <span class="subst">\(name)</span>"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>if的条件如果是 nil 就是false。</p>
-<p>switch case中一定要有default否则编译会报错，因为进入这个条件操作可能会没有出口。</p>
-<p>循环中使用 .. 创建的范围不包含上界，如果想包含的话需要使用 … ，如（0…10 表达从0开始到10，且包括10；0..10 则表单从0开始到10但不包括10）</p>
-<h4 id="函数与闭包"><a href="#函数与闭包" class="headerlink" title="函数与闭包"></a>函数与闭包</h4><p>前面在视频里面看到了函数的定义方法，这里通过文档再整理一下。</p>
-<p>使用func来声明一个函数，使用名字和参数来调用函数。使用-&gt;来指定函数返回值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">greet</span><span class="params">(name: String, day: String)</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello <span class="subst">\(name)</span>, today is <span class="subst">\(day)</span>."</span></span><br><span class="line">&#125;</span><br><span class="line">greet(<span class="string">"Bob"</span>, <span class="string">"Tuesday"</span>)</span><br></pre></td></tr></table></figure></p>
-<h3 id="2014-06-11"><a href="#2014-06-11" class="headerlink" title="2014-06-11"></a>2014-06-11</h3><p>枚举、闭包实践。</p>
-<p>今天公司足球赛，太累就暂时依照视频教程做了个读取天气的demo，明天继续！</p>
-<h3 id="2014-06-15"><a href="#2014-06-15" class="headerlink" title="2014-06-15"></a>2014-06-15</h3><p>遇上公司加班延误了三天，世界杯开幕熬夜看比赛又导致晚上需要稍微早一点睡，最近学习计划有些延后，今天反省一下！Swift学习今天暂缓停一下，整理了一下个人Resume，同时在这期间了解Mac一个很有用的软件<a href="https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12" target="_blank" rel="noopener">Dash</a>（汇集SDK文档和Sheets快速查询查看工具），推荐给在Mac环境下做开发的各位朋友！</p>
-<p>to be continue…</p>
-
-            
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
-</div>
-        
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">标签</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/Apple/">Apple</a> <a class="tag tag--primary tag--small t-link" href="/tags/Swift/">Swift</a>
 
             </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <blockquote>
+<p>在 2018 02 笔者翻译过一次，本次对 Google 文档补充的 Webpack 4 内容作了补充，同时对原译文进行了校对和一些细节措辞的修改</p>
+</blockquote>
+<p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a>，<a href="https://developers.google.com/web/resources/contributors/iamakulov" target="_blank" rel="noopener">Ivan Akulov</a></p>
+<p>原文 <a href="https://developers.google.com/web/fundamentals/performance/webpack/" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/webpack/</a></p>
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/" data-tooltip="Mac Tool" aria-label="上一篇: Mac Tool">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
+                        <a href="/2018/05/02/blog-translate-web-performance-optimization-with-webpack-from-google-webpack4/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/06/Java-Collection-Review/" data-tooltip="Java基础集合类复习" aria-label="下一篇: Java基础集合类复习">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+                </div>
+            
+        </div>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
-                </a>
-            </li>
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
         
         
-            
-                <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
+        <li class="pagination-number">第 1 页 共 1 页</li>
     </ul>
 </div>
 
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-        
-    </div>
-</article>
+</section>
 
 
 
@@ -444,114 +337,6 @@
 </footer>
 
             </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/19/Mac-Tool-Series-1/" data-tooltip="Mac Tool" aria-label="上一篇: Mac Tool">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/06/Java-Collection-Review/" data-tooltip="Java基础集合类复习" aria-label="下一篇: Java基础集合类复习">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2014/06/08/Study-Swift-1/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                        <i class="fa fa-comment-o"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://beanlee.github.io/2014/06/08/Study-Swift-1/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://beanlee.github.io/2014/06/08/Study-Swift-1/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://beanlee.github.io/2014/06/08/Study-Swift-1/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
-
             
         </div>
         
@@ -825,25 +610,6 @@
 <script src="/assets/js/thumbs.js"></script>
 <script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
-
-    
-        <script>
-             var disqus_config = function () {
-                 this.page.url = 'http://beanlee.github.io/2014/06/08/Study-Swift-1/';
-                 
-                    this.page.identifier = '2014/06/08/Study-Swift-1/';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'beanleeblog';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
