@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t15808/165/2111159728/110001/633e93ab/5a8159cdN1c575a1f.jpg">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png">
 <meta property="og:image" content="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png">
-<meta property="og:updated_time" content="2018-05-02T15:00:08.636Z">
+<meta property="og:updated_time" content="2018-05-03T01:01:45.076Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Google 出品 - 利用 webpack 做 web 性能优化">
 <meta name="twitter:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/  PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpa">
@@ -300,7 +300,7 @@
 
 
     
-    <!-- <span class="post-count">10,887</span> -->
+    <!-- <span class="post-count">10,891</span> -->
     <span class="post-count">about 48 min </span>
 </div>
 
@@ -336,7 +336,7 @@
 <h3 id="Use-the-production-mode-webpack-4-only-使用生产模式（仅用于-webpack-4）"><a href="#Use-the-production-mode-webpack-4-only-使用生产模式（仅用于-webpack-4）" class="headerlink" title="Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）"></a>Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）</h3><p>Webpack 4 介绍了一种新的<a href="https://webpack.js.org/concepts/mode/" target="_blank" rel="noopener">模式</a>，你可以将其设置成 <code>development</code> 和 <code>production</code> 用于告诉 Webpack 你正在为不同的环境打包：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">'production'</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>当你正在为你的应用用于生产环境编译打包时要确定开启了 <code>production</code> 模式。这样就帮助 webpack 开启类似压缩最小化代码、去除依赖库中开发环境代码等<a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">其他</a>的优化项。</p>
-<h5 id="Further-reading"><a href="#Further-reading" class="headerlink" title="Further reading"></a>Further reading</h5><ul>
+<h5 id="Further-reading-扩展阅读"><a href="#Further-reading-扩展阅读" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li><a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">What specific things the mode flag configures</a></li>
 </ul>
 <blockquote>
@@ -369,7 +369,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// minified bundle.js (part of)</span></span><br><span class="line">exports=<span class="built_in">module</span>.exports=__webpack_require__(<span class="number">1</span>)(),</span><br><span class="line">exports.push([<span class="built_in">module</span>.i,<span class="string">".comment &#123;\r\n  color: black;\r\n&#125;"</span>,<span class="string">""</span>]);</span><br></pre></td></tr></table></figure>
 <p>这部分内容由于是字符串并没有被最小化。于是我们需要配置对应的 loader 选项来达到最小化的目的：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">'style-loader'</span>,</span><br><span class="line">          &#123; <span class="attr">loader</span>: <span class="string">'css-loader'</span>, <span class="attr">options</span>: &#123; <span class="attr">minimize</span>: <span class="literal">true</span> &#125; &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h5 id="Further-reading-1"><a href="#Further-reading-1" class="headerlink" title="Further reading"></a>Further reading</h5><ul>
+<h5 id="Further-reading"><a href="#Further-reading" class="headerlink" title="Further reading"></a>Further reading</h5><ul>
 <li><a href="https://github.com/webpack-contrib/uglifyjs-webpack-plugin" target="_blank" rel="noopener">The UglifyJsPlugin docs</a> UglifyJs 插件文档</li>
 <li>Other popular minifiers: <a href="https://github.com/webpack-contrib/babel-minify-webpack-plugin" target="_blank" rel="noopener">Babel Minify</a>, <a href="https://github.com/roman01la/webpack-closure-compiler" target="_blank" rel="noopener">Google Closure Compiler</a> 其他流行的最小化工具</li>
 </ul>
@@ -382,9 +382,9 @@
 <p>React 也是类似 - 开发模式下 build 带有一些警告：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// react/index.js</span></span><br><span class="line"><span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">'production'</span>) &#123;</span><br><span class="line">  <span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./cjs/react.production.min.js'</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">'./cjs/react.development.js'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// react/cjs/react.development.js</span></span><br><span class="line"><span class="comment">// …</span></span><br><span class="line">warning$<span class="number">3</span>(</span><br><span class="line">  componentClass.getDefaultProps.isReactClassApproved,</span><br><span class="line">  <span class="string">'getDefaultProps is only used on classic React.createClass '</span> +</span><br><span class="line">  <span class="string">'definitions. Use a static property named `defaultProps` instead.'</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">// …</span></span><br></pre></td></tr></table></figure>
 <p>这些检查和警告通常在生产环境下是不必要的，但是他们仍然保留在代码中并且会增加库的体积。</p>
-<p>在 <strong>webpack 4</strong> 中增加 <code>optimization.nodeEnv: &#39;production&#39;</code> 选项即可剔除掉它们：</p>
+<p>在 <strong>Webpack 4</strong> 中增加 <code>optimization.nodeEnv: &#39;production&#39;</code> 选项即可剔除掉它们：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js (for webpack 4)</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    nodeEnv: <span class="string">'production'</span>,</span><br><span class="line">    minimize: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>在 <strong>webpack 3</strong> 中则使用 <a href="https://webpack.js.org/plugins/define-plugin/" target="_blank" rel="noopener"><code>DefinePlugin</code></a> ：</p>
+<p>在 <strong>Webpack 3</strong> 中则使用 <a href="https://webpack.js.org/plugins/define-plugin/" target="_blank" rel="noopener"><code>DefinePlugin</code></a> ：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// webpack.config.js (for webpack 3)</span></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'process.env.NODE_ENV'</span>: <span class="string">'"production"'</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><code>optimization.nodeEnv: &#39;production&#39;</code> 选项和 <code>DefinePlugin</code> 插件采用相同的方式来解决这个问题 - 这个方式就是他们将 <code>process.env.NODE_ENV</code> 替换成特定的值，下面的配置可以说明：</p>
 <p>1.Webpack 会将所有 <code>process.env.NODE_ENV</code> 替换成 <code>&quot;production&quot;</code>：</p>
@@ -434,7 +434,7 @@
 <p>这个 loader 不会将图片嵌入在应用内，因此它必须与<code>url-loader</code>和<code>svg-url-loader</code>配合使用。避免复制粘贴到相同的 rules 中（一个用于 JPG/PNG/GIF 图片，另一个用于 SVG 图片），我们来使用<code>enforce: pre</code>作为单独的一个 rule 涵盖这个 loader：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(jpe?g|png|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">'image-webpack-loader'</span>,</span><br><span class="line">        <span class="comment">// This will apply the loader before the other ones</span></span><br><span class="line">        enforce: <span class="string">'pre'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>默认 loader 设置就已经可以满足需求了 - 但如果你想要深入配置，请查看 <a href="https://github.com/tcoopman/image-webpack-loader#options" target="_blank" rel="noopener">the plugin options</a>。为了选择哪些 options 需要明确，可以查看 Addy Osmani 的 <a href="https://images.guide/" target="_blank" rel="noopener">guide on image optimization</a></p>
-<h5 id="Further-reading-扩展阅读"><a href="#Further-reading-扩展阅读" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-1"><a href="#Further-reading-扩展阅读-1" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li><a href="https://stackoverflow.com/questions/201479/what-is-base-64-encoding-used-for" target="_blank" rel="noopener">“What is base64 encoding used for?”</a> Base64 编码究竟可以用在何处？</li>
 <li>Addy Osmani’s <a href="https://images.guide/" target="_blank" rel="noopener">guide on image optimization</a> Addy Osmani 的图片优化指南</li>
 </ul>
@@ -462,7 +462,7 @@
 <blockquote>
 <p>Note：想要知道为什么这个功能不是默认启用？Concatenating modules 很棒， <a href="https://twitter.com/TheLarkInn/status/925800563144454144" target="_blank" rel="noopener">但是他会增加编译的时间同时破坏 module 的热更新</a>。这就是为什么只在生产环境中启用的原因了。</p>
 </blockquote>
-<h4 id="Further-reading-扩展阅读-1"><a href="#Further-reading-扩展阅读-1" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
+<h4 id="Further-reading-扩展阅读-2"><a href="#Further-reading-扩展阅读-2" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
 <li>Webpack docs <a href="https://webpack.js.org/plugins/module-concatenation-plugin/" target="_blank" rel="noopener">for the ModuleConcatenationPlugin</a> ModuleConcatenationPlugin 文档</li>
 <li><a href="https://medium.com/webpack/brief-introduction-to-scope-hoisting-in-webpack-8435084c171f" target="_blank" rel="noopener">“Brief introduction to scope hoisting”</a></li>
 <li>Detailed description of <a href="https://medium.com/webpack/webpack-freelancing-log-book-week-5-7-4764be3266f5" target="_blank" rel="noopener">what this plugin does</a> 详述这些插件做了些什么</li>
@@ -483,7 +483,7 @@
 <blockquote>
 <p>Note：webpack 只是替换那些 <code>externals</code> 对象中的准确匹配的 keys 的引用。这意味着如果你的代码这样写<code>import React from &#39;react/umd/react.production.min.js&#39;</code>，这个库是不会被 bundle 排除掉的。这是因为 - webpack 并不知道 <code>import &#39;react&#39;</code> 和 <code>import &#39;react/umd/react.production.min.js&#39;</code> 是同一个库，这样比较谨慎。</p>
 </blockquote>
-<h5 id="Further-reading-扩展阅读-2"><a href="#Further-reading-扩展阅读-2" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-3"><a href="#Further-reading-扩展阅读-3" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li>Webpack docs <a href="https://webpack.js.org/configuration/externals/" target="_blank" rel="noopener">on <code>externals</code></a> externals 文档</li>
 </ul>
 <h3 id="Summing-up-总结"><a href="#Summing-up-总结" class="headerlink" title="Summing up 总结"></a>Summing up 总结</h3><ul>
@@ -515,7 +515,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bundle.8e0d62a03.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><code>WebpackManifestPlugin</code> 更灵活一些，它可以帮助你解决业务负责的部分。编译时它会生成一个 JSON 文件，这文件保存这没有 hash 值文件与有 hash 文件之间的映射。服务端利用这个 JSON 可以识别出那个文件有效：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// manifest.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"bundle.js"</span>: <span class="string">"bundle.8e0d62a03.js"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Further-reading-扩展阅读-3"><a href="#Further-reading-扩展阅读-3" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-4"><a href="#Further-reading-扩展阅读-4" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li>Jake Archibald <a href="https://jakearchibald.com/2016/caching-best-practices/" target="_blank" rel="noopener">about caching best practices</a> cache 的最佳实践</li>
 </ul>
 <h3 id="Extract-dependencies-and-runtime-into-a-separate-file-将依赖和运行环境代码提取到一个单独的文件"><a href="#Extract-dependencies-and-runtime-into-a-separate-file-将依赖和运行环境代码提取到一个单独的文件" class="headerlink" title="Extract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件"></a>Extract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件</h3><h4 id="Dependencies-依赖"><a href="#Dependencies-依赖" class="headerlink" title="Dependencies 依赖"></a>Dependencies 依赖</h4><p>App 依赖通常情况下趋向于比实际 app 内代码中更少的变化。如果你将他们移到独立的文件中，浏览器将可以把他们独立缓存起来 - 同时不会每次 app 代码改变时重新下载。</p>
@@ -555,7 +555,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ webpack</span><br><span class="line">Hash: ac01483e8fec1fa70676</span><br><span class="line">Version: webpack 3.8.1</span><br><span class="line">Time: 3816ms</span><br><span class="line">                            Asset     Size  Chunks             Chunk Names</span><br><span class="line">   ./main.00bab6fd3100008a42b0.js    82 kB       0  [emitted]  main</span><br><span class="line"> ./vendor.26886caf15818fa82dfa.js    46 kB       1  [emitted]  vendor</span><br><span class="line">./runtime.79f17c27b335abc7aaf4.js  1.45 kB       3  [emitted]  runtime</span><br></pre></td></tr></table></figure>
 <p>将他们反过来顺序添加到 index.html 中，你就搞定了：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./runtime.79f17c27b335abc7aaf4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./vendor.26886caf15818fa82dfa.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./main.00bab6fd3100008a42b0.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="Further-reading-扩展阅读-4"><a href="#Further-reading-扩展阅读-4" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-5"><a href="#Further-reading-扩展阅读-5" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li>Webpack guide <a href="https://webpack.js.org/guides/caching/" target="_blank" rel="noopener">on long term caching</a> webpack 关于 cache 指南</li>
 <li>Webpack docs <a href="https://webpack.js.org/concepts/manifest/" target="_blank" rel="noopener">about webpack runtime and manifest</a> webpack 关于 runtime and manifest 文档</li>
 <li><a href="https://medium.com/webpack/webpack-bits-getting-the-most-out-of-the-commonschunkplugin-ab389e5f318" target="_blank" rel="noopener">“Getting the most out of the CommonsChunkPlugin”</a> 使用 CommonsChunkPlugin 的最佳实践</li>
@@ -591,7 +591,7 @@
 <blockquote>
 <p>Note: 如果使用 Babel 编译代码，你会因为 Babel 还不认识 <em>import()</em> 而遇到语法错误抛出来。可以使用 <a href="https://www.npmjs.com/package/babel-plugin-syntax-dynamic-import" target="_blank" rel="noopener"><code>syntax-dynamic-import</code></a> 解决这个错误。</p>
 </blockquote>
-<h5 id="Further-reading-扩展阅读-5"><a href="#Further-reading-扩展阅读-5" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-6"><a href="#Further-reading-扩展阅读-6" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li>Webpack docs <a href="https://webpack.js.org/api/module-methods/#import-" target="_blank" rel="noopener">for the <code>import()</code> function</a>  webpack 中 import() 文档</li>
 <li>The JavaScript proposal <a href="https://github.com/tc39/proposal-dynamic-import" target="_blank" rel="noopener">for implementing the <code>import()</code> syntax</a></li>
 </ul>
@@ -615,7 +615,7 @@
 <p>在 <strong>Webpack 3</strong> 可以使用<a href="https://webpack.js.org/plugins/commons-chunk-plugin/" target="_blank" rel="noopener"><code>CommonsChunkPlugin</code></a>来解决这个问题 - 它会将通用的依赖转移到一个独立的文件中：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js (for webpack 3)</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      <span class="comment">// A name of the chunk that will include the common dependencies</span></span><br><span class="line">      name: <span class="string">'common'</span>,</span><br><span class="line"></span><br><span class="line">      <span class="comment">// The plugin will move a module into a common file</span></span><br><span class="line">      <span class="comment">// only if it’s included into `minChunks` chunks</span></span><br><span class="line">      <span class="comment">// (Note that the plugin analyzes all chunks, not only entries)</span></span><br><span class="line">      minChunks: <span class="number">2</span>,    <span class="comment">// 2 is the default value</span></span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>随意使用<code>minChunks</code>的值来找到最优的选项。通常情况下，你想要它尽可能体积小，但它会增加 chunks 的数量。举个例子，3 个 chunk，<code>minChunks</code> 可能是 2 个，但是 30 个 chunk，它可能是 8 个 - 因为如果你把它设置成 2 ，过多的 modules 将会打包进一个通用文件中，文件更臃肿。</p>
-<h4 id="Further-reading-扩展阅读-6"><a href="#Further-reading-扩展阅读-6" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
+<h4 id="Further-reading-扩展阅读-7"><a href="#Further-reading-扩展阅读-7" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
 <li>Webpack docs <a href="https://webpack.js.org/concepts/entry-points/" target="_blank" rel="noopener">about the concept of entry points</a> webpack 关于入口概念的文档</li>
 <li>Webpack docs <a href="https://webpack.js.org/plugins/commons-chunk-plugin/" target="_blank" rel="noopener">about the CommonsChunkPlugin</a> webpack 关于 CommonChunkPlugin 插件的文档</li>
 <li><a href="https://medium.com/webpack/webpack-bits-getting-the-most-out-of-the-commonschunkplugin-ab389e5f318" target="_blank" rel="noopener">“Getting the most out of the CommonsChunkPlugin”</a></li>
@@ -640,7 +640,7 @@
 <p>有了这个方法，只有你重命名或者删除这个 moudle 它的 ID 才会变化。新的 modules 不会因为 module ID 互相影响。</p>
 <p>启用这个插件，在配置中增加 <em>plugins</em>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.HashedModuleIdsPlugin(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h5 id="Further-reading-扩展阅读-7"><a href="#Further-reading-扩展阅读-7" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
+<h5 id="Further-reading-扩展阅读-8"><a href="#Further-reading-扩展阅读-8" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h5><ul>
 <li>Webpack docs <a href="https://webpack.js.org/plugins/hashed-module-ids-plugin/" target="_blank" rel="noopener">about the HashedModuleIdsPlugin</a> HashModuleIdsPlugin 插件文档</li>
 </ul>
 <h3 id="Summing-up"><a href="#Summing-up" class="headerlink" title="Summing up"></a>Summing up</h3><ul>
@@ -686,7 +686,7 @@
 <p><img src="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png" alt="bundlesize-output-success"></p>
 <p>或者下面失败的情况</p>
 <p><img src="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png" alt="bundlesize-output-failure"></p>
-<h4 id="Further-reading-扩展阅读-8"><a href="#Further-reading-扩展阅读-8" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
+<h4 id="Further-reading-扩展阅读-9"><a href="#Further-reading-扩展阅读-9" class="headerlink" title="Further reading 扩展阅读"></a>Further reading 扩展阅读</h4><ul>
 <li>Alex Russell <a href="https://infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/" target="_blank" rel="noopener">about the real-world loading time we should target</a></li>
 </ul>
 <h3 id="Analyze-why-the-bundle-is-so-large-分析-bundle-为什么这么大"><a href="#Analyze-why-the-bundle-is-so-large-分析-bundle-为什么这么大" class="headerlink" title="Analyze why the bundle is so large 分析 bundle 为什么这么大"></a>Analyze why the bundle is so large 分析 bundle 为什么这么大</h3><p>你想要深挖 bundle 内，看看里面具体哪些 module 占用多大空间。<a href="https://github.com/webpack-contrib/webpack-bundle-analyzer" target="_blank" rel="noopener">webpack-bundle-analyzer</a></p>
@@ -771,7 +771,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -811,7 +811,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -867,7 +867,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -907,7 +907,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
