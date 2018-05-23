@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t15808/165/2111159728/110001/633e93ab/5a8159cdN1c575a1f.jpg">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png">
 <meta property="og:image" content="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png">
-<meta property="og:updated_time" content="2018-05-03T01:01:45.076Z">
+<meta property="og:updated_time" content="2018-05-22T06:03:21.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Google 出品 - 利用 webpack 做 web 性能优化">
 <meta name="twitter:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/  PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpa">
@@ -48,7 +48,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-rzlnei82dawmlwprzedvije7pxst10efbck4qpaymik9wsxd9fazhalwvksh.min.css">
+    <link rel="stylesheet" href="/assets/css/style-aknkmibh0koc5xn6efpufobegftxhlbqh7kmcxeuhhdj6htsbe5anci1uco1.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -71,10 +71,6 @@
             <!-- Define author's picture -->
 
 
-    
-        
-    
-
 <header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -82,11 +78,11 @@
     </div>
     
         
-            <a  class="header-right-picture "
-                href="#about">
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
         
         
-            <img class="header-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=90" alt="作者的图片"/>
+            <i class="fa fa-lg fa-search"></i>
         
         </a>
     
@@ -106,7 +102,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦</p>
+                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
 </h5>
                 
             </div>
@@ -300,8 +296,8 @@
 
 
     
-    <!-- <span class="post-count">10,891</span> -->
-    <span class="post-count">about 48 min </span>
+    <!-- <span class="post-count">11,388</span> -->
+    <span class="post-count">about 50 min </span>
 </div>
 
     
@@ -315,6 +311,105 @@
 <p>PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpack 4 内容，同时对原译文进行了校对和一些细节措辞的修改。</p>
 </blockquote>
 <a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#instroduction-介绍">Instroduction 介绍</a></li>
+<li><a href="#decrease-front-end-size-减少前端体积">Decrease Front-end Size 减少前端体积</a><ul>
+<li><a href="#use-the-production-mode-webpack-4-only-使用生产模式仅用于-webpack-4">Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）</a><ul>
+<li><a href="#further-reading-扩展阅读">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#enable-minification-开启最小化">Enable minification 开启最小化</a><ul>
+<li><a href="#bundle-level-minification-bundle-级别的最小化">Bundle-level minification bundle 级别的最小化</a></li>
+<li><a href="#loader-specific-options-特定的-loader-配置">Loader-specific options 特定的 Loader 配置</a><ul>
+<li><a href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#specify-node_envproduction-明确生产环境信息">Specify <code>NODE_ENV=production</code> 明确生产环境信息</a><ul>
+<li><a href="#further-reading-扩展阅读">Further Reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#use-es-modules-使用-es-模块">Use ES Modules 使用 ES 模块</a><ul>
+<li><a href="#futher-reading-扩展阅读">Futher reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#optimize-images-优化图片">Optimize images 优化图片</a><ul>
+<li><a href="#further-reading-扩展阅读-1">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#optimize-dependencies-优化依赖">Optimize dependencies 优化依赖</a></li>
+<li><a href="#enable-module-concatenation-for-es-modules-aka-scope-hoisting-为-es-modles-开启模块连接">Enable module concatenation for ES modules (aka scope hoisting) 为 ES modles 开启模块连接</a><ul>
+<li><a href="#further-reading-扩展阅读-2">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#use-externals-if-you-have-both-webpack-and-non-webpack-code-如果代码中包含-webpack-和非-webpack-的代码要使用-externals">Use <strong>externals</strong> if you have both webpack and non-webpack code 如果代码中包含 webpack 和非 webpack 的代码要使用 externals</a><ul>
+<li><a href="#如果依赖是挂载到-window-上的情况">如果依赖是挂载到 window 上的情况</a></li>
+<li><a href="#如果依赖是当做-amd-包被加载的情况">如果依赖是当做 AMD 包被加载的情况</a><ul>
+<li><a href="#further-reading-扩展阅读-3">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#summing-up-总结">Summing up 总结</a></li>
+</ul>
+</li>
+<li><a href="#make-use-of-long-term-caching-利用好长时缓存">Make use of long-term caching 利用好长时缓存</a><ul>
+<li><a href="#use-bundle-versioning-and-cache-headers-使用-bundle-版本和缓存头信息">Use bundle versioning and cache headers 使用 bundle 版本和缓存头信息</a><ul>
+<li><a href="#further-reading-扩展阅读-4">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#extract-dependencies-and-runtime-into-a-separate-file-将依赖和运行环境代码提取到一个单独的文件">Extract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件</a><ul>
+<li><a href="#dependencies-依赖">Dependencies 依赖</a></li>
+<li><a href="#webpack-runtime-code-运行时代码">Webpack runtime code 运行时代码</a><ul>
+<li><a href="#further-reading-扩展阅读-5">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#inline-webpack-runtime-to-save-an-extra-http-request-内联-webpack-runtime-节省额外的-http-请求">Inline webpack runtime to save an extra HTTP request 内联 webpack runtime 节省额外的 HTTP 请求</a><ul>
+<li><a href="#如果使用-htmlwebpackplugin-来生成-html">如果使用 HtmlWebpackPlugin 来生成 HTML</a></li>
+<li><a href="#如果使用自己的定制服务逻辑来生成-html">如果使用自己的定制服务逻辑来生成 HTML</a><ul>
+<li><a href="#webpack-4"><strong>Webpack 4</strong></a></li>
+<li><a href="#webpack-3"><strong>Webpack 3</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#lazy-load-code-that-you-dont-need-right-now-懒加载">Lazy-load code that you don’t need right now 懒加载</a><ul>
+<li><a href="#further-reading-扩展阅读-6">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#split-the-code-into-routes-and-pages-拆分代码到路由和页面中">Split the code into routes and pages 拆分代码到路由和页面中</a><ul>
+<li><a href="#for-single-page-apps-对于单页面应用">For single-page apps 对于单页面应用</a></li>
+<li><a href="#for-traditional-multi-page-apps-对于传统的多页面应用">For traditional multi-page apps 对于传统的多页面应用</a></li>
+<li><a href="#further-reading-扩展阅读-7">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#make-module-ids-more-stable-使用稳定的-module-ids">Make module ids more stable 使用稳定的 module ids</a><ul>
+<li><a href="#further-reading-扩展阅读-8">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#summing-up">Summing up</a></li>
+</ul>
+</li>
+<li><a href="#monitor-and-analyze-the-app-监控并分析">Monitor and analyze the app 监控并分析</a><ul>
+<li><a href="#keep-track-of-the-bundle-size-跟踪打包的体积">Keep track of the bundle size 跟踪打包的体积</a><ul>
+<li><a href="#webpack-dashboard">webpack-dashboard</a></li>
+<li><a href="#bundlesize">bundlesize</a><ul>
+<li><a href="#find-out-the-maximum-sizes-找出最大体积"><strong>Find out the maximum sizes</strong> 找出最大体积</a></li>
+<li><a href="#enable-bundlesize-启用-bundlesize"><strong>Enable <code>bundlesize</code></strong> 启用 bundlesize</a></li>
+</ul>
+</li>
+<li><a href="#further-reading-扩展阅读-9">Further reading 扩展阅读</a></li>
+</ul>
+</li>
+<li><a href="#analyze-why-the-bundle-is-so-large-分析-bundle-为什么这么大">Analyze why the bundle is so large 分析 bundle 为什么这么大</a></li>
+<li><a href="#summing-up-小结">Summing up 小结</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
 <h2 id="Instroduction-介绍"><a href="#Instroduction-介绍" class="headerlink" title="Instroduction 介绍"></a>Instroduction 介绍</h2><p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a></p>
 <p>现代 Web 应用经常用到 <code>bunding tool</code> 来创建生产环境的打包文件（例如脚本、样式等等），打包文件是需要<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization" target="_blank" rel="noopener">优化</a>并<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer" target="_blank" rel="noopener">压缩最小化</a>，同时能够被用户更快地加载。在这篇文章中，我们将会利用 <a href="https://webpack.js.org/" target="_blank" rel="noopener"><code>webpack</code></a> 来贯穿说明如何进行高效地优化网站资源。这能帮助用户更快地加载你的应用同时获得更好的体验。</p>
 <p><img src="https://img20.360buyimg.com/uba/jfs/t15217/149/2229580840/12989/54324b99/5a815957N5bb3e0c6.png" alt="webpack-logo"></p>
@@ -752,7 +847,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/16/something-about-webpack-4/" data-tooltip="Webpack 4 实战" aria-label="上一篇: Webpack 4 实战">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -803,7 +899,7 @@
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
                         <i class="fa fa-comment-o"></i>
                     </a>
                 </li>
@@ -811,7 +907,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -848,7 +944,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/16/something-about-webpack-4/" data-tooltip="Webpack 4 实战" aria-label="上一篇: Webpack 4 实战">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -899,7 +996,7 @@
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
                         <i class="fa fa-comment-o"></i>
                     </a>
                 </li>
@@ -907,7 +1004,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -965,14 +1062,14 @@
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦</p>
+            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>JDC FE</p>
+                <p>FE@JD</p>
 
             </div>
         
@@ -1206,7 +1303,7 @@
                 data-message-zero="没有找到文章"
                 data-message-one="找到 1 篇文章"
                 data-message-other="找到 {n} 篇文章">
-                找到 23 篇文章
+                找到 24 篇文章
             </p>
         </div>
     </div>
@@ -1216,7 +1313,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-uyg2n37ou1ihqpa2cnuy2ylcf5asnb5yeowdbr0eskwkrvv84x0yp0u4lwlu.min.js"></script>
+<script src="/assets/js/script-zwp3ac84zce7fzm8gbdbhq5erdxpxicyh2kuodfkrikfim6ctuwfkdcb6fpb.min.js"></script>
 <!--SCRIPTS END-->
 
     
