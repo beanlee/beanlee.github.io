@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t15808/165/2111159728/110001/633e93ab/5a8159cdN1c575a1f.jpg">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png">
 <meta property="og:image" content="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png">
-<meta property="og:updated_time" content="2018-05-22T06:03:21.603Z">
+<meta property="og:updated_time" content="2018-05-23T07:31:02.529Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Google 出品 - 利用 webpack 做 web 性能优化">
 <meta name="twitter:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/  PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpa">
@@ -296,7 +296,7 @@
 
 
     
-    <!-- <span class="post-count">11,388</span> -->
+    <!-- <span class="post-count">11,386</span> -->
     <span class="post-count">about 50 min </span>
 </div>
 
@@ -311,7 +311,8 @@
 <p>PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpack 4 内容，同时对原译文进行了校对和一些细节措辞的修改。</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<h1 id="table-of-contents">文章目录</h1>
+<ul>
 <li><a href="#instroduction-介绍">Instroduction 介绍</a></li>
 <li><a href="#decrease-front-end-size-减少前端体积">Decrease Front-end Size 减少前端体积</a><ul>
 <li><a href="#use-the-production-mode-webpack-4-only-使用生产模式仅用于-webpack-4">Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）</a><ul>
@@ -410,6 +411,7 @@
 </li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
+<!-- /TOC -->
 <h2 id="Instroduction-介绍"><a href="#Instroduction-介绍" class="headerlink" title="Instroduction 介绍"></a>Instroduction 介绍</h2><p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a></p>
 <p>现代 Web 应用经常用到 <code>bunding tool</code> 来创建生产环境的打包文件（例如脚本、样式等等），打包文件是需要<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/javascript-startup-optimization" target="_blank" rel="noopener">优化</a>并<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer" target="_blank" rel="noopener">压缩最小化</a>，同时能够被用户更快地加载。在这篇文章中，我们将会利用 <a href="https://webpack.js.org/" target="_blank" rel="noopener"><code>webpack</code></a> 来贯穿说明如何进行高效地优化网站资源。这能帮助用户更快地加载你的应用同时获得更好的体验。</p>
 <p><img src="https://img20.360buyimg.com/uba/jfs/t15217/149/2229580840/12989/54324b99/5a815957N5bb3e0c6.png" alt="webpack-logo"></p>
@@ -907,7 +909,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" data-tooltip="文章目录" aria-label="文章目录">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -1004,7 +1006,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" data-tooltip="文章目录" aria-label="文章目录">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
