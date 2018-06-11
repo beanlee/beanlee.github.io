@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="BeanLee Blog">
-    <title>Simple HTTP Server on OSX - BeanLee Blog</title>
+    <title>归档: 2018/6 - BeanLee Blog</title>
     <meta name="author" content="Bean Lee">
     
     
@@ -15,17 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。 12$cd path/project/folder$python -m SimpleHTTPServer 8080 Tada, thus you have got a">
+    <meta name="description" content="记录豆子先森日常生活感悟、技术积累等博文">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Simple HTTP Server on OSX">
-<meta property="og:url" content="https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/index.html">
+<meta property="og:title" content="BeanLee Blog">
+<meta property="og:url" content="https://beanlee.github.io/archives/2018/06/index.html">
 <meta property="og:site_name" content="BeanLee Blog">
-<meta property="og:description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。 12$cd path/project/folder$python -m SimpleHTTPServer 8080 Tada, thus you have got a">
+<meta property="og:description" content="记录豆子先森日常生活感悟、技术积累等博文">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-27T04:23:12.972Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Simple HTTP Server on OSX">
-<meta name="twitter:description" content="很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。 12$cd path/project/folder$python -m SimpleHTTPServer 8080 Tada, thus you have got a">
+<meta name="twitter:title" content="BeanLee Blog">
+<meta name="twitter:description" content="记录豆子先森日常生活感悟、技术积累等博文">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
     
     
@@ -263,141 +262,66 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    <section class="postShorten-group main-content-wrap">
     
     
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title" itemprop="headline">
-            Simple HTTP Server on OSX
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time itemprop="datePublished" datetime="2016-05-31T14:18:32+08:00">
+    <!-- <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting"> -->
+    <article class="postShorten" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2018/06/11/something-about-webpack-4/">
+                            Webpack 4 实战 React 和 Vue 项目
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2018-06-11T17:48:23+08:00">
 	
-		    5月 31, 2016
+		    6月 11, 2018
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Mac/">Mac</a>
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
 
 
     
-    <!-- <span class="post-count">100</span> -->
-    <span class="post-count">about 1 min </span>
+    <!-- <span class="post-count">5,065</span> -->
+    <span class="post-count">about 22 min </span>
 </div>
 
-    
-</div>
-    
-    <div class="post-content markdown" itemprop="articleBody">
-        <div class="main-content-wrap">
-            <p>很多项目在开发前期或者仅有 HTML/CSS/JS 文件，本地想要预览效果而不希望本地启动 Apache 或者 Nginx 难免有些麻烦，Mac OSX 其实内置Python，通过下面两条命令就可以快速启动一个简单 HTTP 服务。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>cd path/project/folder</span><br><span class="line"><span class="meta">$</span>python -m SimpleHTTPServer 8080</span><br></pre></td></tr></table></figure>
-<p>Tada, thus you have got a HTTP server which port is 8080.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">control + c // stop it</span><br></pre></td></tr></table></figure>
-
+            </div>
             
-
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>最近一直在参与小组内“造轮子”（具体内容另寻机会再详说）在开发的过程中，了解并且学习到 Webpack v4 的一些内容，趁记忆还深，汇总成文。鉴于 Webpack 作为关键在 Google 可以搜索到很多相关的文章，网上文章也是针对各自项目和某些情况的具体方案或者介绍说明，本文也不例外，只介绍分享过程中积累的 <strong>4.0</strong> 版本的个人实战经验。导读本文你将 Get 到使用 Webpack 4 从零开始分别搭建 React 16 和 Vue 2 项目，同时还有基于  Webpack 4 的一些开发和生产环境配置经验，感兴趣同学可以继续阅读。</p>
+<p>PS. 暂时只结合 <code>React</code> 项目来说明，后面会找时间补充 <code>Vue</code> 项目。</p>
+<p>PPS. 前半部分较为基础，有一定经验的同学可以直接跳过看<a href="#实战内容经验积累">后半部分实战内容</a>。</p>
+<p>PPPS. 本文已补充搭建 Vue 2 项目的内容。</p>
+                    
+                        <a href="/2018/06/11/something-about-webpack-4/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
         </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
-</div>
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
         
         
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/" data-tooltip="【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack" aria-label="上一篇: 【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/19/WANQU-Program-Beginning/" data-tooltip="【译】I know how to program, but I don&#39;t know what to program" aria-label="下一篇: 【译】I know how to program, but I don&#39;t know what to program">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Back to top" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
+        <li class="pagination-number">第 1 页 共 1 页</li>
     </ul>
 </div>
 
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-        
-    </div>
-</article>
+</section>
 
 
 
@@ -408,114 +332,6 @@
 </footer>
 
             </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/17/NPM-vs-Bower-vs-Browserify-vs-Gulp-vs-Grunt-vs-Webpack/" data-tooltip="【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack" aria-label="上一篇: 【译】NPM vs Bower vs Browserify vs Gulp vs Grunt vs Webpack">
-                
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/19/WANQU-Program-Beginning/" data-tooltip="【译】I know how to program, but I don&#39;t know what to program" aria-label="下一篇: 【译】I know how to program, but I don&#39;t know what to program">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Back to top" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
-
             
         </div>
         
@@ -786,25 +602,6 @@
         <!--SCRIPTS-->
 <script src="/assets/js/script-zwp3ac84zce7fzm8gbdbhq5erdxpxicyh2kuodfkrikfim6ctuwfkdcb6fpb.min.js"></script>
 <!--SCRIPTS END-->
-
-    
-        <script>
-             var disqus_config = function () {
-                 this.page.url = 'https://beanlee.github.io/2016/05/31/Simple-HTTP-Server-on-OSX/';
-                 
-                    this.page.identifier = '2016/05/31/Simple-HTTP-Server-on-OSX/';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'beanleeblog';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>

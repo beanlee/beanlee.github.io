@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t15808/165/2111159728/110001/633e93ab/5a8159cdN1c575a1f.jpg">
 <meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t14890/146/2205111432/17457/fa7f748a/5a8159dcN17378d16.png">
 <meta property="og:image" content="https://img11.360buyimg.com/uba/jfs/t16969/198/453213154/26368/834a1c7f/5a8159e8Nc1f5ffe8.png">
-<meta property="og:updated_time" content="2018-05-23T07:31:02.529Z">
+<meta property="og:updated_time" content="2018-06-11T15:54:20.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Google 出品 - 利用 webpack 做 web 性能优化">
 <meta name="twitter:description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/  PS. 在 20180211 笔者翻译过一次，当时也没有完全理解和使用文中提到的优化项，近期工作中因为用到 Webpack 4.x 对生产环境进行打包，加深了一些理解，本译文对原有译文补充的 Webpa">
@@ -296,7 +296,7 @@
 
 
     
-    <!-- <span class="post-count">11,386</span> -->
+    <!-- <span class="post-count">11,179</span> -->
     <span class="post-count">about 50 min </span>
 </div>
 
@@ -315,96 +315,29 @@
 <ul>
 <li><a href="#instroduction-介绍">Instroduction 介绍</a></li>
 <li><a href="#decrease-front-end-size-减少前端体积">Decrease Front-end Size 减少前端体积</a><ul>
-<li><a href="#use-the-production-mode-webpack-4-only-使用生产模式仅用于-webpack-4">Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）</a><ul>
-<li><a href="#further-reading-扩展阅读">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#enable-minification-开启最小化">Enable minification 开启最小化</a><ul>
-<li><a href="#bundle-level-minification-bundle-级别的最小化">Bundle-level minification bundle 级别的最小化</a></li>
-<li><a href="#loader-specific-options-特定的-loader-配置">Loader-specific options 特定的 Loader 配置</a><ul>
-<li><a href="#further-reading">Further reading</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#specify-node_envproduction-明确生产环境信息">Specify <code>NODE_ENV=production</code> 明确生产环境信息</a><ul>
-<li><a href="#further-reading-扩展阅读">Further Reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#use-es-modules-使用-es-模块">Use ES Modules 使用 ES 模块</a><ul>
-<li><a href="#futher-reading-扩展阅读">Futher reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#optimize-images-优化图片">Optimize images 优化图片</a><ul>
-<li><a href="#further-reading-扩展阅读-1">Further reading 扩展阅读</a></li>
-</ul>
-</li>
+<li><a href="#use-the-production-mode-webpack-4-only-使用生产模式仅用于-webpack-4">Use the production mode (webpack 4 only) 使用生产模式（仅用于 webpack 4）</a></li>
+<li><a href="#enable-minification-开启最小化">Enable minification 开启最小化</a></li>
+<li><a href="#specify-node_envproduction-明确生产环境信息">Specify <code>NODE_ENV=production</code> 明确生产环境信息</a></li>
+<li><a href="#use-es-modules-使用-es-模块">Use ES Modules 使用 ES 模块</a></li>
+<li><a href="#optimize-images-优化图片">Optimize images 优化图片</a></li>
 <li><a href="#optimize-dependencies-优化依赖">Optimize dependencies 优化依赖</a></li>
-<li><a href="#enable-module-concatenation-for-es-modules-aka-scope-hoisting-为-es-modles-开启模块连接">Enable module concatenation for ES modules (aka scope hoisting) 为 ES modles 开启模块连接</a><ul>
-<li><a href="#further-reading-扩展阅读-2">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#use-externals-if-you-have-both-webpack-and-non-webpack-code-如果代码中包含-webpack-和非-webpack-的代码要使用-externals">Use <strong>externals</strong> if you have both webpack and non-webpack code 如果代码中包含 webpack 和非 webpack 的代码要使用 externals</a><ul>
-<li><a href="#如果依赖是挂载到-window-上的情况">如果依赖是挂载到 window 上的情况</a></li>
-<li><a href="#如果依赖是当做-amd-包被加载的情况">如果依赖是当做 AMD 包被加载的情况</a><ul>
-<li><a href="#further-reading-扩展阅读-3">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#enable-module-concatenation-for-es-modules-aka-scope-hoisting-为-es-modles-开启模块连接">Enable module concatenation for ES modules (aka scope hoisting) 为 ES modles 开启模块连接</a></li>
+<li><a href="#use-externals-if-you-have-both-webpack-and-non-webpack-code-如果代码中包含-webpack-和非-webpack-的代码要使用-externals">Use <strong>externals</strong> if you have both webpack and non-webpack code 如果代码中包含 webpack 和非 webpack 的代码要使用 externals</a></li>
 <li><a href="#summing-up-总结">Summing up 总结</a></li>
 </ul>
 </li>
 <li><a href="#make-use-of-long-term-caching-利用好长时缓存">Make use of long-term caching 利用好长时缓存</a><ul>
-<li><a href="#use-bundle-versioning-and-cache-headers-使用-bundle-版本和缓存头信息">Use bundle versioning and cache headers 使用 bundle 版本和缓存头信息</a><ul>
-<li><a href="#further-reading-扩展阅读-4">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#extract-dependencies-and-runtime-into-a-separate-file-将依赖和运行环境代码提取到一个单独的文件">Extract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件</a><ul>
-<li><a href="#dependencies-依赖">Dependencies 依赖</a></li>
-<li><a href="#webpack-runtime-code-运行时代码">Webpack runtime code 运行时代码</a><ul>
-<li><a href="#further-reading-扩展阅读-5">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#inline-webpack-runtime-to-save-an-extra-http-request-内联-webpack-runtime-节省额外的-http-请求">Inline webpack runtime to save an extra HTTP request 内联 webpack runtime 节省额外的 HTTP 请求</a><ul>
-<li><a href="#如果使用-htmlwebpackplugin-来生成-html">如果使用 HtmlWebpackPlugin 来生成 HTML</a></li>
-<li><a href="#如果使用自己的定制服务逻辑来生成-html">如果使用自己的定制服务逻辑来生成 HTML</a><ul>
-<li><a href="#webpack-4"><strong>Webpack 4</strong></a></li>
-<li><a href="#webpack-3"><strong>Webpack 3</strong></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#lazy-load-code-that-you-dont-need-right-now-懒加载">Lazy-load code that you don’t need right now 懒加载</a><ul>
-<li><a href="#further-reading-扩展阅读-6">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#split-the-code-into-routes-and-pages-拆分代码到路由和页面中">Split the code into routes and pages 拆分代码到路由和页面中</a><ul>
-<li><a href="#for-single-page-apps-对于单页面应用">For single-page apps 对于单页面应用</a></li>
-<li><a href="#for-traditional-multi-page-apps-对于传统的多页面应用">For traditional multi-page apps 对于传统的多页面应用</a></li>
-<li><a href="#further-reading-扩展阅读-7">Further reading 扩展阅读</a></li>
-</ul>
-</li>
-<li><a href="#make-module-ids-more-stable-使用稳定的-module-ids">Make module ids more stable 使用稳定的 module ids</a><ul>
-<li><a href="#further-reading-扩展阅读-8">Further reading 扩展阅读</a></li>
-</ul>
-</li>
+<li><a href="#use-bundle-versioning-and-cache-headers-使用-bundle-版本和缓存头信息">Use bundle versioning and cache headers 使用 bundle 版本和缓存头信息</a></li>
+<li><a href="#extract-dependencies-and-runtime-into-a-separate-file-将依赖和运行环境代码提取到一个单独的文件">Extract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件</a></li>
+<li><a href="#inline-webpack-runtime-to-save-an-extra-http-request-内联-webpack-runtime-节省额外的-http-请求">Inline webpack runtime to save an extra HTTP request 内联 webpack runtime 节省额外的 HTTP 请求</a></li>
+<li><a href="#lazy-load-code-that-you-dont-need-right-now-懒加载">Lazy-load code that you don’t need right now 懒加载</a></li>
+<li><a href="#split-the-code-into-routes-and-pages-拆分代码到路由和页面中">Split the code into routes and pages 拆分代码到路由和页面中</a></li>
+<li><a href="#make-module-ids-more-stable-使用稳定的-module-ids">Make module ids more stable 使用稳定的 module ids</a></li>
 <li><a href="#summing-up">Summing up</a></li>
 </ul>
 </li>
 <li><a href="#monitor-and-analyze-the-app-监控并分析">Monitor and analyze the app 监控并分析</a><ul>
-<li><a href="#keep-track-of-the-bundle-size-跟踪打包的体积">Keep track of the bundle size 跟踪打包的体积</a><ul>
-<li><a href="#webpack-dashboard">webpack-dashboard</a></li>
-<li><a href="#bundlesize">bundlesize</a><ul>
-<li><a href="#find-out-the-maximum-sizes-找出最大体积"><strong>Find out the maximum sizes</strong> 找出最大体积</a></li>
-<li><a href="#enable-bundlesize-启用-bundlesize"><strong>Enable <code>bundlesize</code></strong> 启用 bundlesize</a></li>
-</ul>
-</li>
-<li><a href="#further-reading-扩展阅读-9">Further reading 扩展阅读</a></li>
-</ul>
-</li>
+<li><a href="#keep-track-of-the-bundle-size-跟踪打包的体积">Keep track of the bundle size 跟踪打包的体积</a></li>
 <li><a href="#analyze-why-the-bundle-is-so-large-分析-bundle-为什么这么大">Analyze why the bundle is so large 分析 bundle 为什么这么大</a></li>
 <li><a href="#summing-up-小结">Summing up 小结</a></li>
 </ul>
@@ -850,7 +783,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/16/something-about-webpack-4/" data-tooltip="Webpack 4 实战" aria-label="上一篇: Webpack 4 实战">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/06/11/something-about-webpack-4/" data-tooltip="Webpack 4 实战 React 和 Vue 项目" aria-label="上一篇: Webpack 4 实战 React 和 Vue 项目">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -869,7 +802,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -947,7 +880,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/05/16/something-about-webpack-4/" data-tooltip="Webpack 4 实战" aria-label="上一篇: Webpack 4 实战">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/06/11/something-about-webpack-4/" data-tooltip="Webpack 4 实战 React 和 Vue 项目" aria-label="上一篇: Webpack 4 实战 React 和 Vue 项目">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -966,7 +899,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
