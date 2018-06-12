@@ -58,7 +58,7 @@ body {
   background: white;
   font-family: "Open Sans", sans-serif;
   font-size: 1.6rem;
-  line-height: 1.6em;
+  line-height: 1.75em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
   font-smoothing: subpixel-antialiased; }
@@ -156,7 +156,7 @@ pre > code {
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
-  font-family: Menlo, Consolas, monospace;
+  font-family: monospace, Menlo, Consolas;
   border: none;
   margin: 0;
   cursor: text;
@@ -179,7 +179,7 @@ blockquote {
   border-left: 3px solid #5d686f;
   padding: 0 15px;
   font-style: italic;
-  margin: 1.5em 0 0; }
+  margin: 1.5em 0 1em 0; }
   blockquote cite:before {
     content: ' — ';
     padding: 0 0.3em; }
@@ -265,7 +265,7 @@ blockquote {
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
       font-size: 1.6rem;
-      line-height: 1.6em;
+      line-height: 1.75em;
       font-weight: 400;
       color: #5d686f; }
 
@@ -1472,7 +1472,7 @@ figure.highlight,
   .codeblock .code,
   .codeblock .tag {
     background-color: inherit;
-    font-family: Menlo, Consolas, monospace;
+    font-family: monospace, Menlo, Consolas;
     border: none;
     padding: 0;
     margin: 0;
@@ -1532,7 +1532,7 @@ figure.highlight,
 
 .gist .line,
 .gist .line-number {
-  font-family: Menlo, Consolas, monospace;
+  font-family: monospace, "Menlo", "Consolas";
   font-size: 1em;
   margin: 0 0 5px 0; }
 
@@ -2480,7 +2480,7 @@ a.tag--small,
     color: #fff;
     content: attr(data-tooltip);
     font-size: 0.93em;
-    line-height: 1.6em;
+    line-height: 1.75em;
     border-radius: 5px; }
   .tooltip:before, [data-tooltip]:before, .tooltip:after, [data-tooltip]:after {
     position: absolute;
