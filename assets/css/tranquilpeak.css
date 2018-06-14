@@ -42,7 +42,7 @@
   src: local("Merriweather Bold Italic"), local("Merriweather-BoldItalic"), url(https://fonts.gstatic.com/s/merriweather/v8/EYh7Vl4ywhowqULgRdYwII1kRdeHIFWYEsp6A2f99b0.ttf) format("truetype"); }
 
 html {
-  font-family: "Open Sans", sans-serif;
+  font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
   font-size: 10px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -56,9 +56,9 @@ body {
   margin: 0;
   padding: 0;
   background: white;
-  font-family: "Open Sans", sans-serif;
+  font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
   font-size: 1.6rem;
-  line-height: 1.75em;
+  line-height: 2em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
   font-smoothing: subpixel-antialiased; }
@@ -72,7 +72,7 @@ h4,
 h5,
 h6 {
   letter-spacing: -0.04em;
-  font-family: "PingFang SC";
+  font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
   font-weight: 700;
   line-height: 1.45em;
   color: #4a4a4a; }
@@ -156,7 +156,7 @@ pre > code {
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
-  font-family: monospace, Menlo, Consolas;
+  font-family: Monaco, Menlo, Consolas, monospace;
   border: none;
   margin: 0;
   cursor: text;
@@ -167,6 +167,7 @@ pre > code {
 code {
   font-size: 1.5rem;
   display: inline-block;
+  font-family: "Monaco", "Menlo", "Consolas", monospace;
   font-weight: 400;
   background-color: #f7f8f8;
   padding: 0 10px; }
@@ -265,7 +266,7 @@ blockquote {
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
       font-size: 1.6rem;
-      line-height: 1.75em;
+      line-height: 2em;
       font-weight: 400;
       color: #5d686f; }
 
@@ -639,7 +640,7 @@ blockquote {
       transform: translate3d(75px, 0, 0); } }
 
 #sidebar {
-  font-family: "Open Sans", sans-serif;
+  font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
   height: 100%;
   position: fixed;
   top: 0;
@@ -1444,7 +1445,7 @@ blockquote {
 
 .caption {
   display: block;
-  font-family: "Merriweather", serif;
+  font-family: "PingFang SC", "Microsoft Yahei", "Merriweather", serif;
   font-size: 1.3rem;
   color: #81929d;
   text-align: center;
@@ -1472,7 +1473,7 @@ figure.highlight,
   .codeblock .code,
   .codeblock .tag {
     background-color: inherit;
-    font-family: monospace, Menlo, Consolas;
+    font-family: Monaco, Menlo, Consolas, monospace;
     border: none;
     padding: 0;
     margin: 0;
@@ -1532,7 +1533,7 @@ figure.highlight,
 
 .gist .line,
 .gist .line-number {
-  font-family: monospace, "Menlo", "Consolas";
+  font-family: "Monaco", "Menlo", "Consolas", monospace;
   font-size: 1em;
   margin: 0 0 5px 0; }
 
@@ -1903,7 +1904,7 @@ a.fancybox {
       text-decoration: none; }
   .post .post-meta {
     line-height: 1.5em;
-    font-family: "Open Sans", sans-serif;
+    font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
     font-size: 1.3rem;
     font-weight: 400;
     color: #9eabb3; }
@@ -1912,7 +1913,7 @@ a.fancybox {
   .post .post-content {
     text-rendering: optimizelegibility;
     letter-spacing: -0.3px;
-    font-family: "PingFang SC";
+    font-family: "PingFang SC", "Microsoft Yahei", "Merriweather", serif;
     color: #5d686f;
     margin-top: 20px;
     font-weight: 400;
@@ -1924,7 +1925,8 @@ a.fancybox {
       display: block;
       width: auto;
       max-width: 100%;
-      margin: 0 auto; }
+      margin: 1.5rem auto;
+      box-shadow: 2px 20px 40px 10px rgba(0, 0, 0, 0.15); }
   .post .post-footer {
     margin-top: 20px; }
     .post .post-footer-tags {
@@ -2040,7 +2042,7 @@ a.fancybox {
         text-decoration: none; }
     .post-header-cover .post-header .post-meta {
       max-width: 750px;
-      font-family: "Open Sans", sans-serif;
+      font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
       font-size: 1.6rem;
       color: white !important;
       font-weight: 400;
@@ -2188,13 +2190,14 @@ a.fancybox {
   .postShorten .postShorten-meta,
   .postShorten .postShorten-readingtime,
   .postShorten .postShorten-excerpt_link {
+    font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
     font-size: 1.3rem;
     font-weight: 400; }
   .postShorten .postShorten-excerpt,
   .postShorten .postShorten-content {
     text-rendering: optimizelegibility;
     letter-spacing: -0.3px;
-    font-family: "PingFang SC";
+    font-family: "PingFang SC", "Microsoft Yahei", "Merriweather", serif;
     color: #5d686f;
     font-weight: 400;
     overflow: hidden;
@@ -2462,7 +2465,7 @@ a.tag--small,
   color: #349ef3 !important; }
 
 .font-merryweather {
-  font-family: "Merriweather", serif; }
+  font-family: "PingFang SC", "Microsoft Yahei", "Merriweather", serif; }
 
 .tooltip, [data-tooltip] {
   position: relative;
@@ -2480,7 +2483,7 @@ a.tag--small,
     color: #fff;
     content: attr(data-tooltip);
     font-size: 0.93em;
-    line-height: 1.75em;
+    line-height: 2em;
     border-radius: 5px; }
   .tooltip:before, [data-tooltip]:before, .tooltip:after, [data-tooltip]:after {
     position: absolute;
