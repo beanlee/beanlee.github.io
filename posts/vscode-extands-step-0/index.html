@@ -1,0 +1,906 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="BeanLee Blog">
+    <title>VSCode 插件开发急速入门 - BeanLee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="https://beanlee.github.io/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="VSCode (全称：Vistual Studio Code) 由 Microsoft 出品，其启动快速、稳定性好、占用内存较小、插件越来越丰富、社区活跃等特点，目前是个人和团队中很多小伙伴的主力代码编辑器。 废话不多说，直奔主题，本文你将了解简单的 vscode 的插件开发入门，感兴趣的同学可以继续阅读。">
+<meta name="keywords" content="Tool,Front-End,NodeJS">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="VSCode 插件开发急速入门">
+<meta property="og:url" content="https://beanlee.github.io/posts/vscode-extands-step-0/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:description" content="VSCode (全称：Vistual Studio Code) 由 Microsoft 出品，其启动快速、稳定性好、占用内存较小、插件越来越丰富、社区活跃等特点，目前是个人和团队中很多小伙伴的主力代码编辑器。 废话不多说，直奔主题，本文你将了解简单的 vscode 的插件开发入门，感兴趣的同学可以继续阅读。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://img30.360buyimg.com/uba/jfs/t20848/320/1132999703/64245/a47741fc/5b20d75eN83303d8b.png">
+<meta property="og:image" content="https://img10.360buyimg.com/uba/jfs/t21937/257/1227805321/92154/d99f4ec1/5b2231f3N66d25b0d.gif">
+<meta property="og:image" content="https://img20.360buyimg.com/uba/jfs/t23665/363/2293286/276483/f4555655/5b224074Ne999cf65.png">
+<meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t21880/250/1201945807/26913/9c7e96d9/5b2240beNfc0ae8a5.png">
+<meta property="og:image" content="https://img14.360buyimg.com/uba/jfs/t23941/205/2220837/339379/fbe1b654/5b224350Nc2e1c2d4.png">
+<meta property="og:updated_time" content="2018-06-16T03:26:44.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VSCode 插件开发急速入门">
+<meta name="twitter:description" content="VSCode (全称：Vistual Studio Code) 由 Microsoft 出品，其启动快速、稳定性好、占用内存较小、插件越来越丰富、社区活跃等特点，目前是个人和团队中很多小伙伴的主力代码编辑器。 废话不多说，直奔主题，本文你将了解简单的 vscode 的插件开发入门，感兴趣的同学可以继续阅读。">
+<meta name="twitter:image" content="https://img30.360buyimg.com/uba/jfs/t20848/320/1132999703/64245/a47741fc/5b20d75eN83303d8b.png">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46079069-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/links"
+                            
+                            title="链接"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/beanlib"
+                            
+                            title="实验室"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            VSCode 插件开发急速入门
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-06-13T15:41:48+08:00">
+	
+		    6月 13, 2018
+    	
+    </time>
+    
+    <!-- <span class="post-count">2,085</span> -->
+    <span class="post-count">about 9 min </span>
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>VSCode (全称：Vistual Studio Code) 由 Microsoft 出品，其启动快速、稳定性好、占用内存较小、插件越来越丰富、社区活跃等特点，目前是个人和团队中很多小伙伴的主力代码编辑器。</p>
+<p>废话不多说，直奔主题，本文你将了解简单的 vscode 的插件开发入门，感兴趣的同学可以继续阅读。</p>
+<a id="more"></a>
+<blockquote>
+<p>以下文中提到的“插件”均为 Vistual Studio Code 的插件，Vistual Studio Code 也简称 VSCode</p>
+</blockquote>
+<h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><ul>
+<li>nodejs <a href="https://nodejs.org/en/" target="_blank" rel="noopener">link</a> 建议使用 LTS 版本，截止发文 v8.11.3</li>
+<li>npm <a href="https://www.npmjs.com/package/npm" target="_blank" rel="noopener">link</a> 建议最新版本，截止发文 v6.1.0</li>
+<li>yeoman <a href="http://yeoman.io/" target="_blank" rel="noopener">link</a> <code>npm install -g yo</code></li>
+<li>generator-code <a href="https://github.com/Microsoft/vscode-generator-code" target="_blank" rel="noopener">link</a> <code>npm install -g generator-code</code></li>
+</ul>
+<p>做好上面的环境准备，正式进入开发，下面我会以自己刚做好的一个查询北京地区空气质量为例子，继续介绍（安心してください，代码很少，很好入门）。</p>
+<h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><p>下面我们补充一下我们的例子的功能，首先明确我们要获取城市的 AQI（空气质量）信息，网络上可以搜索到直接调用 API 或者 SDK，笔者目前使用的京东云的一个产品京东万象中的一个天气免费 API，<a href="https://wx.jdcloud.com/" target="_blank" rel="noopener">链接见此</a> 注册名实名认证后可以获得一个调用应用的 KEY 既可以获取天气数据了。更多其他方面的 API 读者可以自行探索。</p>
+<p>笔者使用的 API 是 <a href="https://wx.jdcloud.com/market/datas/26/10610" target="_blank" rel="noopener">https://wx.jdcloud.com/market/datas/26/10610</a> 参数 city 支持 中英文名称、ID 和 IP 限制 5000次/天</p>
+<h3 id="锦囊"><a href="#锦囊" class="headerlink" title="锦囊"></a>锦囊</h3><p>已有插件所在目录如下：</p>
+<table>
+<thead>
+<tr>
+<th>os</th>
+<th>path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>windows</td>
+<td>%USERPROFILE%\.vscode\extensions</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>~/.vscode/extensions</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>~/.vscode/extensions</td>
+</tr>
+</tbody>
+</table>
+<p>在这个目录下我们可以看到已经安装的所有插件的代码，即使插件是使用 typescript 编写 out 文件夹也可以看到编译后的 javascript 代码，感兴趣的同学可以直接看一看自己平时最常用的插件是如何实现的。</p>
+<h3 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h3><p>执行下面代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo code</span><br></pre></td></tr></table></figure>
+<p>执行后会提示几个问题，第一个问题我们选择 <code>New Extension (JavaScript)</code>，其他正常填写即可。（可以使用 yo code 来创建插件、主题、代码片段、语言支持、键盘映射、插件包，本文我们只讨论插件，其他暂且放在一边。）</p>
+<p><img src="https://img30.360buyimg.com/uba/jfs/t20848/320/1132999703/64245/a47741fc/5b20d75eN83303d8b.png" alt=""></p>
+<p>填写完成后，会自动创建文件夹并帮助初始化完成文件，我们先看下目录结构。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CHANGELOG.md <span class="comment">## 修改记录</span></span><br><span class="line">├── README.md <span class="comment">## 插件说明 README</span></span><br><span class="line">├── extension.js <span class="comment">## 入口</span></span><br><span class="line">├── jsconfig.json <span class="comment">## JavaScript 配置</span></span><br><span class="line">├── node_modules <span class="comment">## 依赖</span></span><br><span class="line">├── package-lock.json</span><br><span class="line">├── package.json</span><br><span class="line">├── <span class="built_in">test</span></span><br><span class="line">└── vsc-extension-quickstart.md</span><br></pre></td></tr></table></figure>
+<p>熟悉的项目文件结构，直接查看 <code>vsc-extension-quickstart.md</code> 这个文档，文中提到 <code>package.json</code> 声明当前插件和命令的配置文件，用来注册命令等配置；<code>extension.js</code> 是主入口文件，插件的具体实现代码可以放在这里；</p>
+<p>简单了解一下两个重要文件：</p>
+<figure class="highlight"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "name": "city-aqi", // 插件名称</span><br><span class="line">    "displayName": "city-aqi", // 插件显示名称</span><br><span class="line">    "description": "Air Quaility Index of City", // 插件描述</span><br><span class="line">    "version": "0.0.1",</span><br><span class="line">    "publisher": "beanleecode", // 插件发布者</span><br><span class="line">    ...</span><br><span class="line">    "activationEvents": [ // 活动事件列表</span><br><span class="line">        <span class="string">"onCommand:extension.sayHello"</span></span><br><span class="line">    ],</span><br><span class="line">    "main": "./extension", // 入口文件</span><br><span class="line">    "contributes": &#123;</span><br><span class="line">        "commands": [ // 对应命令列表</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"command"</span>: <span class="string">"extension.sayHello"</span>,</span><br><span class="line">                <span class="attr">"title"</span>: <span class="string">"Hello World"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><figcaption><span>extension.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The module 'vscode' contains the VS Code extensibility API</span></span><br><span class="line"><span class="comment">// Import the module and reference it with the alias vscode in your code below</span></span><br><span class="line"><span class="keyword">const</span> vscode = <span class="built_in">require</span>(<span class="string">'vscode'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method is called when your extension is activated</span></span><br><span class="line"><span class="comment">// your extension is activated the very first time the command is executed</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">activate</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Use the console to output diagnostic information (console.log) and errors (console.error)</span></span><br><span class="line">  <span class="comment">// This line of code will only be executed once when your extension is activated</span></span><br><span class="line">  <span class="comment">// 这里的代码将只会在插件激活时执行一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Congratulations, your extension "city-aqi" is now active!'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The command has been defined in the package.json file</span></span><br><span class="line">  <span class="comment">// 定义在 package.json 中的命令在这里定义</span></span><br><span class="line">  <span class="comment">// Now provide the implementation of the command with registerCommand</span></span><br><span class="line">  <span class="comment">// 提供 registerCommand 来注册实现代码</span></span><br><span class="line">  <span class="comment">// The commandId parameter must match the command field in package.json</span></span><br><span class="line">  <span class="comment">// commandId 参数必须与 package.json 匹配</span></span><br><span class="line">  <span class="keyword">let</span> disposable = vscode.commands.registerCommand(<span class="string">'extension.sayHello'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// The code you place here will be executed every time your command is executed</span></span><br><span class="line">    <span class="comment">// 这里的代码每次执行 这个命令 的时候都会被执行</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Display a message box to the user</span></span><br><span class="line">    <span class="comment">// 显示信息框</span></span><br><span class="line">    vscode.window.showInformationMessage(<span class="string">'Hello World!'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  context.subscriptions.push(disposable);</span><br><span class="line">&#125;</span><br><span class="line">exports.activate = activate;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method is called when your extension is deactivated</span></span><br><span class="line"><span class="comment">// 插件被停用的时候被调用</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deactivate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">exports.deactivate = deactivate;</span><br></pre></td></tr></table></figure>
+<p>下面我们直接用 VSCode 打开这个项目的根目录，打开 <code>extension.js</code> 按下键盘 <code>F5</code> 或启动调试，接下来就可以看到，已经启动一个新的窗口，我们按下 <code>command + shift + p</code> 或 <code>command + p 再输入 &gt;</code> 即可调用插件，在 package.json 中已经定义过 commands 我们直接输入 <code>Hello World</code> 直接启动插件，此时可以看到 Hello World 的通知框，就可以调试代码了。</p>
+<p>OK，下面我们来进一步实现我们的功能，调取天气 API 数据，展示。</p>
+<figure class="highlight javascript"><figcaption><span>extension.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vscode = <span class="built_in">require</span>(<span class="string">'vscode'</span>);</span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">activate</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> cityAqi = vscode.commands.registerCommand(<span class="string">'extension.sayCityAqi'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> options = &#123;</span><br><span class="line">      ignoreFocusOut: <span class="literal">true</span>,</span><br><span class="line">      password: <span class="literal">false</span>,</span><br><span class="line">      prompt: <span class="string">"Please type your city (eg.beijing or 北京)"</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    vscode.window.showInputBox(options).then(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (value === <span class="literal">undefined</span> || value.trim() === <span class="string">''</span>) &#123;</span><br><span class="line">        vscode.window.showInformationMessage(<span class="string">'Please type your city.'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> cityName = value.trim();</span><br><span class="line">          <span class="comment">// appkey=xxxxxxxx 替换成事先申请好的 key</span></span><br><span class="line">          axios.get(<span class="string">`https://way.jd.com/he/freeweather?city=<span class="subst">$&#123;cityName&#125;</span>&amp;appkey=xxxxxxxx`</span>)</span><br><span class="line">            .then(<span class="function">(<span class="params">rep</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="keyword">if</span>(rep.data.code !== <span class="string">'10000'</span>) &#123;</span><br><span class="line">                vscode.window.showInformationMessage(<span class="string">'Sorry, Please try again.'</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">const</span> weatherData = rep.data.result.HeWeather5[<span class="number">0</span>]</span><br><span class="line">              <span class="keyword">if</span>(weatherData.status !== <span class="string">'ok'</span>) &#123;</span><br><span class="line">                vscode.window.showInformationMessage(<span class="string">`Sorry, <span class="subst">$&#123;weatherData.status&#125;</span>`</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              vscode.window.showInformationMessage(<span class="string">`<span class="subst">$&#123;weatherData.basic.city&#125;</span> 's AQI =&gt; PM25: <span class="subst">$&#123;weatherData.aqi.city.pm25&#125;</span>, PM10: <span class="subst">$&#123;weatherData.aqi.city.pm10&#125;</span> <span class="subst">$&#123;weatherData.aqi.city.qlty&#125;</span>`</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  context.subscriptions.push(cityAqi);</span><br><span class="line">&#125;</span><br><span class="line">exports.activate = activate;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method is called when your extension is deactivated</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deactivate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">exports.deactivate = deactivate;</span><br></pre></td></tr></table></figure>
+<p>Tadaaa，简单的功能就完成了！:P</p>
+<p><img src="https://img10.360buyimg.com/uba/jfs/t21937/257/1227805321/92154/d99f4ec1/5b2231f3N66d25b0d.gif" alt=""></p>
+<p>代码中用到了两个 vscode windows 的 api，<em>showInputBox</em> 和 <em>showInformationMessage</em> 更多 API 详见<a href="https://code.visualstudio.com/docs/extensionAPI/vscode-api" target="_blank" rel="noopener">链接</a></p>
+<p><img src="https://img20.360buyimg.com/uba/jfs/t23665/363/2293286/276483/f4555655/5b224074Ne999cf65.png" alt=""></p>
+<p>可以看到 API 包含了很多信息，所以可以做的事还可以很多 :)</p>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vsce</span><br></pre></td></tr></table></figure>
+<p>发布前我们可以把开发好的插件打包成 <code>.vsix</code> 文件，提供给身边的小伙伴试用一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vsce package</span><br></pre></td></tr></table></figure>
+<p><code>city-aqi-0.0.1.vsix</code> 就打包完成了，在插件面板上选择 从 VSIX 安装 或命令行 <a href="https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix" target="_blank" rel="noopener">具体详见文档</a> 安装完成后重新加载 VSCode 就可以使用了。</p>
+<blockquote>
+<p>过程中可能会提示你先修改 README.md 文件才能打包，简单描述功能即可。</p>
+</blockquote>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>详细完善过 README.md 和 CHANGELOG.md 并且删除了一些冗余的文件，你就可以将插件发布到微软的插件市场 Extension Marketplace 供他人下载使用了。</p>
+<p>在发布插件之前，首先，获取 token，登录 <a href="https://docs.microsoft.com/vsts/accounts/create-account-msa-or-work-student" target="_blank" rel="noopener">Visual Studio Team Services</a> 注册并登录账户，在 Security 中找到 Personal access tokens 新建一个 token。回到命令行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vsce create-publisher xxxx</span><br></pre></td></tr></table></figure>
+<p><img src="https://img14.360buyimg.com/uba/jfs/t21880/250/1201945807/26913/9c7e96d9/5b2240beNfc0ae8a5.png" alt=""></p>
+<blockquote>
+<p>完成后不需要重新 login ，因为 vsce 已经帮你记录当前的 publisher。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vsce publish</span><br><span class="line">Publishing city-aqi@0.0.1...</span><br><span class="line">Successfully published city-aqi@0.0.1!</span><br></pre></td></tr></table></figure>
+<p>ALL Done 🎉 </p>
+<p><img src="https://img14.360buyimg.com/uba/jfs/t23941/205/2220837/339379/fbe1b654/5b224350Nc2e1c2d4.png" alt=""></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://code.visualstudio.com/docs/extensions/overview" target="_blank" rel="noopener">官网文档 https://code.visualstudio.com/docs/extensions/overview</a></li>
+<li><a href="https://code.visualstudio.com/docs/extensionAPI/vscode-api" target="_blank" rel="noopener">vscode-api https://code.visualstudio.com/docs/extensionAPI/vscode-api</a></li>
+</ul>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>笔者几年前一直是 <code>Sublime Text</code> 的使用者，修改 jsp、vm、sql等等文本文件，后来出现了 <code>Atom</code> 社区也相当活跃，用户同样很多，笔者也曾试用过一段时间。</p>
+<p><strong>合适的才是最好的</strong> 近两年 VSCode 一直是我的主力开发编辑器，它也有缺点，但是它在不断精进和完善，大厂维护更新频率也很快。</p>
+<p>很多大牛们喜爱的 <code>Vim</code> 和 <code>Emcas</code> 笔者没有用过，甚至连尝试都没有，可能是被过于灵活的配置<strong>吓到了</strong>…</p>
+<p>PS，最近知道一个词<strong>宜家理论</strong>，套在上面几个工具上面，应该都适用，没有最好的只有最合适自己的。现在机器上配置的 vscode 的开发环境，笔者已经不得不使用同步插件来进行备份，以免更换机器时重新配置。</p>
+<p>VSCode 有很多方便的插件，可以帮助我们提高开发效率，以后找机会写一个推荐列表分享出来。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div style="text-align: center;">
+  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+</div>
+        
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Front-End/">Front-End</a> <a class="tag tag--primary tag--small t-link" href="/tags/NodeJS/">NodeJS</a> <a class="tag tag--primary tag--small t-link" href="/tags/Tool/">Tool</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/Art-Of-Code/" data-tooltip="代码的艺术 - 章淼讲座笔记" aria-label="上一篇: 代码的艺术 - 章淼讲座笔记">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/something-about-webpack-4/" data-tooltip="Webpack 4 实战 React 和 Vue 项目" aria-label="下一篇: Webpack 4 实战 React 和 Vue 项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/Art-Of-Code/" data-tooltip="代码的艺术 - 章淼讲座笔记" aria-label="上一篇: 代码的艺术 - 章淼讲座笔记">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/something-about-webpack-4/" data-tooltip="Webpack 4 实战 React 和 Vue 项目" aria-label="下一篇: Webpack 4 实战 React 和 Vue 项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/vscode-extands-step-0/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/vscode-extands-step-0/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/vscode-extands-step-0/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/vscode-extands-step-0/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE@JD</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 26 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://beanlee.github.io/posts/vscode-extands-step-0/';
+                 
+                    this.page.identifier = 'posts/vscode-extands-step-0/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
+
+
+    </body>
+</html>

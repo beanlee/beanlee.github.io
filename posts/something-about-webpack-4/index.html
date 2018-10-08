@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="BeanLee Blog">
+    <title>Webpack 4 实战 React 和 Vue 项目 - BeanLee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="https://beanlee.github.io/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="最近一直在参与小组内“造轮子”（具体内容另寻机会再详说）在开发的过程中，了解并且学习到 Webpack v4 的一些内容，趁记忆还深，汇总成文。 鉴于 Webpack 作为关键在 Google 可以搜索到很多相关的文章，网上文章也是针对各自项目和某些情况的具体方案或者介绍说明，本文也不例外，只介绍分享过程中积累的 4.0 版本的个人实战经验。  导读：本文你将 Get 到使用 Webpack 4">
+<meta name="keywords" content="Webpack,React,Vue">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Webpack 4 实战 React 和 Vue 项目">
+<meta property="og:url" content="https://beanlee.github.io/posts/something-about-webpack-4/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:description" content="最近一直在参与小组内“造轮子”（具体内容另寻机会再详说）在开发的过程中，了解并且学习到 Webpack v4 的一些内容，趁记忆还深，汇总成文。 鉴于 Webpack 作为关键在 Google 可以搜索到很多相关的文章，网上文章也是针对各自项目和某些情况的具体方案或者介绍说明，本文也不例外，只介绍分享过程中积累的 4.0 版本的个人实战经验。  导读：本文你将 Get 到使用 Webpack 4">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-06-20T01:31:47.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack 4 实战 React 和 Vue 项目">
+<meta name="twitter:description" content="最近一直在参与小组内“造轮子”（具体内容另寻机会再详说）在开发的过程中，了解并且学习到 Webpack v4 的一些内容，趁记忆还深，汇总成文。 鉴于 Webpack 作为关键在 Google 可以搜索到很多相关的文章，网上文章也是针对各自项目和某些情况的具体方案或者介绍说明，本文也不例外，只介绍分享过程中积累的 4.0 版本的个人实战经验。  导读：本文你将 Get 到使用 Webpack 4">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-46079069-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+    
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/links"
+                            
+                            title="链接"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/beanlib"
+                            
+                            title="实验室"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Webpack 4 实战 React 和 Vue 项目
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-06-11T17:48:23+08:00">
+	
+		    6月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
+
+
+    
+    <!-- <span class="post-count">5,016</span> -->
+    <span class="post-count">about 22 min </span>
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>最近一直在参与小组内“造轮子”（具体内容另寻机会再详说）在开发的过程中，了解并且学习到 Webpack v4 的一些内容，趁记忆还深，汇总成文。</p>
+<p>鉴于 Webpack 作为关键在 Google 可以搜索到很多相关的文章，网上文章也是针对各自项目和某些情况的具体方案或者介绍说明，本文也不例外，只介绍分享过程中积累的 <strong>4.0</strong> 版本的个人实战经验。</p>
+<blockquote>
+<p>导读：本文你将 Get 到使用 Webpack 4 从零开始分别搭建 React 16 和 Vue 2 项目，同时还有基于  Webpack 4 的一些开发和生产环境配置经验，感兴趣同学可以继续阅读。</p>
+</blockquote>
+<p>PS. 前半部分较为基础，有一定经验的同学可以直接跳过阅读<a href="#实战内容经验积累">后半部分实战内容</a>。</p>
+<a id="more"></a>
+<p>以前也翻译过两篇关于 Webpack 的文章，感兴趣的同学可以点击下面链接查看：<strong>!!! 强烈推荐 !!!</strong></p>
+<ul>
+<li><a href="/2018/05/02/blog-translate-web-performance-optimization-with-webpack-from-google-webpack4/">【译】Google 出品 - 利用 webpack 做 web 性能优化</a></li>
+<li><a href="/2018/04/18/blog-translate-webpack-4-mode-and-optimization/">【译】Webpack 4 mode and optimization</a></li>
+</ul>
+<h1 id="table-of-contents">文章目录</h1>
+<ul>
+<li><a href="#Webpack-4-从“零”开始">Webpack 4 从“零”开始</a></li>
+<li><a href="#Webpack-4-x-amp-React-16-x">Webpack 4.x &amp; React 16.x</a><ul>
+<li><a href="#React-项目初始化">React 项目初始化</a></li>
+<li><a href="#进入开发阶段">进入开发阶段</a></li>
+</ul>
+</li>
+<li><a href="#Webpack-4-x-amp-Vue-2-x">Webpack 4.x &amp; Vue 2.x</a><ul>
+<li><a href="#Vue-项目初始化">Vue 项目初始化</a></li>
+</ul>
+</li>
+<li><a href="#实战内容经验积累">实战内容经验积累</a><ul>
+<li><a href="#提取公共依赖">提取公共依赖</a></li>
+<li><a href="#文件压缩">文件压缩</a></li>
+<li><a href="#proxy-接口代理">proxy 接口代理</a></li>
+<li><a href="#支持多入口">支持多入口</a></li>
+<li><a href="#预编译-sass、引入-postcss、处理-css-压缩-和-文件分离">预编译 sass、引入 postcss、处理 css 压缩 和 文件分离</a></li>
+<li><a href="#支持-CDN-路径替换">支持 CDN 路径替换</a></li>
+<li><a href="#生产环境的-source-map">生产环境的 source-map</a></li>
+<li><a href="#处理图片资源">处理图片资源</a></li>
+<li><a href="#其他插件">其他插件</a></li>
+</ul>
+</li>
+<li><a href="#小结">小结</a></li>
+</ul>
+<!-- /TOC -->
+<p><em>正文开始</em></p>
+<h2 id="Webpack-4-从“零”开始"><a href="#Webpack-4-从“零”开始" class="headerlink" title="Webpack 4 从“零”开始"></a>Webpack 4 从“零”开始</h2><p>相信提到 Webpack 无论是作为前端工程师，还是 Web 开发者都不会太陌生，它从诞生伊始就收到社区的追捧和大量的生产实践，大量的项目代码构建工具开始选择他作为主力构建工具，究竟它是什么样工具，它的官网是这样描述的：</p>
+<blockquote>
+<p>At its core, webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles.<br>其核心就是现代 Javascript 应用的静态模块构建器。当在应用中运行 Webpack 的时候，它就会在内部构建依赖图来映射项目中的每一个所需要的模块，并生成一个或多个 bundle 文件。</p>
+</blockquote>
+<p>也就是说 Webpack 可以分析项目中模块之间的<strong>依赖</strong>，并将最终的结果打包成 bundle 文件，开发者只要在开发过程中做到正确的引用和正常的代码开发即可，打包的事情统统交给 Webpack 即可。</p>
+<p>在 Webpack 逐渐进化的过程中，或多或少存在一些缺点被社区人们所诟病，比如配置繁琐、构建时间较长且占用 CPU 高、文档不完整等等问题，并且衍生出一些替代品，但 Webpack 团队和开源社区的持续不断的贡献，它在不断完善和修正，如今已经进入 <strong>v4.x.x 的时代</strong>。帮助开发者减少工作量是 4.0 的一个任务，从这个版本开始，Webpack <strong>几乎</strong> 可以做到”零“配置或少配置地来构建项目生成 Bundle 文件，下面我们就先来看一下 <code>Webpack 4</code> 的“零”。</p>
+<p>首先，我们来创建一个 <code>demo</code> 文件夹，做一些简单的初始化信息，并本地安装 <code>webpack</code>，此时项目中没有 webpack 配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir webpack-4-demo</span><br><span class="line"><span class="built_in">cd</span> webpack-4-demo</span><br><span class="line">yarn init -y</span><br><span class="line">yarn add webpack --dev</span><br></pre></td></tr></table></figure>
+<p>修改 <code>package.json</code> 文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "build": "webpack"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn build</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>过程中会提示是否安装 <code>webpack-cli</code> 直接敲 <code>yes</code> 即可。</p>
+</blockquote>
+<p>此时控制台执行结果会有如下报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ERROR <span class="keyword">in</span> Entry module not found: Error: Can<span class="string">'t resolve '</span>./src<span class="string">' in '</span>/Users/xxxx/webpack-4-demo<span class="string">'</span></span><br><span class="line"><span class="string">npm ERR! code ELIFECYCLE</span></span><br><span class="line"><span class="string">npm ERR! errno 2</span></span><br><span class="line"><span class="string">npm ERR! webpack-4-demo@1.0.0 build: `webpack`</span></span><br><span class="line"><span class="string">npm ERR! Exit status 2</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：我们目前没有写任何配置文件，但 Webpack 仍会提示没有找到 <code>./src</code> 目录下 module。自 v4.0 开始已经 Webpack 可以自动在不配置 entry 的情况下自动检索项目文件夹中 src 目录下的 js 文件作为入口文件进行编译了。</p>
+</blockquote>
+<p>接下来我们按照错误提示，在目录下创建 <code>src</code> 文件夹，并且新建一个文件 <code>index.js</code> 并且输入内容 <code>console.log(&#39;hello webpack 4&#39;)</code>，再次运行 <code>yarn build</code>。</p>
+<p>这时可以看到编译成功，项目目录下多出一个 <code>dist</code> 文件夹，我们事先也并没有配置 <code>output</code> 输出指向，<code>Webpack</code> 默认将 bundle 好的内容，放在了 dist 文件夹内。</p>
+<p>在执行成功的过程中，有一处警告提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WARNING <span class="keyword">in</span> configuration</span><br><span class="line">The <span class="string">'mode'</span> option has not been <span class="built_in">set</span>, webpack will fallback to <span class="string">'production'</span> <span class="keyword">for</span> this value. Set <span class="string">'mode'</span> option to <span class="string">'development'</span> or <span class="string">'production'</span> to <span class="built_in">enable</span> defaults <span class="keyword">for</span> each environment.</span><br><span class="line">You can also <span class="built_in">set</span> it to <span class="string">'none'</span> to <span class="built_in">disable</span> any default behavior. Learn more: https://webpack.js.org/concepts/mode/</span><br></pre></td></tr></table></figure>
+<p>回过头查看刚刚编译好的 <code>main.js</code> 文件，该文件已经直接被压缩好的，且可在生产模式下运行。</p>
+<p>警告中提到的<code>mode</code> 就是 Webpack 4 新增的一个配置，具体内容可以见下面链接，以及笔者之前的翻译文章。</p>
+<ul>
+<li><a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">【原文】Webpack 4 mode and optimization</a></li>
+<li><a href="/2018/04/18/blog-translate-webpack-4-mode-and-optimization/">【译】Webpack 4 mode and optimization</a></li>
+</ul>
+<p>当然，也可以通过 <code>--mode</code> 选项来手动选择 bundle 的模式，比如 <code>webpack --mode development</code>。</p>
+<p>自此，如果你的项目 src 目录下的内容需要 Webpack 帮你编译，输出在 dist 目录，Webpack 几乎零配置就可以直接“胜任”了。</p>
+<h2 id="Webpack-4-x-amp-React-16-x"><a href="#Webpack-4-x-amp-React-16-x" class="headerlink" title="Webpack 4.x &amp; React 16.x"></a>Webpack 4.x &amp; React 16.x</h2><p>上一节简单介绍了 V4.x <strong>“零”</strong>配置的基础应用。当然，实际工作中我们的项目都会比较复杂，上面的内容远不能满足我们的需求，下面我们就以一个 <code>React 16 &amp; Webpack 4</code> DEMO 项目为例，还原从零开始搭建基于 <code>Webpack</code> 打包编译项目的整个过程。</p>
+<blockquote>
+<p>Facebook 官方推出的 <code>create-react-app</code> 工具已经非常好用，但仍然需要做一些修改才可以满足实际项目上线的需求，同时我们仍希望有更多所谓<strong>个性化</strong>设置来支持项目，且截至到今天 <code>cra</code> 使用 webpack 3.8 与我们本文介绍 webpack 4 有出入，所以下面内容不再提及，对 <code>cra</code> 感兴趣的同学也可以自行搜索查看了解。</p>
+</blockquote>
+<h3 id="React-项目初始化"><a href="#React-项目初始化" class="headerlink" title="React 项目初始化"></a>React 项目初始化</h3><p>首先，重复上面介绍的步骤：（创建目录、安装 react、安装 webpack、安装 babel）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir react-webpack-demo</span><br><span class="line"><span class="built_in">cd</span> react-webpack-demo</span><br><span class="line"><span class="comment">## 初始化 package.json</span></span><br><span class="line">yarn init -y</span><br><span class="line"><span class="comment">## 安装 react</span></span><br><span class="line">yarn add react react-dom</span><br><span class="line"><span class="comment">## 安装 webpack</span></span><br><span class="line">yarn add webpack webpack-cli --dev</span><br><span class="line"><span class="comment">## 安装 babel</span></span><br><span class="line">yarn add @babel/core @babel/preset-env --dev</span><br><span class="line"><span class="comment">## 安装 babel-react</span></span><br><span class="line">yarn add @babel/preset-react <span class="string">"babel-loader@^8.0.0-beta"</span> --dev</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里使用 babel 转义，此处既可以在项目根目录下创建 <code>.babelrc</code> 文件，也可以稍后在 webpack.config.js 中配置，这里我们选择在后者统一配置。</p>
+</blockquote>
+<p>现在我们新建一个配置文件，<code>webpack.config.js</code> 代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">          options: &#123; <span class="comment">// babel 转义的配置选项</span></span><br><span class="line">            babelrc: <span class="literal">false</span>,</span><br><span class="line">            presets: [</span><br><span class="line">              <span class="built_in">require</span>.resolve(<span class="string">'@babel/preset-react'</span>),</span><br><span class="line">              [<span class="built_in">require</span>.resolve(<span class="string">'@babel/preset-env'</span>), &#123; <span class="attr">modules</span>: <span class="literal">false</span> &#125;],</span><br><span class="line">            ],</span><br><span class="line">            cacheDirectory: <span class="literal">true</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在 <code>src</code> 目录下创建 <code>App.jsx</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;Hello React and Webpack&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById("app"));</span></span><br></pre></td></tr></table></figure>
+<p>在 <code>src</code> 下新建 <code>index.jsx</code> 内容如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;</span><br></pre></td></tr></table></figure>
+<p>执行 <code>yarn build</code> 等待打包结果，此时目录 <code>dist</code> 下已经打包好 bundle。</p>
+<p>我们接着创建 html 文件，在 src 下创建 <code>index.html</code> :</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE HTML&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello React Webpack<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改 build 的配置，拷贝 html</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add html-webpack-plugin</span><br></pre></td></tr></table></figure>
+<p>修改上面的 config：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebPackPlugin = require("html-webpack-plugin");</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  mode: 'production',</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: ['.js', '.jsx'],</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.jsx?$/,</span><br><span class="line">        exclude: /node_modules/,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: 'babel-loader',</span><br><span class="line">          options: &#123;</span><br><span class="line">            babelrc: false,</span><br><span class="line">            presets: [</span><br><span class="line">              require.resolve('@babel/preset-react'),</span><br><span class="line">              [require.resolve('@babel/preset-env'), &#123; modules: false &#125;],</span><br><span class="line">            ],</span><br><span class="line">            cacheDirectory: true,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line"><span class="addition">+   new HtmlWebPackPlugin(&#123;</span></span><br><span class="line"><span class="addition">+     template: "src/index.html",</span></span><br><span class="line"><span class="addition">+     filename: "index.html"</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>执行 <code>yarn build</code> 就可以看到已经打包好的 index.html 和 bundle js 。</p>
+<h3 id="进入开发阶段"><a href="#进入开发阶段" class="headerlink" title="进入开发阶段"></a>进入开发阶段</h3><h4 id="dev-server"><a href="#dev-server" class="headerlink" title="dev-server"></a>dev-server</h4><p>通过 <code>webpack-dev-server</code> 搭建本地 server 服务，目前是通用的解决办法</p>
+<p>安装依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack-dev-server --dev</span><br></pre></td></tr></table></figure>
+<p>方便起见，我们在 <code>package.json</code> 的 scripts 中增加内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "start": "webpack-dev-server --mode development --open",</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行 <code>yarn start</code> 此时会运行一个 dev-server 服务，这样我们就能方便地在本地进行开发了。</p>
+<p>在开发中我们还有一些其他的需求，比如 <code>sourceMap</code> 、修改 dev-server 配置等，所以我们可以新建一个配置 <code>webpack.config.dev.js</code> ：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">const path = require('path');</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  mode: 'development',</span><br><span class="line"><span class="addition">+ devtool: 'cheap-module-source-map',</span></span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: ['.js', '.jsx'],</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ devServer: &#123;</span></span><br><span class="line"><span class="addition">+   contentBase: path.join(__dirname, "./src/"),</span></span><br><span class="line"><span class="addition">+   publicPath: '/',</span></span><br><span class="line"><span class="addition">+   host: '127.0.0.1',</span></span><br><span class="line"><span class="addition">+   port: 3000,</span></span><br><span class="line"><span class="addition">+   stats: &#123;</span></span><br><span class="line"><span class="addition">+     colors: true,</span></span><br><span class="line"><span class="addition">+   &#125;,</span></span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.jsx?$/,</span><br><span class="line">        exclude: /node_modules/,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: 'babel-loader',</span><br><span class="line">          options: &#123; // babel 转义的配置选项</span><br><span class="line">            babelrc: false,</span><br><span class="line">            presets: [</span><br><span class="line">              require.resolve('@babel/preset-react'),</span><br><span class="line">              [require.resolve('@babel/preset-env'), &#123; modules: false &#125;],</span><br><span class="line">            ],</span><br><span class="line">            cacheDirectory: true,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new HtmlWebPackPlugin(&#123;</span><br><span class="line">      template: 'src/index.html',</span><br><span class="line">      filename: 'index.html',</span><br><span class="line"><span class="addition">+     inject: true,</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>修改 <code>package.json</code> 中 scripts 执行所需要执行的配置文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "start": "webpack-dev-server --config './webpack.config.dev.js'"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新执行 <code>yarn start</code> 可以看到修改配置后的 dev-server</p>
+<h5 id="热更新-HMR"><a href="#热更新-HMR" class="headerlink" title="热更新 HMR"></a>热更新 HMR</h5><p>配置热更新就可以让我们在开发过程中，将修改后代码整页面无刷新且保持原有 state 的情况下直接反应到页面，下面我们继续修改 config.dev.js 并在 App.jsx 增加内容：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.dev.js config 部分</span><br><span class="line">devServer: &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ hot: true,</span></span><br><span class="line">  ...</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">// webpack.config.dev.js plugins 部分</span><br><span class="line">...</span><br><span class="line">plugins: [</span><br><span class="line"><span class="addition">+ new webpack.HotModuleReplacementPlugin(),</span></span><br><span class="line">  ...</span><br><span class="line">]</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// app.jsx 页面底部新增</span><br><span class="line">...</span><br><span class="line"><span class="addition">+ if (module.hot) &#123;</span></span><br><span class="line"><span class="addition">+  module.hot.accept((err) =&gt; &#123;</span></span><br><span class="line"><span class="addition">+    if (err) &#123;</span></span><br><span class="line"><span class="addition">+      console.error('Cannot apply HMR update.', err);</span></span><br><span class="line"><span class="addition">+    &#125;</span></span><br><span class="line"><span class="addition">+  &#125;);</span></span><br><span class="line"><span class="addition">+ &#125;</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>yarn start</code> 重新启动 server，每次修改代码后保存就可以看到控制台里重新编译的信息，浏览器中变化实际修改的内容了。</p>
+<h2 id="Webpack-4-x-amp-Vue-2-x"><a href="#Webpack-4-x-amp-Vue-2-x" class="headerlink" title="Webpack 4.x &amp; Vue 2.x"></a>Webpack 4.x &amp; Vue 2.x</h2><blockquote>
+<p>Vue 官方也推出 vue-cli 来帮助使用者快速创建项目，同时也是使用 webpack 4 来进行构建项目，通过阅读使用文档和源码，需要满足现有复杂项目的需求，我们可能也是不仅需要使用 –options 的方式同时还需要做一些定制的开发才可以，因此下面不再提及。</p>
+</blockquote>
+<h3 id="Vue-项目初始化"><a href="#Vue-项目初始化" class="headerlink" title="Vue 项目初始化"></a>Vue 项目初始化</h3><p>与 React 项目初始化一致（创建目录、安装 vue、安装 webpack、安装 babel）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir vue-webpack-demo</span><br><span class="line"><span class="built_in">cd</span> vue-webpack-demo</span><br><span class="line"><span class="comment">## 初始化 package.json</span></span><br><span class="line">yarn init -y</span><br><span class="line"><span class="comment">## 安装 webpack</span></span><br><span class="line">yarn add webpack webpack-cli --dev</span><br><span class="line"><span class="comment">## 安装 babel</span></span><br><span class="line">yarn add @babel/core @babel/preset-env --dev</span><br><span class="line"><span class="comment">## 安装 vue</span></span><br><span class="line">yarn add vue</span><br><span class="line"><span class="comment">## 安装 vue-loader</span></span><br><span class="line">yarn add vue-loader vue-template-compiler --dev</span><br></pre></td></tr></table></figure>
+<p>在 vue-webpack-demo 文件夹下，创建 <code>index.html</code> ：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE HTML&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Webpack Vue Demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>新建 src 目录，并新建 app.js 和 app.vue 文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./app.vue'</span></span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// app.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    Hello Vue &amp; Webpack</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下面来增加配置文件，<code>webpack.config.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> VueLoaderPlugin = <span class="built_in">require</span>(<span class="string">'vue-loader/lib/plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    alias: &#123;</span><br><span class="line">      <span class="string">'vue$'</span>: <span class="string">'vue/dist/vue.esm.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extensions: [<span class="string">'*'</span>, <span class="string">'.js'</span>, <span class="string">'.vue'</span>, <span class="string">'.json'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">'babel-loader'</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.vue$/</span>,</span><br><span class="line">        include: <span class="string">'/src/'</span>,</span><br><span class="line">        loader: <span class="string">'vue-loader'</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> VueLoaderPlugin(),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      filename: <span class="string">'index.html'</span>,</span><br><span class="line">      template: <span class="string">'index.html'</span>,</span><br><span class="line">      chunks: [<span class="string">'app'</span>, <span class="string">'manifest'</span>, <span class="string">'vendor'</span>],</span><br><span class="line">    &#125;);</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完成后执行 webpack 就可以看到 dist 下已经构建完成的项目。</p>
+<blockquote>
+<p>注意：vue-loader 已经更新到 v15.x ，与之前 14.x 配置方式有差异。</p>
+</blockquote>
+<p>用于开发 dev-server 配置与 React 基本一致，这里不重复。</p>
+<h2 id="实战内容经验积累"><a href="#实战内容经验积累" class="headerlink" title="实战内容经验积累"></a>实战内容经验积累</h2><p>下面的内容是在笔者积累的项目优化实战经验汇总。</p>
+<h3 id="提取公共依赖"><a href="#提取公共依赖" class="headerlink" title="提取公共依赖"></a>提取公共依赖</h3><p>为了减少一次请求文件体积过大，同时修改业务代码时不必要重复重新下载公共依赖代码，我们通常将公共依赖模块如 <code>react</code>、<code>react-dom</code>、<code>vue</code>、<code>axio</code> 等文件抽取出来独立打包。</p>
+<blockquote>
+<p>注意：<code>CommonsChunkPlugin</code> 在 4.0 中已经被 <code>optimization</code> 选项取代，不需要安装该插件就可以实现相同效果，见下面配置。</p>
+</blockquote>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mode: 'production',</span><br><span class="line">output: &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ chunkFilename: 'js/[name].[chunkhash:8].js',</span></span><br><span class="line">  ...</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">optimization: &#123;</span><br><span class="line">  nodeEnv: 'production',</span><br><span class="line">  ...</span><br><span class="line">  runtimeChunk: &#123;</span><br><span class="line">    name: 'manifest', // 运行时文件</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ splitChunks: &#123;</span></span><br><span class="line"><span class="addition">+   cacheGroups: &#123;</span></span><br><span class="line"><span class="addition">+     commons: &#123;</span></span><br><span class="line"><span class="addition">+       test: /[\\/]node_modules[\\/]/,</span></span><br><span class="line"><span class="addition">+       name: 'vendor', // 依赖第三方库要提取成名字是的 vendor 的文件</span></span><br><span class="line"><span class="addition">+       chunks: 'all', // 提取所有 chunks</span></span><br><span class="line"><span class="addition">+     &#125;,</span></span><br><span class="line"><span class="addition">+   &#125;,</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>通过上面的配置，可以将公共依赖和业务代码隔离开来。但是，也会存在一些<strong>隐患</strong>：</p>
+<ul>
+<li>随着项目复杂度增加，依赖库增多，<code>vendor.js</code> 的体积会越来越<strong>臃肿</strong></li>
+<li>多页面应用项目中，不同页面仍然会加载到在本页面根本无用的公共依赖的冗余代码</li>
+</ul>
+<p>所以具体项目需要通过具体的需求来抽离出不同的 <code>chunks</code> 来分别引用，按需引用。</p>
+<h3 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a>文件压缩</h3><p>配置 <code>mode: &#39;production&#39;</code> Webpack 会使用默认插件 <code>[UglifyJs](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)</code> 来进行压缩代码。</p>
+<p>官网提到在 <code>Webpack v4</code> 以前使用内置的 <code>webpack.optimize.UglifyJsPlugin</code> 插件，在 Webpack 4 以后，开始使用 ^1.0.0 独立的版本。</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="addition">+ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');</span></span><br><span class="line"><span class="addition">+ const os = require('os');</span></span><br><span class="line">...</span><br><span class="line">// webpack config</span><br><span class="line">optimization: &#123;</span><br><span class="line">  nodeEnv: 'production',</span><br><span class="line"><span class="addition">+ minimizer: [</span></span><br><span class="line"><span class="addition">+   new UglifyJsPlugin(&#123;</span></span><br><span class="line"><span class="addition">+     cache: true, // node_modules/.cache/uglifyjs-webpack-plugin</span></span><br><span class="line"><span class="addition">+     parallel: os.cpus().length, // 并行 default:true os.cpus().length - 1</span></span><br><span class="line"><span class="addition">+     uglifyOptions: &#123;</span></span><br><span class="line"><span class="addition">+       ecma: 5,</span></span><br><span class="line"><span class="addition">+       mangle: true,</span></span><br><span class="line"><span class="addition">+     &#125;,</span></span><br><span class="line"><span class="addition">+     sourceMap: false,</span></span><br><span class="line"><span class="addition">+   &#125;),</span></span><br><span class="line">  ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：4.0 版本压缩的代码已经放在 <code>optimization</code> 下 <code>minimizer</code> 节点下。<br>备注：关于 <code>parallel</code> 选项，新版的 uglifyjs 已经支持多核 CPU 并行执行，所以已经不需要 <code>webpack-parallel-uglify-plugin</code> 插件。</p>
+</blockquote>
+<h3 id="proxy-接口代理"><a href="#proxy-接口代理" class="headerlink" title="proxy 接口代理"></a>proxy 接口代理</h3><p>配合 dev-server 对代理本地启动的 server 某一域名进行代理，解决服务端接口暂时满足要求、本地请求跨域等问题。</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ proxy: &#123;</span></span><br><span class="line"><span class="addition">+   "/api": "https://localhost:3000",</span></span><br><span class="line"><span class="addition">+   changeOrigin: true, // 支持跨域请求</span></span><br><span class="line"><span class="addition">+   secure: true, // 支持 https</span></span><br><span class="line"><span class="addition">+ &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文档见<a href="https://webpack.js.org/configuration/dev-server/#devserver-proxy" target="_blank" rel="noopener">dev-server-proxy doc</a></p>
+<h3 id="支持多入口"><a href="#支持多入口" class="headerlink" title="支持多入口"></a>支持多入口</h3><p>虽然多数情况下，我们都在开发并且维护单页面的应用，但是当遇到需要多页面的时候，我们也希望在一个项目内进行构建，目前解决办法比较<strong>粗暴</strong>，当前有 n 个入口 html 就创建 n 个 <code>HtmlWebpackPlugin</code> 插件实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="comment">// 先找到项目指定目录下的所有 html 此处假设我们把入口 html 放在 src/html 下 app1.html、app2.html、app3.html</span></span><br><span class="line"><span class="keyword">const</span> appHtmlEntries = fs.readdirSync(resolveToAppRoot(<span class="string">'./src/html/'</span>))</span><br><span class="line">  .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.match(<span class="regexp">/\.html?$/</span>))</span><br><span class="line">  .reduce(<span class="function">(<span class="params">acc, p</span>) =&gt;</span> <span class="built_in">Object</span>.assign(acc, &#123; [path.basename(p).replace(<span class="regexp">/\.html?$/</span>, <span class="string">''</span>)]: path.join(resolveToAppRoot(<span class="string">'./src/html/'</span>), p) &#125;), &#123;&#125;);</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 每一个 html 创建一个 HtmlWebpackPlugin 实例</span></span><br><span class="line"><span class="built_in">Object</span>.keys(appHtmlEntries).forEach(<span class="function">(<span class="params">name</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> pluginHtml = <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">    filename: <span class="string">`<span class="subst">$&#123;name&#125;</span>.html`</span>,</span><br><span class="line">    template: <span class="string">`src/html/<span class="subst">$&#123;name&#125;</span>.html`</span>,</span><br><span class="line">    chunks: [<span class="string">`<span class="subst">$&#123;name&#125;</span>`</span>, <span class="string">'manifest'</span>, <span class="string">'vendor'</span>],</span><br><span class="line">    inject: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">  webpackConfig.plugins.push(pluginHtml);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="预编译-sass、引入-postcss、处理-css-压缩-和-文件分离"><a href="#预编译-sass、引入-postcss、处理-css-压缩-和-文件分离" class="headerlink" title="预编译 sass、引入 postcss、处理 css 压缩 和 文件分离"></a>预编译 sass、引入 postcss、处理 css 压缩 和 文件分离</h3><p>这里要注意 rules 中 loader 数组的顺序，由于 webpack 执行 rules 是从最后一个开始倒叙执行，所以我们配置的顺序也是：</p>
+<p>预编译 sass =&gt; 处理 postcss =&gt; 处理 css =&gt; 压缩并独立 css 文件</p>
+<p>升级到 4.0，已经<strong>不再使用</strong> <code>extract-text-webpack-plugin</code> 插件来进行文件抽取，改用 <code>MiniCssExtractPlugin</code> 插件，配合 <code>OptimizeCSSAssetsPlugin</code> 插件来压缩 css 文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> autoprefixer = <span class="built_in">require</span>(<span class="string">'autoprefixer'</span>);</span><br><span class="line"><span class="keyword">const</span> postcssFlexbugsFixes = <span class="built_in">require</span>(<span class="string">'postcss-flexbugs-fixes'</span>);</span><br><span class="line"><span class="keyword">const</span> MiniCssExtractPlugin = <span class="built_in">require</span>(<span class="string">'mini-css-extract-plugin'</span>);</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="comment">// rules 配置</span></span><br><span class="line">&#123;</span><br><span class="line">  test: <span class="regexp">/\.(css|sass|scss)$/</span>,</span><br><span class="line">  use: [</span><br><span class="line">    &#123;</span><br><span class="line">      loader: MiniCssExtractPlugin.loader, <span class="comment">// 这个 loader 放在最后一个执行，将编译好的 css 独立</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">require</span>.resolve(<span class="string">'css-loader'</span>),</span><br><span class="line">    &#123;</span><br><span class="line">      loader: <span class="built_in">require</span>.resolve(<span class="string">'postcss-loader'</span>),</span><br><span class="line">      options: &#123;</span><br><span class="line">        ident: <span class="string">'postcss'</span>,</span><br><span class="line">        plugins: <span class="function"><span class="params">()</span> =&gt;</span> [</span><br><span class="line">          postcssFlexbugsFixes,</span><br><span class="line">          autoprefixer(&#123;</span><br><span class="line">            browsers: [</span><br><span class="line">              <span class="string">'&gt;1%'</span>,</span><br><span class="line">              <span class="string">'last 4 versions'</span>,</span><br><span class="line">              <span class="string">'Firefox ESR'</span>,</span><br><span class="line">              <span class="string">'not ie &lt; 9'</span>,</span><br><span class="line">            ],</span><br><span class="line">            flexbox: <span class="string">'no-2009'</span>,</span><br><span class="line">          &#125;),</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">require</span>.resolve(<span class="string">'sass-loader'</span>),</span><br><span class="line">  ],</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">// optimization 配置</span></span><br><span class="line"><span class="keyword">const</span> OptimizeCSSAssetsPlugin = <span class="built_in">require</span>(<span class="string">'optimize-css-assets-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> cssnano = <span class="built_in">require</span>(<span class="string">'cssnano'</span>);</span><br><span class="line">...</span><br><span class="line">optimization: &#123;</span><br><span class="line">  nodeEnv: <span class="string">'production'</span>,</span><br><span class="line">  minimizer: [</span><br><span class="line">    <span class="keyword">new</span> OptimizeCSSAssetsPlugin(&#123;</span><br><span class="line">      assetNameRegExp: <span class="regexp">/\.css$/g</span>,</span><br><span class="line">      cssProcessor: cssnano, <span class="comment">// 默认使用 cssnano 处理 css</span></span><br><span class="line">      cssProcessorOptions: &#123;</span><br><span class="line">        reduceIdents: <span class="literal">false</span>, <span class="comment">// 禁止将 keyframes 自动更名</span></span><br><span class="line">        mergeIdents: <span class="literal">false</span>, <span class="comment">// 禁止自动合并 keyframes</span></span><br><span class="line">        discardUnused: <span class="literal">false</span>, <span class="comment">// 禁止移除掉未使用的 keyframes</span></span><br><span class="line">        autoprefixer: <span class="literal">false</span>, <span class="comment">// 禁止默认删除掉一些前缀，以减少兼容性的问题</span></span><br><span class="line">        zindex: <span class="literal">false</span>, <span class="comment">// 禁止自动转换 z-index</span></span><br><span class="line">        map: <span class="literal">false</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 独立 css 文件</span></span><br><span class="line">plugins: [</span><br><span class="line">  <span class="keyword">new</span> MiniCssExtractPlugin(&#123;</span><br><span class="line">    filename: <span class="string">'css/[name].[contenthash:8].css'</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<h3 id="支持-CDN-路径替换"><a href="#支持-CDN-路径替换" class="headerlink" title="支持 CDN 路径替换"></a>支持 CDN 路径替换</h3><p>可以将 html 中 css 和 js 的相对引用路径自动替换成配置的前缀路径，用来支持静态资源上线到具体指定的 CDN 路径来增加 app 内静态资源的下载速度。</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ publicPath: "https://...cdnpath.../assets/" // CDN 资源 URL 前缀</span></span><br><span class="line">  ...</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="生产环境的-source-map"><a href="#生产环境的-source-map" class="headerlink" title="生产环境的 source-map"></a>生产环境的 source-map</h3><p>有些时候我们会遇到在生产环境中代码出现问题的情况，而本地开发却不重现，这个时候 source-map 就成了辅助解决问题的一个有利的工具，具体见下面配置：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mode: 'production',</span><br><span class="line"><span class="addition">+ devtool: 'source-map',</span></span><br><span class="line">optimization: &#123;</span><br><span class="line">  nodeEnv: 'production',</span><br><span class="line">  minimizer: [</span><br><span class="line">    new UglifyJsPlugin(&#123;</span><br><span class="line">      ...</span><br><span class="line"><span class="addition">+     sourceMap: true,</span></span><br><span class="line">    &#125;),</span><br><span class="line">    new OptimizeCSSAssetsPlugin(&#123;</span><br><span class="line">      assetNameRegExp: /\.css$/g,</span><br><span class="line">      cssProcessor: cssnano,</span><br><span class="line">      // 默认使用 cssnano 处理 css，另外 clean-css 也提供相应的方案，但需要 4.2 版本才可用且质量和效率都没有得到验证，暂且不提</span><br><span class="line">      cssProcessorOptions: &#123;</span><br><span class="line">        ...</span><br><span class="line"><span class="addition">+       map: &#123; inline: false &#125; ,</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="处理图片资源"><a href="#处理图片资源" class="headerlink" title="处理图片资源"></a>处理图片资源</h3><p>下面是关键 <code>loaders</code> 但不会列出所有配置，内容略有差异，可以根据配置 limit 大小来控制图片转 base64 或压缩等。</p>
+<ul>
+<li><code>file-loader</code> 文件无处理，直接拷贝</li>
+<li><code>url-loader</code> 可以增加 base64 处理</li>
+<li><code>svg-url-loader</code> 处理 svg 文件，也同样支持 base64</li>
+<li><code>image-webpack-loader</code> 图片文件降质压缩</li>
+</ul>
+<h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><ul>
+<li><code>HashedModuleIdsPlugin</code> 使用更稳定的 moudle id 生成方式</li>
+<li><code>webpack.optimize.ModuleConcatenationPlugin</code> 插件已经不需要单独配置，Webpack 4 已经默认在生产模式下打包时内置开启优化</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote>
+<p><code>并不是每一个人都想成为 Webpack 配置工程师！</code></p>
+</blockquote>
+<p>上面引用一句我们“造轮子”时使用的一句 slogan。</p>
+<p>虽然 <code>Webpack 4</code> 还没有达到<em>开箱即用</em>的程度（当然，开箱即用也就意味着可配置的内容有所减少，这一定是一把双刃剑），况且开箱即用也并不是它的被创造出来的初衷，简单的配置无法满足项目中的实际需求，各种各样的配置和插件配合着形成解决各种问题的不同方案，只在很多次尝试后才能达到针对某一个项目项目<em>最优</em>的配置。</p>
+<p>然而，它<strong>只是一个工具</strong>，也许再过一段会有新的工具来取代 Webpack，But 既然你现在用到它，还是有必要花时间了解一下如何更好地让它为你、你的团队和你的项目来服务。</p>
+<p>关于 Webpack 4 的配置经验笔者也在摸着石头过这条小河，网上也有诸多优化和解决方案，我们造的轮子也需要更多的项目和时间来帮助其成长，文中并没有面面俱到地将所有配置详细说明，或者并不是所有配置都是最优选择，也欢迎私信留言讨论。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div style="text-align: center;">
+  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+</div>
+        
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a> <a class="tag tag--primary tag--small t-link" href="/tags/Vue/">Vue</a> <a class="tag tag--primary tag--small t-link" href="/tags/Webpack/">Webpack</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/vscode-extands-step-0/" data-tooltip="VSCode 插件开发急速入门" aria-label="上一篇: VSCode 插件开发急速入门">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/blog-translate-web-performance-optimization-with-webpack-from-google-webpack4/" data-tooltip="【译】Google 出品 - 利用 webpack 做 web 性能优化" aria-label="下一篇: 【译】Google 出品 - 利用 webpack 做 web 性能优化">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" data-tooltip="文章目录" aria-label="文章目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/vscode-extands-step-0/" data-tooltip="VSCode 插件开发急速入门" aria-label="上一篇: VSCode 插件开发急速入门">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/blog-translate-web-performance-optimization-with-webpack-from-google-webpack4/" data-tooltip="【译】Google 出品 - 利用 webpack 做 web 性能优化" aria-label="下一篇: 【译】Google 出品 - 利用 webpack 做 web 性能优化">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/something-about-webpack-4/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" data-tooltip="文章目录" aria-label="文章目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/something-about-webpack-4/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/something-about-webpack-4/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/something-about-webpack-4/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE@JD</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Beijing
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="没有找到文章"
+                data-message-one="找到 1 篇文章"
+                data-message-other="找到 {n} 篇文章">
+                找到 26 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://beanlee.github.io/posts/something-about-webpack-4/';
+                 
+                    this.page.identifier = 'posts/something-about-webpack-4/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
+
+
+    </body>
+</html>
