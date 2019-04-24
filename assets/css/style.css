@@ -5146,7 +5146,7 @@ a.fancybox {
       width: auto;
       max-width: 100%;
       margin: 1.5rem auto;
-      box-shadow: 2px 20px 40px 10px rgba(0, 0, 0, 0.15); }
+      /* box-shadow: 2px 20px 40px 10px rgba(0, 0, 0, 0.15); } */
   .post .post-footer {
     margin-top: 20px; }
     .post .post-footer-tags {
