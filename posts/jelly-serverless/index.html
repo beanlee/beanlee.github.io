@@ -248,7 +248,7 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     
     
         <div class="post-header main-content-wrap text-left">
@@ -300,7 +300,7 @@
 <li>SAAS：Software as a service 软件即服务，面向普通用户，用户只需要购买和使用软件就可以享受这种服务，像 Oracle 和用友财务软件、日常使用的 ERP 系统、办公自动化系统的软件等等，笔者之前所在的公司就是从事这类软件的研发，有固定的人群使用软件解决他们的问题。</li>
 </ul>
 <p>网络上关于这几种应用架构的区分有很多资料，这里借助一个很直观的披萨的例子来说明，如下图：</p>
-<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/35024/39/5041/47745/5cbfc883Ea64a9afb/cd6a453552a61863.jpg" alt=""></p>
+<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/35024/39/5041/47745/5cbfc883Ea64a9afb/cd6a453552a61863.jpg" alt></p>
 <p>目前尤其火热的是基于以 Docker 为主的容器技术的兴起来，它将整个应用拆分成独立的微小的部分，实现镜像备份、快速部署；但是当业务量逐渐增加，容器需要扩容需要形成集群，管理集群机器同样非常耗费人力；由 Google 开源的 Kubernetes（K8S）就是用来自动编排容器的利器。</p>
 <p>我们可以看到的是，软件应用架构在演进的过程中，一步一步地将硬件、资源、服务与开发分离开。</p>
 <h2 id="受限"><a href="#受限" class="headerlink" title="受限"></a>受限</h2><p>作为一名前端工程师，大家日常业务开发的工作内容是什么？</p>
@@ -312,7 +312,7 @@
 <p>现在请大家<strong>换一个角度思考</strong>，如果我们没有大厂的平台、如果我们正处创业初期的小公司、如果我们是一名独立开发者、如果没有从开发到部署的完善流程、没有 CDN、没有数据接口，我们要如何开发一个动态数据的网站或是一个独立的应用？</p>
 <p>有的朋友会说：“我可以写 NodeJS”。<strong>NodeJS</strong> 帮助我们这些善于写 JavaScript 代码的前端工程师，拓宽工作范围和内容，笔者所在的部门内部基于 NodeJS 开发系统和应用都是很好的例子，我们可以写越来越多的服务端逻辑，来直接提供服务。</p>
 <h3 id="同样困惑"><a href="#同样困惑" class="headerlink" title="同样困惑"></a>同样困惑</h3><p>那么，开发完成的 NodeJS 服务，在部署和运维阶段，如果不借助云服务，就会遇到和有着开发服务应用经历的服务端开发同学相同的困惑。要选什么样的容器作为载体，什么配置的硬件机器，几核 CPU、内存、网络带宽；如果选择要选择云服务商云主机，可能有的同学会考虑，去亚马逊、微软、Google Cloud、阿里云、腾讯云、新浪云、华为云、京东云等等这样云厂商这里“选购”各种让人眼花缭乱的“配置组合”的云主机，让人非常苦恼。</p>
-<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/31123/30/14938/62110/5cbfd86aE4d298c2d/e4d749fcf8bebbe9.png" alt=""></p>
+<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/31123/30/14938/62110/5cbfd86aE4d298c2d/e4d749fcf8bebbe9.png" alt></p>
 <p>既要为应用规模大小、扩容需求、安装哪一种操作系统、配合哪一种数据库、未来如何组成集群、如何做负载均衡、如何打通开发到部署流程等等等等问题而操心。即便是现在有 Docker、K8S 这样的容器技术和自动编排来辅助，他们虽然可以帮助你做到应用秒级部署，快速重复部署，也依然麻烦，仍然需要付出高昂地运维技术的学习成本，即便你是一个全能达人，你也需要花费大量的时间和精力去解决这些环境和资源的问题，这就对想快速实现一个点子开发出原型或者开发一个小型应用的你来说，像是拦在路上的不得不跨越的一座山，拖慢来你和你团队的行进速度。</p>
 <h3 id="利用率低下"><a href="#利用率低下" class="headerlink" title="利用率低下"></a>利用率低下</h3><p>绝大部分应用在云主机或虚拟机上线后，其 CPU 利用率、内存使用率、网络带宽的利用率都非常低，因为你在选购过程中就要为未来新增的流量做好缓冲，你的服务一旦 7X24 的上线运行，你就要为这些冗余的运行时产生的费用自掏腰包。我们现如今公司内部的基于私有云架构开发和部署也是如此的问题，都是需要开发者为这些运维相关的技术债务来埋单，有的同学也会经常收到自动监控系统发出的效率低的提示邮件。</p>
 <p>那么既然有这么多困难，我们前端工程师还有机会成为服务的生产者，而不单单是消费者吗？</p>
@@ -323,7 +323,7 @@
 <p>“无服务器架构是基于互联网的系统，其中应用开发不使用常规的服务进程。相反，它们仅依赖于第三方服务，客户端逻辑与托管远程服务之间的调用过程的组合。”</p>
 </blockquote>
 <p>这个概念在 2012 年由 iron.io 公司首先提出，而在 2014 年由 AWS 发布 <strong>Lambda</strong> 时正式商业化使用，目前 AWS 在云计算市场占有率高达 44%（2017 年数据）可以说是业界大佬，同时 Microsoft、Google、IBM 等国际大型 IT 公司都有对应的云产品；在国内，像京东云、阿里云、腾讯云、华为云也都提供了基础的功能，并且据说阿里内部正在力推适合的场景从其他框架向 Serverless 架构转变，从几个阿里前端的 BLOG 、讨论、以及业界大会分享主题来看，可以看到很多人在关注这种架构。</p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/32322/39/14955/68163/5cbfd8ceE6dca5aba/5ec35ad91a639b58.png" alt=""></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/32322/39/14955/68163/5cbfd8ceE6dca5aba/5ec35ad91a639b58.png" alt></p>
 <h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>支持 Serverless 架构的云厂商，允许使用者可以开发服务端逻辑，并将其放在无状态的云计算容器中，由事件来进行触发，其他完全交给云来管理。</p>
 <p>Serverless 分为两种：</p>
 <ul>
@@ -334,17 +334,17 @@
 <blockquote>
 <p>可以直接理解为：只有当你的函数执行的时候才会按照<code>运行次数</code>收费。</p>
 </blockquote>
-<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/35669/26/5049/41753/5cbfc82cE3dcdef5a/44cd5664334d3147.png" alt=""></p>
+<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/35669/26/5049/41753/5cbfc82cE3dcdef5a/44cd5664334d3147.png" alt></p>
 <p>事件触发，给大家举一个类似例子，有一款网络应用：</p>
 <p><strong>IFTTT</strong>：汇聚了世界各种有趣的 API ，通过触发一件、一件事来形成链式的调用完成有趣功能。比如，当你打一辆 Uber 回家的路上，当快到家附近的时候，它会自动触发家里的灯打开，空调开启；比如，你发布一个 Instagram Photo 会自动将图片存储到 Google Photo 或者同步到微博；诸如此类，都是当发生一个事件的时候才去触发下一个事件；FaaS 可以与 BaaS 通过事件订阅来做到联动。</p>
 <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p><code>AWS Lambda</code> <a href="https://amazonaws-china.com/cn/lambda/?nc2=h_m1" target="_blank" rel="noopener">官网文档</a> 和 <code>Google Cloud Functions</code> <a href="https://cloud.google.com/functions/use-cases/" target="_blank" rel="noopener">官网文档</a>，举了几个的应用场景，其中包括物联网 IoT、独立应用 、游戏后台服务引擎、 数据报表（定时）等等。</p>
 <p>貌似看上去离前端有些远，再举一个例子，去年微信小程序提出的云开发，我个人理解也是对 Serverless 的一次尝试，让拥有开发小程序的工程师，不必依赖传统服务端，而利用云存储、云数据库、云函数来实现自给自足。</p>
 <p>客户端开发，可以自行将数据、文件、信息同步到云端，而又不需要过于操心运维。</p>
 <h4 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h4><p>接触新技术时，工程师们总是喜欢从<code>Hello World</code>开始，这里我直接使用 serverless.com 中的 example，做了一个用于 TODO 应用的 server 端，适用 AWS 的 DynamoBD（NoSQL），拥有 CRUD 功能，整体代码也就只有 200+ 行。</p>
-<p><img src="https://img11.360buyimg.com/imagetools/jfs/t1/39852/25/2208/798984/5cbfc813Ef7ba456d/0841958f9f4ad1ba.png" alt=""></p>
-<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/30962/38/15042/925646/5cbfc807E3572f826/931728f36c3a020e.png" alt=""></p>
-<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/40122/31/2186/98044/5cbfc86cE71db4f20/d0f40086b6e6adb0.png" alt=""></p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/37237/34/5506/283277/5cbfc863Efe309042/627cbcbbd720df24.png" alt=""></p>
+<p><img src="https://img11.360buyimg.com/imagetools/jfs/t1/39852/25/2208/798984/5cbfc813Ef7ba456d/0841958f9f4ad1ba.png" alt></p>
+<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/30962/38/15042/925646/5cbfc807E3572f826/931728f36c3a020e.png" alt></p>
+<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/40122/31/2186/98044/5cbfc86cE71db4f20/d0f40086b6e6adb0.png" alt></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/37237/34/5506/283277/5cbfc863Efe309042/627cbcbbd720df24.png" alt></p>
 <p>如此以来，就拥有一个稳定的服务端 API，前端无论是使用原生、WEB、或者其他形式来调用这几个服务，这个应用的雏形就已经完成了。</p>
 <h3 id="FaaS-优势"><a href="#FaaS-优势" class="headerlink" title="FaaS 优势"></a>FaaS 优势</h3><p>目前 AWS Lambda 在市面上探索和发展的最好，<code>Lambda</code> 已经可以支持 Python、Java、Go、Ruby、.Net、NodeJS 和自建环境，这几个服务端语言都有自己擅长的场景和成熟的库，可以更方便地去助力完成数据计算、机器学习、图像处理等等工作。</p>
 <ul>
@@ -365,7 +365,7 @@
 </ul>
 <hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Serverless 架构带来的价值和挑战是并存的，国内的 Serverless 发展也在初期阶段，它改变了我们开发模式，也改变软件系统的一部分设计，未来发展的好坏，我们无法控制，但是我们可以保持关注，适当尝试。</p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/40014/2/2186/75810/5cbfc87cE68b55b7a/b38bd8b96f8d177f.jpg" alt=""></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/40014/2/2186/75810/5cbfc87cE68b55b7a/b38bd8b96f8d177f.jpg" alt></p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li><a href="https://aws.amazon.com/cn/serverless/" target="_blank" rel="noopener">https://aws.amazon.com/cn/serverless/</a></li>
 <li><a href="https://aws.amazon.com/cn/blogs/china/iaas-faas-serverless/" target="_blank" rel="noopener">https://aws.amazon.com/cn/blogs/china/iaas-faas-serverless/</a></li>
@@ -389,7 +389,7 @@
         
             <div style="text-align: center;">
   <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
 </div>
         
         
@@ -647,7 +647,7 @@
             <span class="close-button"><i class="fa fa-close"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+                <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
             </a>
             <i class="search-icon fa fa-search"></i>
             <form id="algolia-search-form">
@@ -887,13 +887,6 @@
         </script>
     
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
-    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-    <script>
-        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
-        var algoliaIndex = algoliaClient.initIndex('blog_index');
-    </script>
 
 
     </body>

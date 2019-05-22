@@ -249,7 +249,7 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     
     
         <div class="post-header main-content-wrap text-left">
@@ -290,7 +290,7 @@
 <a id="more"></a>
 <h2 id="云计算热度不再？"><a href="#云计算热度不再？" class="headerlink" title="云计算热度不再？"></a>云计算热度不再？</h2><p>当今社会技术热点，大家都在讨论的是区块链、AI、机器学习等等，但几年前大家追捧的<strong>云计算</strong>，经历了多年的发展，已经有了长足的进步，只是目前格局逐渐明朗，商业上也形成了几个梯队，云计算在助力前面所说的热点方面起着非常重要的作用。<strong>Serverless</strong> 作为云计算中逐渐崭露头角的一种方案，在圈中也是备受关注。</p>
 <h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><p>互联网公司内面向C端用户应用的开发，DevOps 文化盛行依旧，相信大家一定都不陌生（Development 和 Operations）。</p>
-<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/31478/20/14772/117378/5cbfc83cE3e54fd5c/a9c7bc3fc410fc83.png" alt=""></p>
+<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/31478/20/14772/117378/5cbfc83cE3e54fd5c/a9c7bc3fc410fc83.png" alt></p>
 <p>维基百科上解释它实际是一种重视开发人员与运维人员紧密沟通的文化和方法，通过自动化的软件交付和架构演进的流程，来使得构建、测试、发布软件变得更快捷、频繁和可靠。大家可以看这张图，这样的方案在很多公司逐渐地演变成迫使开发人员也要具备一些运维方向的知识，来配合运维同事实现快速迭代，实现流程的自动化等等。这在流程完善的大厂感受可能不是很深，因为我们分工明确，但是在有快速产品迭代计划的小团队或者创业公司就会感受很深。</p>
 <p>它的盛行导致一来是提高了对我们业务开发人员的要求，二来增加了整个软件应用交付的成本，尤其是现在的我们作为前端工程师，一旦开始写服务端代码，就要考虑机器成本，CPU占用，内存占用，数据存储，网络带宽，负载均衡等等问题。</p>
 <p>那么有没有办法去规避呢？让专业的运维人员去做呢？</p>
@@ -305,7 +305,7 @@
 <li>SAAS：Software as a service 面向普通用户，用户只需要购买和使用软件就可以享受这种服务，比如传统的财务软件，办公自动化系统等等。</li>
 </ul>
 <p>网上很多资料，大家都拿吃披萨来举例，如下图：</p>
-<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/35024/39/5041/47745/5cbfc883Ea64a9afb/cd6a453552a61863.jpg" alt=""></p>
+<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/35024/39/5041/47745/5cbfc883Ea64a9afb/cd6a453552a61863.jpg" alt></p>
 <h2 id="受限与NodeJS"><a href="#受限与NodeJS" class="headerlink" title="受限与NodeJS"></a>受限与NodeJS</h2><p>作为一名前端工程师，大家日常业务开发的工作内容是什么？</p>
 <p>用 HTML / CSS 去还原视觉稿、用 Javascript 去完成交互、调用 HTTP 数据接口，完成数据的展现和操作等等。最终测试完成，构建打包，部署CDN源站或者其他托管静态资源的系统完成上线。</p>
 <p>整个过程中我们只关注脚本和样式是在客户端运行良好，性能和兼容性是否达到比较好的一个平衡，往往对于后台提供的服务和数据能做的非常有限，只需要关注接口容灾、数据兜底、异常处理错误跳转等情况就可以比较好的完成所谓的前端工程师的工作职责。</p>
@@ -317,7 +317,7 @@
 <p>现在请大家<strong>换一个角度思考</strong>，如果我们没有大厂的平台、如果我们正处创业初期的小公司、如果我们是一名独立开发者、如果没有从开发到部署的完善流程、没有CDN、没有数据接口，我们要如何开发一个动态数据的网站或是一个独立的应用？</p>
 <p>我们可以说，我可以写 NodeJS，它帮助我们扩展了原来的前端工作范围，笔者所在的前端部门内部基于 NodeJS 开发系统和应用都是很好的例子，NodeJS 给予了可以写Javascript 代码的人更大的空间，我们可以写越来越多的服务端业务逻辑，来直接提供服务。</p>
 <h4 id="同样困惑"><a href="#同样困惑" class="headerlink" title="同样困惑"></a>同样困惑</h4><p>那么，开发好的 NodeJS 服务，放在哪里运行？这就又成了问题，有过自己开发类似系统经历的同学一定有这样的困惑，除了开发功能代码，还要纠结选什么样的机器，几核CPU，多大内存，网络带宽；如果开发独立的应用，需要购买云主机，去亚马逊、微软、Google、阿里云、腾讯云、京东云等等这样云厂商的选云主机的话更是纠结，超级多规格组合在一起，非常苦恼。</p>
-<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/31123/30/14938/62110/5cbfd86aE4d298c2d/e4d749fcf8bebbe9.png" alt=""></p>
+<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/31123/30/14938/62110/5cbfd86aE4d298c2d/e4d749fcf8bebbe9.png" alt></p>
 <p>因为做选择的时候，既要为应用规模大小、扩容需求、安装哪一种操作系统、配合哪一种数据库、未来如何组成集群、如何做负载均衡、如何打通开发到部署流程等等等等问题而操心。即便是现在有 Docker、K8S 这样的容器技术和自动编排来辅助，他们虽然可以帮助你做到应用秒级部署，快速重复部署，也依然麻烦，仍然需要付出高昂地运维技术的学习成本，即便你是一个全能达人，你也需要花费大量的时间和精力去解决这些环境和资源的问题，这就对想快速实现一个点子开发出原型或者开发一个小型应用的你来说，像是拦在路上的不得不跨越的一座山，拖慢来你和你团队的行进速度。</p>
 <p>还有一个问题，绝大部分应用上线云主机或虚拟机以后，主机或者容器的 CPU 利用率、内存使用率、网络带宽的利用率都非常低，因为你要为未来增加流量做 Buffer ，并且你需要为这些冗余的运行时自掏腰包，因为你的服务一旦上线就要 7X24 的运行。我们现如今公司内部的基于私有云架构开发和部署也是如此的问题，都是需要开发者为这些运维相关的技术债务来埋单。</p>
 <p>那么既然有这么多困难，我们前端工程师还有机会成为服务的生产者，而不单单是消费者吗？</p>
@@ -328,7 +328,7 @@
 <p>“无服务器架构是基于互联网的系统，其中应用开发不使用常规的服务进程。相反，它们仅依赖于第三方服务，客户端逻辑与托管远程服务之间的调用过程的组合。”</p>
 </blockquote>
 <p>首先这个概念是在2012年由iron.io公司提出，而在2014年由 AWS 发布 Lambda 时正式商业化使用，目前 AWS 在云计算市场占有率高达44%（2017年数据），同时Microsoft、Google、IBM 都有对应的云产品，在国内，像 JDCloud、Aliyun、Tencent Cloud 也都提供了基础的功能，并且据说阿里内部正在力推适合的场景从旧框架向 Serverless 架构转变，从几个阿里前端的 BLOG 可以看到大家在关注和讨论这项技术对于前端会有什么影响。</p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/32322/39/14955/68163/5cbfd8ceE6dca5aba/5ec35ad91a639b58.png" alt=""></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/32322/39/14955/68163/5cbfd8ceE6dca5aba/5ec35ad91a639b58.png" alt></p>
 <h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>支持 Serverless 架构的云厂商，允许我们可以开发服务端逻辑放在无状态的云计算容器中，由事件来进行触发，其他完全交给云来管理。</p>
 <p>Serverless 目前分为两种：</p>
 <ul>
@@ -336,17 +336,17 @@
 <li><code>FAAS（Functions as a Service 函数即服务）</code>服务商提供一个平台，允许用户自己开发、运行和管理这些函数的功能，而无需搭建和维护基础框架。这是我们关注的重点。</li>
 </ul>
 <h3 id="FaaS"><a href="#FaaS" class="headerlink" title="FaaS"></a>FaaS</h3><p><code>FaaS</code> 本质上是一种事件驱动的由消息触发的服务，FaaS 厂商一般都会集成各种同步或者异步的事件源，通过订阅这些事件，从而达到触发或者定时触发来运行函数。FaaS 允许我们上传一个完整函数的代码片段，这个函数提供单一的无状态的服务，当事件触发执行这个函数的时候，它就会启动并开始执行，完成后等着被销毁，不存在上下文信息和状态。换言之，就是如果函数不运行，这个实例就不存在，比如你购买的云服务实际就并没有进行计费，只有当你执行的时候才会按照函数运行<code>次数收费</code>。</p>
-<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/35669/26/5049/41753/5cbfc82cE3dcdef5a/44cd5664334d3147.png" alt=""></p>
+<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/35669/26/5049/41753/5cbfc82cE3dcdef5a/44cd5664334d3147.png" alt></p>
 <p>事件触发，给大家举一个类似例子，有一款网络应用：</p>
 <p><strong>IFTTT</strong>：汇聚了世界各种有趣的 API ，通过触发一件、一件事来形成链式的调用完成有趣功能。比如你打Uber，当快到家附近的时候，它会自动触发家里的灯打开，空调开启；比如你发布一个 Instagram Photo 会自动将图片存储到 Google Photo 或者同步到微博；诸如此类，都是当发生一个事件的时候才去触发下一个事件；</p>
 <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p><code>AWS Lambda</code> <a href="https://amazonaws-china.com/cn/lambda/?nc2=h_m1" target="_blank" rel="noopener">官网文档</a> 和 <code>Google Cloud Functions</code> <a href="https://cloud.google.com/functions/use-cases/" target="_blank" rel="noopener">官网文档</a>，举了几个很贴切的例子。物联网IoT、独立应用、游戏后台服务引擎、数据报表（定时）等等。</p>
 <p>貌似看上去离前端有些远，再举一个例子，去年微信小程序提出的云开发，就是一次 Serverless 的尝试，让可以写小程序的开发，不必等服务端，而自己利用云存储、云数据库、云函数来自给自足。</p>
 <p>客户端开发，可以自行将数据、文件、信息同步到云端，而又不需要过于操心运维。</p>
 <h4 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h4><p>接触一个新事物，总需要从<code>Hello World</code>，这里我直接使用 serverless.com 中的 example，做了一个用于 TODO 应用的 server 端，适用 AWS 的DynamoBD（NoSQL），拥有CRUD功能，整体代码也就只有200+行。</p>
-<p><img src="https://img11.360buyimg.com/imagetools/jfs/t1/39852/25/2208/798984/5cbfc813Ef7ba456d/0841958f9f4ad1ba.png" alt=""></p>
-<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/30962/38/15042/925646/5cbfc807E3572f826/931728f36c3a020e.png" alt=""></p>
-<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/40122/31/2186/98044/5cbfc86cE71db4f20/d0f40086b6e6adb0.png" alt=""></p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/37237/34/5506/283277/5cbfc863Efe309042/627cbcbbd720df24.png" alt=""></p>
+<p><img src="https://img11.360buyimg.com/imagetools/jfs/t1/39852/25/2208/798984/5cbfc813Ef7ba456d/0841958f9f4ad1ba.png" alt></p>
+<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/30962/38/15042/925646/5cbfc807E3572f826/931728f36c3a020e.png" alt></p>
+<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/40122/31/2186/98044/5cbfc86cE71db4f20/d0f40086b6e6adb0.png" alt></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/37237/34/5506/283277/5cbfc863Efe309042/627cbcbbd720df24.png" alt></p>
 <h3 id="函数优势"><a href="#函数优势" class="headerlink" title="函数优势"></a>函数优势</h3><p>举例 AWS Lambda 支持 Python、Java、Go、Ruby、.Net、NodeJS 和自建环境，因为这些服务端语言都有自己擅长的场景和成熟的库，可以更方便地去助力完成数据计算、机器学习、图像处理等等工作。</p>
 <hr>
 <h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
@@ -369,7 +369,7 @@
 </blockquote>
 <hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Serverless 架构带来的价值和挑战是并存的，国内的 Serverless 发展也在初期阶段，它改变了我们开发模式，也改变软件系统的一部分设计，未来发展的好坏，我们无法控制，但是我们可以保持关注，适当尝试。</p>
-<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/40014/2/2186/75810/5cbfc87cE68b55b7a/b38bd8b96f8d177f.jpg" alt=""></p>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/40014/2/2186/75810/5cbfc87cE68b55b7a/b38bd8b96f8d177f.jpg" alt></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="https://aws.amazon.com/cn/serverless/" target="_blank" rel="noopener">https://aws.amazon.com/cn/serverless/</a></li>
 <li><a href="https://aws.amazon.com/cn/blogs/china/iaas-faas-serverless/" target="_blank" rel="noopener">https://aws.amazon.com/cn/blogs/china/iaas-faas-serverless/</a></li>
@@ -392,7 +392,7 @@
         
             <div style="text-align: center;">
   <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
 </div>
         
         
@@ -652,7 +652,7 @@
             <span class="close-button"><i class="fa fa-close"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+                <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
             </a>
             <i class="search-icon fa fa-search"></i>
             <form id="algolia-search-form">
@@ -892,13 +892,6 @@
         </script>
     
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
-    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-    <script>
-        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
-        var algoliaIndex = algoliaClient.initIndex('blog_index');
-    </script>
 
 
     </body>

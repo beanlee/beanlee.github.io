@@ -244,7 +244,7 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     
     
         <div class="post-header main-content-wrap text-left">
@@ -312,7 +312,7 @@
 <h3 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h3><p>执行下面代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo code</span><br></pre></td></tr></table></figure>
 <p>执行后会提示几个问题，第一个问题我们选择 <code>New Extension (JavaScript)</code>，其他正常填写即可。（可以使用 yo code 来创建插件、主题、代码片段、语言支持、键盘映射、插件包，本文我们只讨论插件，其他暂且放在一边。）</p>
-<p><img src="https://img30.360buyimg.com/uba/jfs/t20848/320/1132999703/64245/a47741fc/5b20d75eN83303d8b.png" alt=""></p>
+<p><img src="https://img30.360buyimg.com/uba/jfs/t20848/320/1132999703/64245/a47741fc/5b20d75eN83303d8b.png" alt></p>
 <p>填写完成后，会自动创建文件夹并帮助初始化完成文件，我们先看下目录结构。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CHANGELOG.md <span class="comment">## 修改记录</span></span><br><span class="line">├── README.md <span class="comment">## 插件说明 README</span></span><br><span class="line">├── extension.js <span class="comment">## 入口</span></span><br><span class="line">├── jsconfig.json <span class="comment">## JavaScript 配置</span></span><br><span class="line">├── node_modules <span class="comment">## 依赖</span></span><br><span class="line">├── package-lock.json</span><br><span class="line">├── package.json</span><br><span class="line">├── <span class="built_in">test</span></span><br><span class="line">└── vsc-extension-quickstart.md</span><br></pre></td></tr></table></figure>
 <p>熟悉的项目文件结构，直接查看 <code>vsc-extension-quickstart.md</code> 这个文档，文中提到 <code>package.json</code> 声明当前插件和命令的配置文件，用来注册命令等配置；<code>extension.js</code> 是主入口文件，插件的具体实现代码可以放在这里；</p>
@@ -323,9 +323,9 @@
 <p>OK，下面我们来进一步实现我们的功能，调取天气 API 数据，展示。</p>
 <figure class="highlight javascript"><figcaption><span>extension.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vscode = <span class="built_in">require</span>(<span class="string">'vscode'</span>);</span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">'axios'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">activate</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> cityAqi = vscode.commands.registerCommand(<span class="string">'extension.sayCityAqi'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> options = &#123;</span><br><span class="line">      ignoreFocusOut: <span class="literal">true</span>,</span><br><span class="line">      password: <span class="literal">false</span>,</span><br><span class="line">      prompt: <span class="string">"Please type your city (eg.beijing or 北京)"</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    vscode.window.showInputBox(options).then(<span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (value === <span class="literal">undefined</span> || value.trim() === <span class="string">''</span>) &#123;</span><br><span class="line">        vscode.window.showInformationMessage(<span class="string">'Please type your city.'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> cityName = value.trim();</span><br><span class="line">          <span class="comment">// appkey=xxxxxxxx 替换成事先申请好的 key</span></span><br><span class="line">          axios.get(<span class="string">`https://way.jd.com/he/freeweather?city=<span class="subst">$&#123;cityName&#125;</span>&amp;appkey=xxxxxxxx`</span>)</span><br><span class="line">            .then(<span class="function">(<span class="params">rep</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="keyword">if</span>(rep.data.code !== <span class="string">'10000'</span>) &#123;</span><br><span class="line">                vscode.window.showInformationMessage(<span class="string">'Sorry, Please try again.'</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">const</span> weatherData = rep.data.result.HeWeather5[<span class="number">0</span>]</span><br><span class="line">              <span class="keyword">if</span>(weatherData.status !== <span class="string">'ok'</span>) &#123;</span><br><span class="line">                vscode.window.showInformationMessage(<span class="string">`Sorry, <span class="subst">$&#123;weatherData.status&#125;</span>`</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              vscode.window.showInformationMessage(<span class="string">`<span class="subst">$&#123;weatherData.basic.city&#125;</span> 's AQI =&gt; PM25: <span class="subst">$&#123;weatherData.aqi.city.pm25&#125;</span>, PM10: <span class="subst">$&#123;weatherData.aqi.city.pm10&#125;</span> <span class="subst">$&#123;weatherData.aqi.city.qlty&#125;</span>`</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  context.subscriptions.push(cityAqi);</span><br><span class="line">&#125;</span><br><span class="line">exports.activate = activate;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method is called when your extension is deactivated</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deactivate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">exports.deactivate = deactivate;</span><br></pre></td></tr></table></figure>
 <p>Tadaaa，简单的功能就完成了！:P</p>
-<p><img src="https://img10.360buyimg.com/uba/jfs/t21937/257/1227805321/92154/d99f4ec1/5b2231f3N66d25b0d.gif" alt=""></p>
+<p><img src="https://img10.360buyimg.com/uba/jfs/t21937/257/1227805321/92154/d99f4ec1/5b2231f3N66d25b0d.gif" alt></p>
 <p>代码中用到了两个 vscode windows 的 api，<em>showInputBox</em> 和 <em>showInformationMessage</em> 更多 API 详见<a href="https://code.visualstudio.com/docs/extensionAPI/vscode-api" target="_blank" rel="noopener">链接</a></p>
-<p><img src="https://img20.360buyimg.com/uba/jfs/t23665/363/2293286/276483/f4555655/5b224074Ne999cf65.png" alt=""></p>
+<p><img src="https://img20.360buyimg.com/uba/jfs/t23665/363/2293286/276483/f4555655/5b224074Ne999cf65.png" alt></p>
 <p>可以看到 API 包含了很多信息，所以可以做的事还可以很多 :)</p>
 <h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vsce</span><br></pre></td></tr></table></figure>
 <p>发布前我们可以把开发好的插件打包成 <code>.vsix</code> 文件，提供给身边的小伙伴试用一下。</p>
@@ -337,13 +337,13 @@
 <h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>详细完善过 README.md 和 CHANGELOG.md 并且删除了一些冗余的文件，你就可以将插件发布到微软的插件市场 Extension Marketplace 供他人下载使用了。</p>
 <p>在发布插件之前，首先，获取 token，登录 <a href="https://docs.microsoft.com/vsts/accounts/create-account-msa-or-work-student" target="_blank" rel="noopener">Visual Studio Team Services</a> 注册并登录账户，在 Security 中找到 Personal access tokens 新建一个 token。回到命令行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vsce create-publisher xxxx</span><br></pre></td></tr></table></figure>
-<p><img src="https://img14.360buyimg.com/uba/jfs/t21880/250/1201945807/26913/9c7e96d9/5b2240beNfc0ae8a5.png" alt=""></p>
+<p><img src="https://img14.360buyimg.com/uba/jfs/t21880/250/1201945807/26913/9c7e96d9/5b2240beNfc0ae8a5.png" alt></p>
 <blockquote>
 <p>完成后不需要重新 login ，因为 vsce 已经帮你记录当前的 publisher。</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vsce publish</span><br><span class="line">Publishing city-aqi@0.0.1...</span><br><span class="line">Successfully published city-aqi@0.0.1!</span><br></pre></td></tr></table></figure>
 <p>ALL Done 🎉 </p>
-<p><img src="https://img14.360buyimg.com/uba/jfs/t23941/205/2220837/339379/fbe1b654/5b224350Nc2e1c2d4.png" alt=""></p>
+<p><img src="https://img14.360buyimg.com/uba/jfs/t23941/205/2220837/339379/fbe1b654/5b224350Nc2e1c2d4.png" alt></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://code.visualstudio.com/docs/extensions/overview" target="_blank" rel="noopener">官网文档 https://code.visualstudio.com/docs/extensions/overview</a></li>
 <li><a href="https://code.visualstudio.com/docs/extensionAPI/vscode-api" target="_blank" rel="noopener">vscode-api https://code.visualstudio.com/docs/extensionAPI/vscode-api</a></li>
@@ -362,7 +362,7 @@
         
             <div style="text-align: center;">
   <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt="">
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
 </div>
         
         
@@ -622,7 +622,7 @@
             <span class="close-button"><i class="fa fa-close"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
-                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+                <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
             </a>
             <i class="search-icon fa fa-search"></i>
             <form id="algolia-search-form">
@@ -862,13 +862,6 @@
         </script>
     
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
-    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-    <script>
-        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
-        var algoliaIndex = algoliaClient.initIndex('blog_index');
-    </script>
 
 
     </body>
