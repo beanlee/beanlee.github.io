@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"\n笔者最近在整理前段时间接手的其他团队的 RN 项目代码，在梳理项目中旧代码过程中，对 React 中 State Store Static This 产生疑惑，借此翻译这篇文章解惑，也分享给各位。\n\n原文 https://medium.freecodecamp.org/where-do-i-belong-a-guide-to-saving-react-component-data-in-state-store-static-and-this-c49b335e2a00\n发表时间 2016-08\n作者 Sam Corcos\n\nWhere to Hold React Component Data: state, store, static, and this\nWith the advent of React and Redux, a common question has emerged:\n\nWhat should I hold in the Redux store, and what should I save in local state?\n\n\n在开发 React 和 Redux 项目时，经常会被问到一个问题？\n\n我应该把什么维护在 Redux Store 中？我该在 Local state 中保存什么？\n\n\nBut this question is actually too simplistic, because there are also two other ways you can store data for use in a component: static and this.Let’s go over what each of these, and when you should use them.\n\n然而问题非常简单，因为在 component 中你可以使用两种其他的方式储存数据：static 和 this。\n让我们一起来详细了解下如何使用。\nLocal state 组件的本地状态\nWhen React was first introduced, we were presented with local state. The important thing to know about local state is that when a state value changes, it triggers a re-render.This state can be passed down to children as props, which allows you to separate your components between smart data-components and dumb presentational-components if you chose.\n\nReact 刚刚面世之初，我们就注意到 local state。每当 state 值发生变化，都会触发组件重新 render，因此了解 state 是非常重要的。\n当前组件的 state 会被当做 props 传递到子组件中，这个 props 允许你在数据组件和描绘型组件之间做出区分。\n下面一个简单的使用 local state 计数 App 例子：\n1234567891011121314151617181920212223242526272829import React from 'react'class App extends React.Component &#123;  constructor(props) &#123;    super(props)    this.state = &#123;      counter: 0    &#125;    this.addOne = this.addOne.bind(this)  &#125;  addOne() &#123;    this.setState(&#123;      counter: this.state.counter + 1    &#125;)  &#125;  render() &#123;    return (      &lt;div&gt;        &lt;button          onClick=&#123; this.addOne &#125;&gt;          Increment        &lt;/button&gt;        &#123; this.state.counter &#125;      &lt;/div&gt;    )  &#125;&#125;\n\nYour data (the value of the counter) is stored within the App component, and can be passed down its children.\n\nApp 组件中数据被储存其中，并可以向子组件进行传递。\nUse cases\nAssuming your counter is important to your app, and is storing data that would be useful to other components, you would not want to use local state to keep this value.The current best practice is to use local state to handle the state of your user interface (UI) state rather than data. For example, using a controlled component to fill out a form is a perfectly valid use of local state.Another example of UI data that you could store in local state would be the currently selected tab from a list of options.\n\n假设计数器 Couter 对于 App 很重要，并且它正在存储其他组件的重要数据，你不会希望使用 local state 来保存数据的。\n目前最佳实践是使用 local state 来处理 UI 的状态，不是使用数据。比如，使用 Controlled Components  去实现一个 form 表单时使用 local state 是非常合理的。\nUI 数据的另外一个例子，可以在 local state 中存储备选 options 列表中已选中的选项。\n\nA good way to think about when to use local state is to consider whether the value you’re storing will be used by another component. If a value is specific to only a single component (or perhaps a single child of that component), then it’s safe to keep that value in local state.\n\n\nTakeaway: keep UI state and transitory data (such as form inputs) in local state.\n\n思考何时使用 local state 一个好方法，是考虑兼顾你正在存储的值是否会被另外一个组件使用到。如果这个值非常明确地只在单一组件（或单一子组件）中出现，那么将它保存在 local state 中就是非常安全的做法。\nTakeaway：可以将 UI 状态和临时数据（form 表单输入数据）保存在 local state。\nRedux store\nThen after some time had elapsed and everyone started getting comfortable with the idea of unidirectional data flow, we got Redux.\n\n\nWith Redux, we get a global store. This store lives at the highest level of your app and passes data down to all children. You connect to the global store with the connect wrapper and a mapStateToProps function.\n\n随着时间流逝，大家都在习惯这种单向数据流的思想，随着出现了 Redux。\n在 Redux 中，我们有一个全局的 store，它在 App 中处于最高层级，可以将数据传递到所有子组件中。你可以使用 connect 和 mapStateToProps 方法将全局 store 和你的组件链接起来已获取数据。\n\nAt first, people put everything in the Redux store. Users, modals, forms, sockets… you name it.\n\n\nBelow is the same counter app, but using Redux. The important thing to note is that counter now comes from this.props.counter after being mapped from mapStateToProps in the connect function, which takes the counter value from the global store and maps it to the current component’s props.\n\n期初，人们把所有的东西都塞进 Redux store 中。\n下面是刚刚那个计数器，区别是使用了 Redux。要点是计数器在通过 connect 方法 mapStateToProps 映射之后获取 this.props.counter，这个值是从全局 store 中获取到并映射到当前组件的 props 中的。\n12345678910111213141516171819202122232425262728293031323334import React from 'react'import &#123; connect &#125; from 'react-redux'import Actions from './Actions.js'class App extends React.Component &#123;  constructor(props) &#123;    super(props)    this.addOne = this.addOne.bind(this)  &#125;  addOne() &#123;    this.props.dispatch(Actions.addOne())  &#125;  render() &#123;    return (      &lt;div&gt;        &lt;button          onClick=&#123; this.addOne &#125;&gt;          Increment        &lt;/button&gt;        &#123; this.props.counter &#125;      &lt;/div&gt;    )  &#125;&#125;const mapStateToProps = store =&gt; &#123;  return &#123;    counter: store.counter  &#125;&#125;export default connect(mapStateToProps)(App)\n\nNow when you click on the button, an action is dispatched and the global store is updated. The data is handled outside of our local component and is passed down.\n\n\nIt’s worth noting that when props are updated, it also triggers a re-render—just like when you update state.\n\n当你点击按钮，与此链接的 action 就会被触发，同时全局的 store 就会更新。这样我们本地组件外层的数据就被操作并传递下去。\nprops 更新是没有副作用的，只有当你更新 state 时才会触发重新渲染。\nUse cases\nThe Redux store is great for keeping application state rather than UI state. A perfect example is a user’s login status. Many of your components will need access to this information, and as soon as the login status changes, all of those components (the ones that are rendered, at least) will need to be re-rendered with the updated information.\n\n\nRedux is also useful for triggering events for which you need access on multiple components or across multiple routes. An example of this would be a login modal, which can be triggered by a multitude of buttons all across your app. Rather than conditionally rendering a modal in a dozen places, you can conditionally render it at the top-level of your app and use a Redux action to trigger it by changing a value in the store.\n\n\nTakeaway: keep data that you intend to share across components in store.\n\nRedux 中 store 应该维护应用的数据状态而不是 UI 的状态。用户登录数据状态就是另外一个例子。只要登录状态改变，项目中多数组件将需要访问这个登录信息，随着信息的更新，这些获取到信息更新的组件就都会重新 render。\nRedux 通常也用于事件的触发，这些事件可能是横跨多个组件或者横跨多个路由。再以登录模块举例，可以在整个应用中来触发多个事件。你可以在应用的顶层，通过使用 Redux 对 store 进行修改，并使用 action 来触发条件渲染，而不是去不同地方去单独条件渲染。\nTakeaway: 可以尝试在跨组件共享数据时，将数据保存进 store 。\nthis\nOne of the least utilized features when working with React is this. People often forget that React is just JavaScript with ES2015 syntax. Anything you can do in JavaScript, you can also do in React.\n\n\nThe example below is a functional counter app, similar to the two examples above.\n\n在 React 众多特性中 this 就是其中之一。大家通常忘记一件事，就是 React 恰恰是使用 ES2015 语法的 Javascript 实现的。任何在 Javascript 可以完成的事情，同样可以放在 React 中完成。\n下面就是一个函数型计数应用，与上面两个例子相似。\n1234567891011121314151617181920212223242526import React from 'react'class App extends React.Component &#123;  constructor(props) &#123;    super(props)    this.counter = 0    this.addOne = this.addOne.bind(this)  &#125;  addOne() &#123;    this.counter += 1    this.forceUpdate()  &#125;  render() &#123;    return (      &lt;div&gt;        &lt;button          onClick=&#123; this.addOne &#125;&gt;          Increment        &lt;/button&gt;        &#123; this.counter &#125;      &lt;/div&gt;    )  &#125;&#125;\n\nWe’re storing the counter value in the component and using forceUpdate() to re-render when the value changes. This is because changes to anything other than state and props does not trigger a re-render.\n\n\nThis is actually an example of how you should not use this. If you find yourself using forceUpdate(), you’re probably doing something wrong. For values for which a change should trigger a re-render, you should use local state or props/Redux store.\n\n我们在组件中存储 counter 的值，并且在这个值发生变化的时候使用 forceUpdate() 去重新渲染。这是由于没有 state 和 props 发生变化，是不会触发组件的重新渲染。\n这也是一个实际的非常糟糕地不使用 this 的例子。如果你发现你自己正在使用 forceUpdate() 你就有可能犯了一个错误。期望做到值改变而触发重新 render，就应该使用 local state 或者 props 或者是 Redux store。\nUse cases\nThe use case for this is to store values for which a change should not trigger a re-render. For example, sockets are a perfect thing to store on this.\n\n举个例子，this 所存储的变量发生改变，但并不希望触发重新 render。比如，sockets 就和适合存储在 this 上。\n1234567891011121314151617181920212223242526272829303132333435import React from 'react'import &#123; Socket &#125; from 'phoenix'class App extends React.Component &#123;  componentDidMount() &#123;    this.socket = new Socket('http://localhost:4000/socket')    this.socket.connect()    this.configureChannel(\"lobby\")  &#125;  componentWillUnmount() &#123;    this.socket.leave()  &#125;  configureChannel(room) &#123;    this.channel = this.socket.channel(`rooms:$&#123;room&#125;`)    this.channel.join()      .receive(\"ok\", () =&gt; &#123;        console.log(`Succesfully joined the $&#123;room&#125; chat room.`)      &#125;)      .receive(\"error\", () =&gt; &#123;        console.log(`Unable to join the $&#123;room&#125; chat room.`)      &#125;)  &#125;  render() &#123;    return (      &lt;div&gt;        My App      &lt;/div&gt;    )  &#125;&#125;export default App\n\nAlso, many people don’t realize they’re already using this all the time in their function definitions. When you define render(), you’re really defining this.prototype.render = function(), but it’s hidden behind ES2015 class syntax.\n\n\nTakeaway: use this to store things that shouldn’t trigger a re-render.\n\n同时，很多人并没有意识到在定义 function 时已经一直在使用 this。当你定义 render() 时，实际上是在定义 this.prototype.render = function() ，但是它是 ES2015 类定义语法的隐藏式的写法。\nTakeaway: 使用 this 存储变量不应该触发重新 render。\nStatic\nStatic methods and properties are perhaps the least known aspect of ES2015 classes (calm down, yes, I know they aren’t really classes under the hood), mostly because they aren’t used all that frequently. But they actually aren’t especially complicated. If you’ve used PropTypes, you’ve already defined a static property.\n\n\nThe following two code blocks are identical. The first is how most people define PropTypes. The second is how you can define them with static.\n\nStatic methods 和 properties 可能是在 ES2015 类中最不为人知的一部分，主要是因为他们不太常用。然而他们并不难懂复杂。如果你已经用过 PropTypes, 那么你已经定义过 static 属性了。\n下面这两段代码片段相同。第一段是大多数人如何定义 Proptypes。第二段是你可以使用 static 定义。\n123456789class App extends React.Component &#123;  render() &#123;    return (&lt;div&gt;&#123; this.props.title &#125;&lt;/div&gt;)  &#125;&#125;App.propTypes = &#123;  title: React.PropTypes.string.isRequired&#125;\n123456789class App extends React.Component &#123;  static propTypes &#123;    title: React.PropTypes.string.isRequired  &#125;  render() &#123;    return (&lt;div&gt;&#123; this.props.title &#125;&lt;/div&gt;)  &#125;&#125;\n\nAs you can see, static is not all that complicated. It’s just another way to assign a value to a class. The main difference between static and this is that you do not need to instantiate the class to access the value.\n\n你可以看到，static 并不复杂。他仅仅是给类增加值的另外一种方式。在 static 和 this 之间主要的差异主要是不需要实例化来访问这个值。\n1234567891011121314151617181920class App extends React.Component &#123;  constructor() &#123;    super()    this.prototypeProperty = &#123;      baz: \"qux\"    &#125;  &#125;  static staticProperty = &#123;    foo: \"bar\"  &#125;;  render() &#123;    return (&lt;div&gt;My App&lt;/div&gt;)  &#125;&#125;const proto = new App();const proto2 = proto.prototypeProperty // =&gt; &#123; baz: \"qux\" &#125;const stat = App.staticProperty // =&gt; &#123; foo: \"bar\" &#125;\n\nIn the example above, you can see that to get the staticProperty value, we could just call it straight from the class without instantiating it, but to get prototypeProperty, we had to instantiate it with new App().\n\n在上面的例子中，你可以看到获取 staticProperty 静态属性的值，我们仅仅调用 class 中的静态方法即可，并不需要实例化，但是如果想要获取 prototypeProperty 属性，我们就不得不使用 new App() 实例化以后才可以访问到。\nUse cases\nStatic methods and properties are rarely used, and should be used for utility functions that all components of a particular type would need.\n\n\nPropTypes are an example of a utility function where you would attach to something like a Button component, since every button you render will need those same values.\n\n\nAnother use case is if you’re concerned about over-fetching data. If you’re using GraphQL or Falcor, you can specify which data you want back from your server. This way you don’t end up receiving a lot more data than you actually need for your component.\n\n静态方法和属性很少使用，应作为组件中的工具函数来使用。\nPropTypes 就是工具函数的例子，当创建按钮组件等其他类似组件时，尽管渲染出来的每一个按钮仍然需要相同的值。\n另一个应用例子就是，如果你考虑从远端 fetch 数据。如果你正使用 GraphQL 或者 Falcor，那么你可以从服务端区分想要的数据。这种方式你不需要在获取组件多余的数据。\n1234567891011class App extends React.Component &#123;  static requiredData = [    \"username\",    \"email\",    \"thumbnail_url\"  ]  render() &#123;    return(&lt;div&gt;&lt;/div&gt;)  &#125;&#125;\n\nSo in the example component above, before requesting the data for a particular component, you could quickly get an array of required values for your query with App.requiredData. This allows you to make a request without over-fetching.\n\n\nTakeaway: you’re probably never going to use static.\n\n在上面实例组件中，在具体得组件获取数据之前，你可以快速地通过 App.requiredData 来获取这个数据的数组。这允许你不用 over-fetching 就可以完成请求。\nTakeaway: 你可能永远不会用到 static。\nThat other option…\nThere is actually another option, which I intentionally left out of the title because you should use it sparingly: you can store things in a module-scoped variable.\n\n\nThere are specific situations in which it makes sense, but for the most part you just shouldn’t do it.\n\n还有另外一个选择，我故意省略了标题，因为你应该谨慎使用它：你可以储存在模块作用域变量中。\n这是一种行之有效的特殊方法，但是最好不要使用。\n1234567891011121314151617181920212223242526272829import React from 'react'let counter = 0class App extends React.Component &#123;  constructor(props) &#123;    super(props)    this.addOne = this.addOne.bind(this)  &#125;  addOne() &#123;    counter += 1    this.forceUpdate()  &#125;  render() &#123;    return (      &lt;div&gt;        &lt;button          onClick=&#123; this.addOne &#125;&gt;          Increment        &lt;/button&gt;        &#123; counter &#125;      &lt;/div&gt;    )  &#125;&#125;export default App\n\nYou can see this is almost the same as using this, except that we’re storing the value outside of our component, which could cause problems if you have more than one component per file. You might want to use this for setting default values if the values are not tied to your store, otherwise using a static for default props would be better.\n\n\nIf you need to share data across components and want to keep data available to everything the module, it’s almost always better to use your Redux store.\n\n\nTakeaway: don’t use module-scoped variables if you can avoid it.\n\n从上面的代码你可以看到与使用 this 很相似，尤其是我们将值存储在了组件之外，如果每个文件有多个组件极有可能产生问题。如果你没有将这个值绑定在 store 上，那你可能很希望使用 this 去设定初始默认值，否则使用 static 来设置默认 props 会更好。\n如果你需要跨组件之间共享数据，并且希望将这些数据维持在每一个模块都有效，那么使用 Redux store 会更好。\nTakeaway: 如果可以避免的话，不要使用模块作用域的变量。\n","dateCreated":"2018-10-31T22:40:13+08:00","dateModified":"2019-04-23T23:49:06+08:00","datePublished":"2018-10-31T22:40:13+08:00","description":"\n笔者最近在整理前段时间接手的其他团队的 RN 项目代码，在梳理项目中旧代码过程中，对 React 中 State Store Static This 产生疑惑，借此翻译这篇文章解惑，也分享给各位。\n\n原文 https://medium.freecodecamp.org/where-do-i-belong-a-guide-to-saving-react-component-data-in-state-store-static-and-this-c49b335e2a00\n发表时间 2016-08\n作者 Sam Corcos","headline":"【译】React 中 State, Store, Static, This 的几个问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/react-state-this-static-store/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/react-state-this-static-store/","keywords":"Front-End, React"}</script>
     <meta name="description" content="笔者最近在整理前段时间接手的其他团队的 RN 项目代码，在梳理项目中旧代码过程中，对 React 中 State Store Static This 产生疑惑，借此翻译这篇文章解惑，也分享给各位。  原文 https://medium.freecodecamp.org/where-do-i-belong-a-guide-to-saving-react-component-data-in-stat">
 <meta name="keywords" content="Front-End,React">
 <meta property="og:type" content="blog">
@@ -39,33 +40,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -83,7 +81,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -103,7 +101,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -115,7 +113,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -124,7 +122,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -133,7 +131,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -142,7 +140,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -151,7 +149,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -160,7 +158,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -169,7 +167,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -178,7 +176,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -191,7 +189,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -200,8 +198,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -209,7 +216,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -222,7 +229,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -238,18 +245,18 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             【译】React 中 State, Store, Static, This 的几个问题
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-10-31T22:40:13+08:00">
+    <time datetime="2018-10-31T22:40:13+08:00">
 	
 		    10月 31, 2018
     	
@@ -261,14 +268,13 @@
 
 
     
-    <!-- <span class="post-count">3,852</span> -->
-    <span class="post-count">about 19 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <blockquote>
 <p>笔者最近在整理前段时间接手的其他团队的 RN 项目代码，在梳理项目中旧代码过程中，对 React 中 State Store Static This 产生疑惑，借此翻译这篇文章解惑，也分享给各位。</p>
@@ -452,12 +458,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -500,7 +500,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -508,30 +508,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -547,7 +539,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -597,7 +588,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -605,30 +596,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/react-state-this-static-store/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -638,36 +621,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/react-state-this-static-store/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/react-state-this-static-store/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/react-state-this-static-store/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/react-state-this-static-store/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/react-state-this-static-store/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -679,27 +656,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -711,7 +688,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -932,7 +909,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     

@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"适合新手和正在努力进阶的高年级同学阅读 :)\n\n工程师的内功修炼章淼 简介清华大学计算机博士；百度云前端技术负责人；百度 Golang &amp; Python 技术委员会成员；\n笔记对比 Google 的工程师，国内的工程师写代码的占用时间显然过多了，而不太注重提前设计；Google 工程师们在开始实现某一模块或功能时，会事先在代码库中搜索是否已经有可重用的代码，并且代码库中的代码具有完整的注释和文档。\n提前设计的重要性尽可能地提前完成两个文档\n\n需求分析文档\n系统设计文档\n\n原因：在未启动实现细节代码之前构思设计时发现问题的修改，对比后期真正已经开始 Coding 的时候，对比发现问题进行修改，成本要低很多。文档一般只写主要逻辑，而代码涉及更多细节。\n\n笔者备注：但这不是绝对的，修改是正常的，不要惧怕修改，反复尝试积累经验。\n\n\n需求分析文档：主要是在定义黑盒状态，描述外在，描述 WHAT 要做什么？\n系统设计文档：主要实在定义白盒状态，描述内在，描述 HOW 怎么做？\n\n两者要有区分，不要混淆，也不要混在一起写！\n\n需求分析文档的误区不要过早提前构想实现细节，我们的大脑会下意识地在我们构想如何实现时遇到的各种难题，而将原本的需求分析的思考挂起；举例：导弹 vs 炸弹，两者都有摧毁目标的能力，但是很明显导弹的价值更高，重要的是制导的功能，而不是爆炸本身。\n系统设计文档的误区主要要写定义系统的架构、模块、接口、数据、关键算法、设计思路等等得过程记录。\n\n系统架构要写什么以及方法概念、模型、视图等等。\n\n静：系统静态的样子，功能模块如何划分等\n动：系统运转起来，各模块联动起来的样子\n细：不同角度，不同层次去描述\n\n每一个组件（模块、函数）保证单一性，Single purpose. 只做一件事！\n\n轻耦合，低内聚（避免全局变量（多处操作难以控制））\n当前系统设计所受到的约束（当前设计的瓶颈在哪？比如网络、吞吐量、占用 CPU 或文件位置资源等）\n需求分析是系统设计的来源\n模型和抽象的思维能力很重要（涉及概念：模型、数据结构、算法等等）\n\n设计接口（Interface）要注意什么？\n接口定义系统外在的功能\n接口定义当前系统与外部系统之间的关系\n\n接口 Interface 定义了系统对外的接口，往往比系统实现内部细节代码更重要，不要过于草率，因为一旦定义了接口，提供出去给调用方使用，想修改就太难了。所以设计接口有重要原则，站在使用者的角度考虑问题！\n两点细节：\n\n向前兼容（尽量不要接口已升级，老接口全不能用，那就不是好的接口设计）\n使用方便（让调用者可以一目了然知道接口的作用，简化传参，说明返回值等等）\n\n如何写代码？代码是一种表达的方式。是写给人看的，要有编程规范。\n拥有编程规范的理想状态：1. 看别人代码就像看自己代码一样易懂；2. 看代码主要看逻辑，不要过多注重细节；3. 代码尽可能地不要让人去多想。\n\nDon’t make me think!\n\nMoudle 模块紧内聚，低耦合。单一功能。反例，定义一个 utils.py 内部包含诸多方法，不易懂。\n模块一般可以分为两类：\n\n数据类的模块（1. 主要完成对数据的封装； 2. 对外提供的数据接口）\n过程类的模块（1. 不要包含数据，可以是调用数据类的模块或者调用其他过程类模块； 2. 具备操作性质的模块）\n\n模块的重要性：1. 降低维护成本； 2. 更好地复用\nClass 类 和 Function 函数两者是不同的模型，各自有各自适用的范围。\n推荐方法：和类的成员无关的函数，尽量独立出去单独一个函数，不建议作为类的成员函数。\n面向对象思想的讨论：多态和继承，需要谨慎适用，作为 Python 的工程师，不太推崇 Java 中继承和多态，因为系统是逐渐长起来的，并不是从一开始就是一个成熟的样子，所以很难凭空去设计一个继承的关系。\n模块的构成文件头（注释）\n\n模块的说明，简要功能\n修改历史（时间、修改人，修改的内容）\n其他特殊细节的说明\n\n函数（重要性仅次于模块）\n\n描述功能\n传入参数的描述（含义、类型、限制条件等等）\n返回值得描述（有足够明确的语义说明）\n逻辑判断型 check isXXX\n操作型（成功 or 失败）\n数据获取型（状态 + 数据）\n\n\n异常如何处理（是抛出？还是内部catch？要明确）\n明确单入口和单出口（多线程开发时尤为重要）\n\n函数要尽可能的规模小，足够短（BUG 往往出现在非常长的一个函数里）\n代码块的分段也很重要，分段背后是划分和逻辑表达。\n代码是一种表达能力的体现，也算是文科的范畴！注释不是补出来的！\n命名的重要性：要准确、易懂、可读性强，尽量做到 望名生义。\n互联网时代的系统是运营出来的。\n可检测性也是尤其重要的。（埋点、监控等等）\n\n没有数据的收集，等于系统没有上线。\n\n监控不单单只有传统意义上的内存、CPU、网络、崩溃率的监控，还应有线上真实数据监控，需要有足够多的状态记录。\n日志是很有限的一种监控手段，并且采集日志也是一种资源耗费。推荐的手段：可以使用埋点，对外提供接口，有单独的系统调用接口进行有针对性的采集。\n修身\n好的程序员，与工作年限无关，与学历无关\n\n学习-思考-实践学习：主观意愿地学习，途径也有很多，例如书籍、开源代码、社区。忌讳夜郎自大、井底之蛙。注重培养自己学习吸收的能力，多读多看但是数量不是最终目的。\n\nStay Hungry, Stay Foolish.  – Steve Jobs\n\n思考：学习需要经过思考，形成自己的思维。\n实践：《卓有成效的时间管理者 - 德鲁克》推荐阅读\n知识-方法-精神\n知识过时会非常快！\n\n方法：分析问题、解决问题的能力尤其重要（定义问题、识别问题、定义关键问题）\n精神：决定型，要做就要坚持做\n\n前进的道路上不能永远都是鲜花和掌声。\n\n\n基础乃治学之根本。\n\n数据结构、软件工程、逻辑思维能力、研究能力，需要5-8年时间磨炼。\n推荐书籍\n人月神话\n代码大全\n201条准则\n快速开发\n系统结构\n操作系统\n网络基础\n\n","dateCreated":"2018-10-08T10:41:48+08:00","dateModified":"2018-10-08T10:04:33+08:00","datePublished":"2018-10-08T10:41:48+08:00","description":"适合新手和正在努力进阶的高年级同学阅读 :)","headline":"代码的艺术 - 章淼讲座笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/Art-Of-Code/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/Art-Of-Code/","keywords":"总结"}</script>
     <meta name="description" content="适合新手和正在努力进阶的高年级同学阅读 :)">
 <meta name="keywords" content="总结">
 <meta property="og:type" content="blog">
@@ -39,33 +40,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -83,7 +81,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -103,7 +101,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -115,7 +113,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -124,7 +122,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -133,7 +131,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -142,7 +140,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -151,7 +149,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -160,7 +158,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -169,7 +167,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -178,7 +176,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -191,7 +189,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -200,8 +198,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -209,7 +216,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -222,7 +229,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -238,31 +245,30 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             代码的艺术 - 章淼讲座笔记
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-10-08T10:41:48+08:00">
+    <time datetime="2018-10-08T10:41:48+08:00">
 	
 		    10月 08, 2018
     	
     </time>
     
-    <!-- <span class="post-count">1,929</span> -->
-    <span class="post-count">about 7 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <p>适合新手和正在努力进阶的高年级同学阅读 :)</p>
 <a id="more"></a>
@@ -391,12 +397,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -439,7 +439,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -447,30 +447,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -486,7 +478,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -536,7 +527,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -544,30 +535,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Art-Of-Code/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -577,36 +560,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Art-Of-Code/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Art-Of-Code/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Art-Of-Code/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Art-Of-Code/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Art-Of-Code/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -618,27 +595,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -650,7 +627,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -871,7 +848,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     

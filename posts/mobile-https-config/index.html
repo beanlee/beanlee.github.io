@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"投稿部门公众号，做了一些微调，增加了 Android 机型的一些说明。\n2018-03-01 Beanlee\n相信各位在移动端开发过程中一定遇到抓取数据包、拦截请求的场景，本文主要介绍移动端在针对 HTTPS 抓包时的几款软件的配置（包括Charles、Fiddler、Whistle），下面举例将已 iOS 11 为例，附带 Android 机型配置截图。\n\nCharles\n官网\n按照 license 收费，收费后终身享受升级，仅限 OS X 平台\n\nHTTP 抓包配置1.确保手机与主机处于同一局域网内。查看本机 IP，使用 ifconfig 命令查看本机 IP；或者打开系统设置查看 IP 如截图；\n例如：当前本机 IP 192.168.191.4\n\n\n2.设置手机 iOS 网络代理设置 -&gt; 无线局域网 -&gt; HTTP 代理 -&gt; 手动\n服务器：192.168.191.4 端口：8888\n\n3.配置完成后，在手机端访问任何一个 App 或网页，电脑端 Charles 会弹出提示，点击 Allow此时可以在应用的界面中看到 HTTP 的请求数据了。\n接下来继续 HTTPS 的配置。\nHTTPS 抓包配置1.信任证书 本机打开 Charles 后如下图操作，电脑端信任证书，注意 此处选择system\n\n\n2.信任证书 手机打开 Safari 地址输入 192.168.191.4:8888 或 chls.pro/ssl 点击安装，此时会弹出要求需要输入手机密码，完成后证书安装成功。\n此时查看 通用 -&gt; 描述文件 中 charles proxy ca 已变成已验证。\n注意 自 iOS 10.3 以上，还需要多一步操作，手动信任自定义根证书，才能确保证书安装并已启用；\n关于本机 -&gt; 证书信任设置 启用 charles proxy ca 截图详见文章底部锦囊\n注意 Android 手机不需要安装 Charles 证书 ssl-certificates\n下面截图中是\b Android 仅安装了 Fiddler 和 Whistle 的证书截图。\n\n3. Charles 设置启用 SSL ProxyProxy-&gt;SSL Proxy setting Enabled SSL Proxying\n同时添加希望拦截到的域名，例如：*.jd.com 端口 443\n\n\n配置完成 : )\nFiddler\n官网\n微软出品，免费，由于需要 .Net 库仅 Windows 平台（也有一些 Fiddler For mac / linux 但仅限 beta 版且功能不完善，这里只推荐在 Win 平台使用）\n\nHTTP 抓包配置与 Charles 配置相同端口略有不同，此处不再重复。\n总结几大步骤：\n\n移动端和电脑同处同一局域网内\n手机或移动设备设置网络代理对应电脑端 IP 和 端口\n\n\nHTTPS 抓包配置\n勾选拦截 HTTPS 请求\n安装证书（电脑端 &amp; 手机端）\n\n\nWhistle\n官网\n国人开发，开源 MIT 协议，基于 NodeJS 跨平台\n推荐 功能强大，部门内也有小伙伴分享过一次使用经验\n\n工具准备\nnodejs v0.10.0+\nnpm i -g whistle\nw2 start\n\n完成上面几步操作后，此时 8899 端口已经常驻后台。\n界面\nChrome 插件whistle 提供了一个基于 Chrome 的插件，可以方便切换代理，查看网络，编辑规则等，不过很遗憾作者已经将插件在 Web Store 下架，现在搜索不到，我把本地 0.10.0 版本打包成 crx 上传在 Google Driver 可以访问 下载\n或者改用另外一个强大的插件 Proxy SwitchyOmega 该插件也拥有强大的代理功能，同时支持自定义规则，可以自动根据域名或端口等自动选择是否启用代理，以后有机会可以分享使用 Proxy SwitchOmega 的使用经验。\nHTTPS 拦截配置whistle 文档 https 设置部分\nHTTPS 抓包锦囊注意 自 iOS 10.3 以后，无论使用上面哪一种工具抓包，安装完 ca 证书以后，还需要多一步操作，才能确保证书安装并已启用；\n通用 -&gt; 关于本机 -&gt; 证书信任设置 -&gt; 启用相对应的证书，就可以看到工具中抓取到相应的 HTTPS 请求。\n\n这一点跟苹果的 one more thing 貌似有那么一点不谋而合。\n注意 Android 部分手机（如小米、华为）无法安装证书时候，不妨试试在电脑端将证书导出，打开手机 FTP 或者利用数据线传输到手机某个文件夹，点开 WLAN 配置 -&gt; 高级设置 -&gt; 安装证书 选择对应的证书安装即可。亦或是因为\b权限问题无法安装，打开安全隐私，选择信任 未知来源。\n此办法对于安装测试版 APP 也管用 :)\nhave fun :D\n","dateCreated":"2018-03-29T18:53:55+08:00","dateModified":"2018-06-20T09:31:47+08:00","datePublished":"2018-03-29T18:53:55+08:00","description":"投稿部门公众号，做了一些微调，增加了 Android 机型的一些说明。\n2018-03-01 Beanlee\n相信各位在移动端开发过程中一定遇到抓取数据包、拦截请求的场景，本文主要介绍移动端在针对 HTTPS 抓包时的几款软件的配置（包括Charles、Fiddler、Whistle），下面举例将已 iOS 11 为例，附带 Android 机型配置截图。","headline":"移动端 HTTPS 抓包工具配置说明","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/mobile-https-config/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/mobile-https-config/","keywords":"移动开发"}</script>
     <meta name="description" content="投稿部门公众号，做了一些微调，增加了 Android 机型的一些说明。 2018-03-01 Beanlee 相信各位在移动端开发过程中一定遇到抓取数据包、拦截请求的场景，本文主要介绍移动端在针对 HTTPS 抓包时的几款软件的配置（包括Charles、Fiddler、Whistle），下面举例将已 iOS 11 为例，附带 Android 机型配置截图。">
 <meta name="keywords" content="移动开发">
 <meta property="og:type" content="blog">
@@ -52,33 +53,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -96,7 +94,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -116,7 +114,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -128,7 +126,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -137,7 +135,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -146,7 +144,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -155,7 +153,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -164,7 +162,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -173,7 +171,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -182,7 +180,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -191,7 +189,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -204,7 +202,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -213,8 +211,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -222,7 +229,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -235,7 +242,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -251,18 +258,18 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             移动端 HTTPS 抓包工具配置说明
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-03-29T18:53:55+08:00">
+    <time datetime="2018-03-29T18:53:55+08:00">
 	
 		    3月 29, 2018
     	
@@ -274,14 +281,13 @@
 
 
     
-    <!-- <span class="post-count">1,142</span> -->
-    <span class="post-count">about 4 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <p>投稿部门公众号，做了一些微调，增加了 Android 机型的一些说明。</p>
 <p>2018-03-01 Beanlee</p>
@@ -360,12 +366,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -408,7 +408,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -416,30 +416,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -455,7 +447,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -505,7 +496,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -513,30 +504,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/mobile-https-config/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -546,36 +529,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/mobile-https-config/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/mobile-https-config/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/mobile-https-config/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/mobile-https-config/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/mobile-https-config/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -587,27 +564,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -619,7 +596,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -840,7 +817,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     

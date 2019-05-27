@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！\n\n\n千万不要为了当前不好而跳槽，一定是要因为将来会更好而跳槽！\n\nHTML\n盒子模型margin - border - padding - content - padding - border - margin上下两个元素之间会有margin合并问题\n\n块级元素和行内元素区别http://blog.csdn.net/chen_zw/article/details/8713205http://segmentfault.com/a/1190000000654770\n\n\nCSS\n实现一个叉号有几种实现方式1.切图 2.先用一个span画一个长方形，圆角，然后使用transform倾斜 3.CSS3中使用Webfont 4.伪类\n1TODO 代码实现\n\nCSS常用选择器ID、类、伪类、父子选择器等等\n\n\nJavascript\n原型链 prototypeMDN\n\n实现的本质是重新原型对象。\n\n原生ajax写法XMLHttpRequest, XMLHttpResponse\n\n事件模型和事件传播机制问题浏览器中事件可以分为三种：鼠标事件；键盘事件；HTML事件；捕获和冒泡的顺序在不同浏览器中不同，IE下事件流采用的是冒泡，基于DOM标准兼容浏览器通常采用先捕获后冒泡方式。\n\n\naddEventListener() &amp; removeEventListener()所有 DOM 节点都包含这两个方法，都接受三个参数：要处理的事件名，作为事件处理程序的函数，一个布尔值。最后这个参数布尔值，true表示在捕获时调用事件处理函数，false表示在冒泡时调用时间处理函数。\n1234var btn = document.getElementById(\"myBtn\");btn.addEventListener(\"click\", function()&#123;  alert(\"click\");&#125;, flase);\n\n跨域 JSONP 实现原理原理：回调函数JSONP 由两部分组成：回调函数和数据。\n\nFor Example:123456function handleResponse(response) &#123;  alert(\"You're at IP \" + response.ip + \", which is in \" + response.city);&#125;var script = document.createElement(\"script\");script.src = \"http://freegeoip.net/json/?callback=handleResponse\";document.body.insertBefore(script, document.body.fisrtChild);\n\n&lt;script&gt;中defer和asyc区别和加载顺序\n\nasyc: 异步脚本虽然立即下载脚本，不应该方案页面中其他操作，比如下载其他资源或等待加载其他脚本。只对外部脚本有效。不能保证按照指定的先后顺序执行，建议异步脚本不要在加载期间修改 DOM。\ndefer: 延迟脚本可以延迟到文档完全被解析和显示之后再执行。只针对外部脚本有效。在现实当中，延迟脚本不一定按照顺序执行，不一定会在 DOMContentLoaded 事件触发前执行，因此最好只包含一个延迟脚本\n\n\n闭包：指有权访问另一个函数作用域中的变量和函数。\n\n作用域：当代码在一个环境执行时，会创建变量对象的一个作用域。理解：类似 Java 的成员变量\n123456789101112131415var color = \"blue\";function changeColor() &#123;  var anotherColor = \"red\";  function swapColor() &#123;    var tempColor = anotherColor;    anotherColor = color;    color = tempColor;    // 这里可以访问 color, anotherColor 和 tempColor  &#125;  // 这里可以访问 color, anotherColor  swapColor();&#125;// 这里只能访问 colorchangeColor();\n\n\n","dateCreated":"2015-06-27T08:32:19+08:00","dateModified":"2018-06-20T09:31:47+08:00","datePublished":"2015-06-27T08:32:19+08:00","description":"前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！","headline":"Questions Of Front-End","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/Question-Of-Front-End/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/Question-Of-Front-End/","keywords":"Front-End"}</script>
     <meta name="description" content="前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！">
 <meta name="keywords" content="Front-End">
 <meta property="og:type" content="blog">
@@ -39,33 +40,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -83,7 +81,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -103,7 +101,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -115,7 +113,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -124,7 +122,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -133,7 +131,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -142,7 +140,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -151,7 +149,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -160,7 +158,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -169,7 +167,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -178,7 +176,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -191,7 +189,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -200,8 +198,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -209,7 +216,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -222,7 +229,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -238,18 +245,18 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             Questions Of Front-End
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2015-06-27T08:32:19+08:00">
+    <time datetime="2015-06-27T08:32:19+08:00">
 	
 		    6月 27, 2015
     	
@@ -261,14 +268,13 @@
 
 
     
-    <!-- <span class="post-count">745</span> -->
-    <span class="post-count">about 3 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <p>前端问题总结整理，持续更新和学习，找到想做的就加油做个行动派吧！</p>
 <a id="more"></a>
@@ -324,12 +330,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -372,7 +372,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -380,30 +380,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -419,7 +411,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -469,7 +460,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -477,30 +468,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Question-Of-Front-End/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -510,36 +493,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Question-Of-Front-End/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/Question-Of-Front-End/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Question-Of-Front-End/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/Question-Of-Front-End/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/Question-Of-Front-End/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -551,27 +528,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -583,7 +560,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -804,7 +781,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     

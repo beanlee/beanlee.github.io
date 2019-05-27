@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。\n\n刚刚加班到家，整理一下这篇最近在查阅资料关于VPN的一些内容，以及一些付费VPN的简单介绍。\n什么是VPNVPN 可以通过特殊的加密通讯协议，在连接 Internet 上位于不同地方的两个或多个企业内部网之间建立一条专有的通讯线路；就好比是架设了一条专线，但它并不需要真正的去铺设光缆之类的物理线路；就像去电信局申请专线，但是不用给铺设线路的费用，也不用购买路由器等硬件设备。\nVPN 技术原是路由器的重要技术之一，在交换机、防火墙设备或各大操作系统里也都支持 VPN 功能，VPN 的核心就是利用公共网络建立虚拟私有网。\n通俗的说，如果你想不被别人探查到你的 IP 地址，如果你想访问大量原本无法登录的国外网站，如果你想更安全进行数据传输，请使用 VPN。\nPPTP和L2TP区别最常见最流行的 VPN 协议包含 PPTP 协议和 L2TP/IPSec 协议。如果你希望设置简单，对通信安全没有太大的要求，那么你配置 PPTP 连接即可；如果你的网络里 PPTP 协议未被允许，或者希望数据通信更安全的话，就推荐设置 L2TP/IPSec 连接。在设置上，步骤基本一致，只是 L2TP/IPSec 协议需要输入共享密钥。\n\nPPTP（Point to Point Tunneling Protocol）点对点隧道协议：是一种主要用于 VPN 的数据链路层网络协议，PPTP 的协议规范本身并未描述加密或身份验证的特性。\nL2TP（Layer Two Tunneling Protocol) 第二层隧道协议：是一种数据链路层隧道协议，通常用于虚拟专用网。L2TP 协议自身不对传输的数据进行加密，但是可以和加密协议搭配使用，从而实现数据的加密传输。经常与 L2TP 协议搭配的加密协议是 IPsec，当这两个协议搭配使用时，通常合称 L2TP/IPsec。\n\n优点\n科学上网\n配置方便，配置好以后，直接连接，就可以使用\n安全，一把双刃剑，因为VPN连接，我们的数据包都是通过中间服务器转发，VPN提供了很多种加密的方式，这样就可以很好地保护我们的隐私，隐藏IP等。\n\n缺点\n受GFW干扰较大，由于使用UDP技术，连接可能受干扰\n比较依赖本地的网络环境\nISP网络的可能会阻止VPN的连接，导致连不上或者速度慢\nVPN是保持连接，不是特别灵活，要断要连在使用过程中难免有麻烦\n安全，不能排除我们的数据包被中间服务器抓包或者截取的可能。\n\n选择VPN前面一些“科普”的文字给大家码好字之后，下面笔者在选购VPN的时候主要关注一下几点，在这里和各位分享一下，可能与各位不同，欢迎读者朋友讨论吐槽！\n\n稳定性：这是我比较重视一点，所以放在第一个，VPN的连接速度以及连接的稳定性，直接影响到使用者的感受，之所以找付费版VPN，最重要的就是想享受稳定的连接，不希望遇到经常掉线重连，或者经常不得不被动地切换多个连接。\n终端支持：我的需求是希望支持Mac、iPhone、iPad至少三台终端同时连接，这样在多端就可以无缝享受网络。\n连接速度（上行/下行）：不知道读者朋友有没有跟笔者一样的感受，网络慢得时候电脑也会有慢得错觉。当然了，“慢”一定有很多原因，也可能是错觉，但是连接VPN后同样拥有普通连接相同或者不会降低很多的网络速度，是非常重要的一点，也同样是申请VPN退款的原因之一。\n价格（按量付费/按时付费）以及支付方式：按时 or 按量，这个取决于使用者的需求，如果像笔者一样是新手或者换种说法是首次希望通过付费VPN的方式“科学上网”，偶尔登录Google查阅资料，而且不用刷Twitter，暂时没有部署在国外服务器上的网站需要维护的话，可以选择价位不高且流量不大的服务；支付方式也被我放在这里，国内的很多朋友可能没有双币信用卡，Paypal付款难免有些麻烦，查了好几个VPN的服务商都已经支持支付宝付款了，还是很方便的。\n配置难易度、客服响应速度：\n隐私安全：毕竟我们在通过VPN连接时，本地的数据包是发送到远方服务器再跳转的，这期间是否会被抓包，窃取资料就是一个值得考虑的问题，笔者建议不用在VPN连接时使用网银等，即使VPN已经声明了数据信息已经加密，要保持警惕，保护隐私。\n服务器地点：这点可能目前阶段不是笔者比较在意的一点，无论VPN服务商提供的是美国、日本、加拿大、台湾等何地的服务器，对于笔者来说不是特别重要，只要可以达到稳定的连接就可以。但是对于一些对服务地有强烈需求的朋友来说，比如一些游戏玩家，PS4和XBOX必须要连接当地的服务才能玩，这时服务器所在的地点就成了比较重要的考虑因素之一了。\n\n付费VPN收集很幸运在微博上认识一位朋友聆听潇湘雨，请教了一些知识，也很感谢他推荐了几个付费VPN给我，包括我自己查阅的资料在下面罗列一下，具体服务需要等各位用户先自己试用，稍后再提供我的使用报告：\n\n熊猫翻滚 顾名思义，熊猫天朝特产，朋友推荐说智能分流做的很好，就是国内和国外的网站可以自动区分，这样连接VPN的同时国内网站的访问速度影响有效降低。\n云梯  在V2EX社区看到有人推荐过，也注册了一下，同学有需求想下载Google Android文档和源码，于是就买了这家的服务，速度还是很快的，支持3天内退款。\n曲径  官网介绍是为了国外音乐类流量服务，有一些大V也在各自的推文中有介绍，想必也积累了一些人气，服务应该做的还是不错的，要不然也不会这么多人推荐。可月付或者季付、限流量，其【冬月】套餐比较适合多终端的用户。\n轻云  资费比较合理，支持的设备较多，同时允许7台设备在线。\nYesVPN  包月10RMB，包年100RMB\n鲨鱼VPN \nGoogle搜索 付费VPN 关键字 : )\n\nVPN FOR FREE\nChrome插件 - 红杏 浏览器上的插件，使用者仅仅通过安装Chrome浏览器插件，使用邮箱注册用户，就可以直接访问Google、Facebook和Twitter了。简单使用，缺点非VIP版服务器不是特别稳定，笔者在最近3天的使用过程中有一天下午基本无法使用，服务断断续续。当然也可以购买VIP版，笔者还没有购买体验就不便在这里细说，如果仅限浏览器翻墙，查看网页或者单线程下载一些小文件的话，这颗“红杏”是个不错的选择。\n\n文章还没写完，今天红杏免费版就挂了，但是红杏VIP版还是很受欢迎的。\n\nGoogle搜索 免费VPN 关键字即可 : )\n\n补充在完成这篇Blog的过程中，查阅的信息逐渐像水滴波纹一样散开，信息量过大，越来越害怕，觉得这里需要做功课的东西还是太多，有些不敢写了，因此标题也是改了又改，缩小范围。后面补补课再给各位带来其他科学上网的方式。\n因为目前对科学上网需求不是那么强烈，因此在写完这篇Blog后，我觉得先买一个熊猫翻滚之学术熊猫试用一个月（这其中也有微博朋友极力推荐的因素）。\n其他科学上网收集如下，以后有机会在研究跟大家分享：\n\neurekavpt\nShadowSocks\nPowerConnect &amp;&amp; 官方 Twitter 会不定时放出邀请码\n….\n\n","dateCreated":"2014-06-28T00:00:01+08:00","dateModified":"2018-06-20T09:31:47+08:00","datePublished":"2014-06-28T00:00:01+08:00","description":"“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。","headline":"科学上网之VPN推荐系列","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/","keywords":"VPN"}</script>
     <meta name="description" content="“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。">
 <meta name="keywords" content="VPN">
 <meta property="og:type" content="blog">
@@ -39,33 +40,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -83,7 +81,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -103,7 +101,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -115,7 +113,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -124,7 +122,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -133,7 +131,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -142,7 +140,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -151,7 +149,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -160,7 +158,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -169,7 +167,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -178,7 +176,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -191,7 +189,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -200,8 +198,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -209,7 +216,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -222,7 +229,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -238,18 +245,18 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             科学上网之VPN推荐系列
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2014-06-28T00:00:01+08:00">
+    <time datetime="2014-06-28T00:00:01+08:00">
 	
 		    6月 28, 2014
     	
@@ -261,14 +268,13 @@
 
 
     
-    <!-- <span class="post-count">2,269</span> -->
-    <span class="post-count">about 8 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p>
 <a id="more"></a>
@@ -336,12 +342,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -384,7 +384,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -392,30 +392,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -431,7 +423,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -481,7 +472,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -489,30 +480,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -522,36 +505,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -563,27 +540,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -595,7 +572,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -816,7 +793,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     

@@ -15,6 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"作者 Addy Osmani，Ivan Akulov\n原文 https://developers.google.com/web/fundamentals/performance/webpack/\n\nInstroduction 介绍作者 Addy Osmani\n现代 Web 应用经常用到bunding tool来创建生产环境的打包文件（例如脚本、样式等），打包文件是需要优化并压缩最小化，同时能够被让用户更快地下载到。在这篇文章中，我们将会利用webpack来贯穿说明如何优化网站资源。这样可以帮助用户更快地加载你的应用同时获得更好的体验。\n\nwebpack 目前是最流行的打包工具之一，深入地利用它的特点去优化代码，将脚本拆分成重要和非重要部分，还有剔除无用的代码能够保证你的应用维持最小的带宽和进程消耗。\n\n\nNote: 我们创建了一个练习的应用来演示下面这些优化的描述。尽力抽更多的时间来练习这些 tips webpack-training-project\n\n让我们从现代 web 应用中最耗费资源之一的 Javascript 开始。\n\n减小前端体积\n利用长时缓存\n监控并分析应用\n总结\n\n\nDecrease Front-end Size 减少前端体积作者 Ivan Akulov\n当你正在优化一个应用时，首要事情就是尽可能地将它体积的减小。下面就是利用 webpack 如何做。\nEnable minification 启用最小化最小化是通过去除多余空格、缩短变量名等方式压缩代码。例如：\n1234567891011// Original codefunction map(array, iteratee) &#123;  let index = -1;  const length = array == null ? 0 : array.length;  const result = new Array(length);  while (++index &lt; length) &#123;    result[index] = iteratee(array[index], index, array);  &#125;  return result;&#125;\n↓\n12// Minified codefunction map(n,r)&#123;let t=-1;for(const a=null==n?0:n.length,l=Array(a);++t&lt;a;)l[t]=r(n[t],t,n);return l&#125;\nWebpack 支持两种方式最小化代码：UglifyJS 插件和loader-specific options。他们可以同时使用。\nThe UglifyJS plugin在 bundle 层级中起作用，在编译之后压缩 bundle。下面来展示如何工作：\n1.代码：12345// comments.jsimport './comments.css';export function render(data, target) &#123;  console.log('Rendered!');&#125;\n2.Webpack 打包后大概是下面这样：1234567891011// bundle.js (part of)\"use strict\";Object.defineProperty(__webpack_exports__, \"__esModule\", &#123; value: true &#125;);/* harmony export (immutable) */ __webpack_exports__[\"render\"] = render;/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__comments_css__ = __webpack_require__(1);/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__comments_css_js___default =__webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__comments_css__);function render(data, target) &#123;  console.log('Rendered!');&#125;\n3.使用 UglifyJS 插件压缩最小化后大概是下面这样：123// minified bundle.js (part of)\"use strict\";function t(e,n)&#123;console.log(\"Rendered!\")&#125;Object.defineProperty(n,\"__esModule\",&#123;value:!0&#125;),n.render=t;var o=r(1);r.n(o)\n插件集成在 webpack 中，把它的配置在plugins中就可以启用：12345678// webpack.config.jsconst webpack = require('webpack');module.exports = &#123;  plugins: [    new webpack.optimize.UglifyJsPlugin(),  ],&#125;;\n第二种方式loader-specific options 利用 loader options，可以压缩 Uglify 插件无法最小化的部分。举例，当你利用css-loader引入一个 CSS 文件时，文件会编译成一个字符串：1234/* comments.css */.comment &#123;  color: black;&#125;\n↓123// minified bundle.js (part of)exports=module.exports=__webpack_require__(1)(),exports.push([module.i,\".comment &#123;\\r\\n  color: black;\\r\\n&#125;\",\"\"]);\nUglifyJS 不能压缩字符串。要压缩这段 css 内容，需要配置 loader ：1234567891011121314// webpack.config.jsmodule.exports = &#123;  module: &#123;    rules: [      &#123;        test: /\\.css$/,        use: [          'style-loader',          &#123; loader: 'css-loader', options: &#123; minimize: true &#125; &#125;,        ],      &#125;,    ],  &#125;,&#125;;\n\nNote: UglifyJS 插件不能编译 ES2015+(ES2016)，这意味着如果你的 diamante 中使用类、箭头函数和一些新特性语法，不能编译成 ES5，插件会抛异常。如果需要编译新语法，要使用 uglifyjs-webpack-plugin 包。也是集成在 webpack 中相同的插件，但是更新一些，能够有能力编译 ES2015+。\n\nFurther reading\nThe UglifyJsPlugin docs\nOther popular minifiers: Babel Minify, Google Closure Compiler\n\nSpecify NODE_ENV=production 明确生产环境信息减小前端体积的另外一个方法就是在代码中将NODE_ENV环境变量设置成production。\nLibraries 会读取NODE_ENV变量判断他们应该在那种模式下工作 - 开发模式 or 生成模式。很多库会基于这个变量有不同的表现。举个例子，当NODE_ENV没有设置成production，Vue.js 会做额外的检查并且输出一些警告：\n123456// vue/dist/vue.runtime.esm.js// …if (process.env.NODE_ENV !== 'production') &#123;  warn('props must be strings when using array syntax.');&#125;// …\nReact 也是类似 - 开发模式下 build 带有一些警告：\n123456789101112131415// react/index.jsif (process.env.NODE_ENV === 'production') &#123;  module.exports = require('./cjs/react.production.min.js');&#125; else &#123;  module.exports = require('./cjs/react.development.js');&#125;// react/cjs/react.development.js// …warning$3(  componentClass.getDefaultProps.isReactClassApproved,  'getDefaultProps is only used on classic React.createClass ' +  'definitions. Use a static property named `defaultProps` instead.');// …\n这些检查和警告通常在生产环境下是不必要的，但是他们仍然保留在代码中并且会增加库的体积。通过配置 webpack 的 DefinePlugin 来剔除掉：\n1234567891011 // webpack.config.jsconst webpack = require('webpack');module.exports = &#123;  plugins: [    new webpack.DefinePlugin(&#123;      'process.env.NODE_ENV': '\"production\"',    &#125;),    new webpack.optimize.UglifyJsPlugin(),  ],&#125;;\nDefinePlugin用确定的变量替换所有存在的说明变量。利用下面配置：\n1.DefinePlugin将用&quot;production&quot;替换到process.env.NODE_ENV：\n1234567// vue/dist/vue.runtime.esm.jsif (typeof val === 'string') &#123;  name = camelize(val);  res[name] = &#123; type: null &#125;;&#125; else if (process.env.NODE_ENV !== 'production') &#123;  warn('props must be strings when using array syntax.');&#125;\n↓\n1234567// vue/dist/vue.runtime.esm.jsif (typeof val === 'string') &#123;  name = camelize(val);  res[name] = &#123; type: null &#125;;&#125; else if (\"production\" !== 'production') &#123;  warn('props must be strings when using array syntax.');&#125;\n\nNote: 如果你偏向有通过 CLI 配置变量，可以查看一下 EnvironmentPlugin。它和DefinePlugin类似，但读环境并且自动替换process.env表达式。\n\n2.UglifyJS会移除掉所有if分支 - 因为&quot;production&quot; !== &#39;production&#39;永远返回 false ，插件理解代码内的判断分支将永远不会执行：\n1234567// vue/dist/vue.runtime.esm.jsif (typeof val === 'string') &#123;  name = camelize(val);  res[name] = &#123; type: null &#125;;&#125; else if (\"production\" !== 'production') &#123;  warn('props must be strings when using array syntax.');&#125;\n↓\n12345// vue/dist/vue.runtime.esm.js (without minification)if (typeof val === 'string') &#123;  name = camelize(val);  res[name] = &#123; type: null &#125;;&#125;\n\nNote: 不一定强制要求使用 UglifyJSPlugin。你可以使用其他不同的最小化工具，这些页支持移除无用代码（例如，the Babel Minify plugin or the Google Closure Compiler plugin）\n\nFurther Reading\nWhat “environment variables” are\nWebpack docs about: DefinePlugin, EnvironmentPlugin\n\nUse ES Modules 使用 ES 模块下面这个方式利用 ES modules 减小前端体积。\n当你使用 ES module，webpack 有能力去做 tree-shaking。Tree-shaking 贯穿整个依赖树，检查那些依赖被使用，移除无用依赖。因此，如果你使用 ES module 语法，webpack 可以排除掉无用代码：\n1.一个有多个 export 的文件，但是 app 只需要其中一个：\n1234567// comments.jsexport const render = () =&gt; &#123; return 'Rendered!'; &#125;;export const commentRestEndpoint = '/rest/comments';// index.jsimport &#123; render &#125; from './comments.js';render();\n2.webpack 理解 commentRestEndPoint没有使用，同时不能在一个 bundle 中生成单独的 export：\n123456789// bundle.js (part that corresponds to comments.js)(function(module, __webpack_exports__, __webpack_require__) &#123;  \"use strict\";  const render = () =&gt; &#123; return 'Rendered!'; &#125;;  /* harmony export (immutable) */ __webpack_exports__[\"a\"] = render;  const commentRestEndpoint = '/rest/comments';  /* unused harmony export commentRestEndpoint */&#125;)\n3.UglifyJSPlugin移除无用变量：\n12// bundle.js (part that corresponds to comments.js)(function(n,e)&#123;\"use strict\";var r=function()&#123;return\"Rendered!\"&#125;;e.b=r&#125;)\n如果他们都是有 ES module 编写，就是与一些库并存时也是生效的。\n\nNote: 在 webpack 中，tree-shaking 没有 minifier 是无法生效的。 webpack 仅仅移除了没有被用到的 export 变量；UglifyJSPlugin才会移除无用代码。所以如果你编译打包时没有使用 minifier，打包后体积并不会更小。你也可以不一定使用这个插件。其他最小化的插件也支持移除 dead code（例如：Babel Minify plugin or Google Closure Compiler plugin）\n\n\nWarning: 不要将 ES module 编译到 CommonJS 中。 如果你使用 Babel babel-preset-env or babel-preset-es2015，检查一下当前的配置。默认情况下， ES import and export to CommonJS require and module.exports。通过设置 option 来禁止掉Pass the { modules: false } option。\n\nFuther reading\n“ES6 Modules in depth”\nWebpack docs about tree shaking\n\nOptimize images 优化图片图片基本会占局页面一半以上体积。虽然它们不像 JavaScript 那么重要（比如它们不会阻止页面渲染），但图片仍然会占用掉一大部分带宽。利用url-loader，svg-url-loader和image-webpack-loader来在 webpack 中进行优化。\nurl-loader 允许将小静态文件打包进 app。没有配置，他需要通过 file，将它放在编译后的打包 bundle 内并返回一个这个文件的 url。然而，如果我们注明limit选项，它将会 encode 成更小的文件 base64 文件 url。这是可以将图片放在Javascript 代码中，同时节省 HTTP 请求：\n123456789101112131415// webpack.config.jsmodule.exports = &#123;  module: &#123;    rules: [      &#123;        test: /\\.(jpe?g|png|gif)$/,        loader: 'url-loader',        options: &#123;          // Inline files smaller than 10 kB (10240 bytes)          limit: 10 * 1024,        &#125;,      &#125;,    ],  &#125;&#125;;\n123456// index.jsimport imageUrl from './image.png';// → If image.png is smaller than 10 kB, `imageUrl` will include// the encoded image: 'data:image/png;base64,iVBORw0KGg…'// → If image.png is larger than 10 kB, the loader will create a new file,// and `imageUrl` will include its url: `/2fcd56a1920be.png`\n\nNote: 内联图片减少了独立请求的数量，这是很好的方式（even with HTTP/2），但是会增加 bundle下载和转换的时间和内存的消耗。一定要确保不要嵌入超大图片或者较多的图片 - 否则增加的 bundle 的时间将会掩盖做成内联图片的收益。\n\nsvg-url-loader与url-loader类似 - 都是将使用 URL encoding  encode 文件。这对对于 SVG 图片很奏效 - 因为 SVG 文件是文本，encoding 在体积上更有效率：\n123456789101112131415161718// webpack.config.jsmodule.exports = &#123;  module: &#123;    rules: [      &#123;        test: /\\.svg$/,        loader: 'svg-url-loader',        options: &#123;          // Inline files smaller than 10 kB (10240 bytes)          limit: 10 * 1024,          // Remove the quotes from the url          // (they’re unnecessary in most cases)          noquotes: true,        &#125;,      &#125;,    ],  &#125;,&#125;;\n\nNote: svg-url-loader 拥有改善 IE 浏览器支持的 options，但是在其他浏览器中更糟糕。如果你需要兼容 IE 浏览器，设置 iesafe: true 选项\n\nimage-webpack-loader压缩图片使之变小。它支持 JPG，PNG，GIF 和 SVG，因为我们将会使用它所有类型。\n这个 loader 不会将图片嵌入在应用内，因此它必须与url-loader和svg-url-loader配合使用。避免复制粘贴到相同的 rules 中（一个用于 JPG/PNG/GIF 图片，另一个用于 SVG 图片），我们来使用enforce: pre作为单独的一个 rule 涵盖这个 loader：\n12345678910111213// webpack.config.jsmodule.exports = &#123;  module: &#123;    rules: [      &#123;        test: /\\.(jpe?g|png|gif|svg)$/,        loader: 'image-webpack-loader',        // This will apply the loader before the other ones        enforce: 'pre',      &#125;,    ],  &#125;,&#125;;\n默认 loader 设置就已经可以满足需求了 - 但如果你想要深入配置，请查看 the plugin options。为了选择哪些 options 需要明确，可以查看 Addy Osmani 的 guide on image optimization\nFurther reading\n“What is base64 encoding used for?”\nAddy Osmani’s guide on image optimization\n\nOptimize dependencies 优化依赖平均一半以上的 Javascript 体积大小来源于依赖包，并且这些可能都不是必要的。\n举一个例子来说，Lodash（v4.17.4）增加了最小化代码的 72KB 大小到 bundle 中。但是如果你仅仅用到它的20个方法，大约 65 KB 代码没有用处。\n另外一个例子就是 Moment.js。 V2.19.1版本最小化后有 223KB，体积巨大 - 截至2017年10月一个页面内的 Javascript 平均体积是 452KB。但是，本地文件的体积占 170KB。如果你没有用到 多语言版 Moment.js，这些文件都会没有目的地使 bundle 更臃肿。\n所有这些依赖都可以被轻易优化。我们在 Github repo 收集了优化的建议，check it out！\nEnable module concatenation for ES modules (aka scope hoisting)当你构建 bundle 时，webpack 将每一个 module 封装进 function 中：\n12345678// index.jsimport &#123;render&#125; from './comments.js';render();// comments.jsexport function render(data, target) &#123;  console.log('Rendered!');&#125;\n↓\n1234567891011121314151617181920// bundle.js (part  of)/* 0 */(function(module, __webpack_exports__, __webpack_require__) &#123;  \"use strict\";  Object.defineProperty(__webpack_exports__, \"__esModule\", &#123; value: true &#125;);  var __WEBPACK_IMPORTED_MODULE_0__comments_js__ = __webpack_require__(1);  Object(__WEBPACK_IMPORTED_MODULE_0__comments_js__[\"a\" /* render */])();&#125;),/* 1 */(function(module, __webpack_exports__, __webpack_require__) &#123;  \"use strict\";  __webpack_exports__[\"a\"] = render;  function render(data, target) &#123;    console.log('Rendered!');  &#125;&#125;)\n在以前，这么做是使 CommonJS/AMD modules 互相分离所必须的。但是，这会增加体积并且性能表现堪忧。\nWebpack 2 介绍了 ES modules 的支持，不像 CommonJS 和 AMD modules 一样，而是能够不用将每一个 module 用 function 封装起来。同时 Webpack 3 利用ModuleConcatenationPlugin完成这样一个 bundle，下面是例子：\n12345678// index.jsimport &#123;render&#125; from './comments.js';render();// comments.jsexport function render(data, target) &#123;  console.log('Rendered!');&#125;\n↓\n1234567891011121314151617181920// Unlike the previous snippet, this bundle has only one module// which includes the code from both files// 与前面的代码不同，这个 bundle 只有一个 module，同时包含两个文件// bundle.js (part of; compiled with ModuleConcatenationPlugin)/* 0 */(function(module, __webpack_exports__, __webpack_require__) &#123;  \"use strict\";  Object.defineProperty(__webpack_exports__, \"__esModule\", &#123; value: true &#125;);  // CONCATENATED MODULE: ./comments.js  function render(data, target) &#123;    console.log('Rendered!');  &#125;  // CONCATENATED MODULE: ./index.js  render();&#125;)\n看到区别了吗？在这个 bundle 中， module 0 需要 module 1 的 render 方法。使用 ModuleConcatenationPlugin，require被直接简单的替换成 require 函数，同时 module 1 被删除删除掉了。这个 bundle 拥有更少的 modules，就有更少的 modules 损耗！\n启用这个功能，可以在插件列表中增加ModuleConcatenationPlugin：12345678// webpack.config.jsconst webpack = require('webpack');module.exports = &#123;  plugins: [    new webpack.optimize.ModuleConcatenationPlugin(),  ],&#125;;\n\nNote：想要知道为什么这个功能不是默认启用？Concatenating modules 很棒， 但是他会增加编译的时间同时破坏 module 的热更新。这就是为什么只在生产环境中启用的原因了。\n\nFurther reading\nWebpack docs for the ModuleConcatenationPlugin\n“Brief introduction to scope hoisting”\nDetailed description of what this plugin does\n\nUse externals if you have both webpack and non-webpack code 如果代码中包含 webpack 和非 webpack 的代码要使用 externals你可能拥有一个体积庞大的工程，其中一部分代码可以使用 webpack 编译，而有一些代码又不能。比如一个视频网站，播放器的 widget 可能通过 webpack 编译，但是其周围页面区域可能不是：\n\n如果两部分代码有相同的依赖，你可以共享这些依赖以便减少重复下载耗时。the webpack’s externals option就干了这件事 - 它用变量或者外部引用来替代 modules。\n如果依赖是挂载到 window 上的情况如果你的非 webpack 代码依靠这些依赖，它们是挂载 window 上的变量，可以将依赖名称 alias 成变量名：\n1234567// webpack.config.jsmodule.exports = &#123;  externals: &#123;    'react': 'React',    'react-dom': 'ReactDOM',  &#125;,&#125;;\n利用这个配置，webpack 将不会打包 react 和 react-dom包。取而代之，他们会被替换成下面这个样子：\n1234567891011// bundle.js (part of)(function(module, exports) &#123;  // A module that exports `window.React`. Without `externals`,  // this module would include the whole React bundle  module.exports = React;&#125;),(function(module, exports) &#123;  // A module that exports `window.ReactDOM`. Without `externals`,  // this module would include the whole ReactDOM bundle  module.exports = ReactDOM;&#125;)\n如果依赖是当做 AMD 包被加载的情况如果你的非 webpack 代码没有将依赖暴露挂载到 window 上，这就更复杂了。但是如果非 webpack 代码使用 AMD 包的形式消费了这些依赖，你仍然可以避免重复的代码加载两次。\n具体如何做呢？将 webpack 代码编译成一个 AMD module 同时别名成一个库的 URLs：\n123456789// webpack.config.jsmodule.exports = &#123;  output: &#123; libraryTarget: 'amd' &#125;,  externals: &#123;    'react': &#123; amd: '/libraries/react.min.js' &#125;,    'react-dom': &#123; amd: '/libraries/react-dom.min.js' &#125;,  &#125;,&#125;;\nWebpack 将会把 bundle 包装进 define()同时让它依赖于这些URLs：\n12// bundle.js (beginning)define([\"/libraries/react.min.js\", \"/libraries/react-dom.min.js\"], function () &#123; … &#125;);\n如果非 webpack 代码使用相同的 URLs 加载依赖，这些文件将会加载一次 - 多余的请求会使用缓存。\n\nNote：webpack 只是替换那些externals对象中的准确匹配的 keys 的引用。这意味着如果你的代码这样写import React from &#39;react/umd/react.production.min.js&#39;，这个库是不会被 bundle 排除掉的。这是因为 - webpack 并不知道 import &#39;react&#39; 和 import &#39;react/umd/react.production.min.js&#39; 是同一个库，这样比较谨慎。\n\nFurther reading\nWebpack docs on externals\n\nSumming up 总结\nMinimize your code with the UglifyJsPlugin and loader options\nRemove the development-only code with the DefinePlugin\nUse ES modules to enable tree shaking\nCompress images\nApply dependency-specific optimizations\nEnable module concatenation\nUse externals if this makes sense for you\n\n\nMake use of long-term caching 利用好长时缓存作者 Ivan Akulov\n在做完优化应用体积之后的下一步提升应用加载时间的就是缓存。在客户端中使用缓存作为应用的一部分，这样会在每一次请求中减少重新下载的次数。\nUse bundle versioning and cache headers 使用 bundle 版本和缓存头信息做缓存通用的解决办法：\n1.告诉浏览器缓存一个文件很长时间（比如一年）\n12# Server headerCache-Control: max-age=31536000\nNote：如果你不熟悉 Cache-Control 做了什么，你可以看一下 Jake Archibald 的精彩博文 on caching best practices\n2.当文件改变需要强制重新下载时去重命名这些文件\n12345&lt;!-- Before the change --&gt;&lt;script src=\"./index-v15.js\"&gt;&lt;/script&gt;&lt;!-- After the change --&gt;&lt;script src=\"./index-v16.js\"&gt;&lt;/script&gt;\n这些方法可以告诉浏览器下载这些 JS 文件，将其缓存起来。浏览器将只会在文件名发生改变时才会请求网络（或者缓存失效的情况也会请求）。\n使用 webpack，也可以做同样的事，但可以使用版本号来解决，需要明确这个文件的 hash 值。使用 [chunkhash] 可以将 hash 值包含进文件名中：\n12345678// webpack.config.jsmodule.exports = &#123;  entry: './index.js',  output: &#123;    filename: 'bundle.[chunkhash].js',        // → bundle.8e0d62a03.js  &#125;,&#125;;\n\nNote: webpack 可能会生成不同的 hash 即使 bundle 相同 - 比如你重名了了一个文件或者重新在不同的操作系统下编译了一个 bundle。 This is a bug.如果你需要将文件名发送给客户端，也可以使用 HtmlWebpackPlugin 或者 WebpackManifestPlugin。\n\nHtmlWebpackPlugin 很简单，但灵活性欠缺一些。编译时，插件会生成一个 HTML 文件，这其中包括所有的编译后的资源文件。如果你的业务逻辑不复杂，这就非常适合你：\n1234&lt;!-- index.html --&gt;&lt;!doctype html&gt;&lt;!-- ... --&gt;&lt;script src=\"bundle.8e0d62a03.js\"&gt;&lt;/script&gt;\nWebpackManifestPlugin更灵活一些，它可以帮助你解决业务负责的部分。编译时它会生成一个 JSON 文件，这文件保存这没有 hash 值文件与有 hash 文件之间的映射。服务端利用这个 JSON 可以识别出那个文件有效：\n1234// manifest.json&#123;  \"bundle.js\": \"bundle.8e0d62a03.js\"&#125;\nFurther reading\nJake Archibald about caching best practices\n\nExtract dependencies and runtime into a separate file 将依赖和运行环境代码提取到一个单独的文件Dependencies 依赖包App 依赖通常情况下趋向于比实际 app 内代码中更少的变化。如果你将他们移到独立的文件中，浏览器将可以把他们独立缓存起来 - 同时不会每次 app 代码改变时重新下载。\n\nKey Term: 在 webpack 的技术中，利用 app 代码拆分文件被称为 chunks。我们后面会用到这个名词。\n\n为了将依赖包提取到单独的 chunk 中，下面分为三步：\n1.使用[name].[chunkname].js替换output的文件名：\n123456789// webpack.config.jsmodule.exports = &#123;  output: &#123;    // Before    filename: 'bundle.[chunkhash].js',    // After    filename: '[name].[chunkhash].js',  &#125;,&#125;;\n当 webpack 构建应用时，它会用一个带有 chunk 的名称来替换[name]。如果没有添加[name]部分，我们不得不通过 chunks 之间的 hash 区别来比较他们的区别 - 那就太难了！\n2.将entry转成一个对象：\n123456789// webpack.config.jsmodule.exports = &#123;  // Before  entry: './index.js',  // After  entry: &#123;    main: './index.js',  &#125;,&#125;;\n在这段代码中，”main” 对象是一个 chunk 的名字。这个名字将会被步骤 1 里面的 [name]代替。目前为止，如果你构建一个 app，chunk 就会包括整个 app 的代码 - 就像我们没有做这些步骤一样。但是很快就会产生变化。\n3.添加 CommonsChunkPlugin：\n1234567891011121314// webpack.config.jsmodule.exports = &#123;  plugins: [    new webpack.optimize.CommonsChunkPlugin(&#123;      // A name of the chunk that will include the dependencies.      // This name is substituted in place of [name] from step 1      name: 'vendor',      // A function that determines which modules to include into this chunk      minChunks: module =&gt; module.context &amp;&amp;        module.context.includes('node_modules'),    &#125;),  ],&#125;;\n插件将包括全部node_modules路径下的 modules 同时将他们移到一个单独的文件中，这个文件被称为 vendor.[chunkhash].js。\n完成了上面的步骤，每一次 build 都会生成两个文件。浏览器会将他们单独缓存 - 以便代码发生改变时重新下载。\n1234567$ webpackHash: ac01483e8fec1fa70676Version: webpack 3.8.1Time: 3816ms                           Asset   Size  Chunks             Chunk Names  ./main.00bab6fd3100008a42b0.js  82 kB       0  [emitted]  main./vendor.d9e134771799ecdf9483.js  47 kB       1  [emitted]  vendor\nWebpack runtime code不幸的是，仅仅抽取vendor是不够的。如果你试图在应用代码中修改一些东西：\n123456// index.js……// E.g. add this:console.log('Wat');\n你会注意到vendor的 hash 值也会改变：\n12                           Asset   Size  Chunks             Chunk Names./vendor.d9e134771799ecdf9483.js  47 kB       1  [emitted]  vendor\n↓\n12                            Asset   Size  Chunks             Chunk Names./vendor.e6ea4504d61a1cc1c60b.js  47 kB       1  [emitted]  vendor\n发生这样的事是因为 webpack 打包时，一部分 modules 的代码，拥有 a runtime - 管理模块执行一部分代码。当你将代码拆分成多个文件时，这小部分代码在 chunk ids 和 匹配的文件之间开始了一个映射：\n1234// vendor.e6ea4504d61a1cc1c60b.jsscript.src = __webpack_require__.p + chunkId + \".\" + &#123;  \"0\": \"2f2269c7f0a55a5c1871\"&#125;[chunkId] + \".js\";\nWebpack 将最新生成的 chunk 包含在这个 runtime 内，这个 chunk 就是我们代码中的vendor。与此同时每一次任何 chunk 的改变，这一小部分代码也改变，导致整个 vendor chunk 也会改变。\n为了解决这个问题，我们将 runtime 转义到一个独立的文件中，通过CommonsChunkPlugin创建一个额外的空的 chunk：\n123456789101112131415161718192021// webpack.config.jsmodule.exports = &#123;  plugins: [    new webpack.optimize.CommonsChunkPlugin(&#123;      name: 'vendor',      minChunks: module =&gt; module.context &amp;&amp;        module.context.includes('node_modules'),    &#125;),    // This plugin must come after the vendor one (because webpack    // includes runtime into the last chunk)    new webpack.optimize.CommonsChunkPlugin(&#123;      name: 'runtime',      // minChunks: Infinity means that no app modules      // will be included into this chunk      minChunks: Infinity,    &#125;),  ],&#125;;\n完成这一部分改变，每一次 build 都将生成三个文件：\n12345678$ webpackHash: ac01483e8fec1fa70676Version: webpack 3.8.1Time: 3816ms                            Asset     Size  Chunks             Chunk Names   ./main.00bab6fd3100008a42b0.js    82 kB       0  [emitted]  main ./vendor.26886caf15818fa82dfa.js    46 kB       1  [emitted]  vendor./runtime.79f17c27b335abc7aaf4.js  1.45 kB       3  [emitted]  runtime\n将他们反过来顺序添加到 index.html 中，你就搞定了：\n1234&lt;!-- index.html --&gt;&lt;script src=\"./runtime.79f17c27b335abc7aaf4.js\"&gt;&lt;/script&gt;&lt;script src=\"./vendor.26886caf15818fa82dfa.js\"&gt;&lt;/script&gt;&lt;script src=\"./main.00bab6fd3100008a42b0.js\"&gt;&lt;/script&gt;\nFurther reading\nWebpack guide on long term caching\nWebpack docs about webpack runtime and manifest\n“Getting the most out of the CommonsChunkPlugin”\n\nInline webpack runtime to save an extra HTTP request 内联 webpack runtime 节省额外的 HTTP  请求为了做的更好，尽力把 webpack runtime 内联在 HTML 请求里。下面举例：\n12&lt;!-- index.html --&gt;&lt;script src=\"./runtime.79f17c27b335abc7aaf4.js\"&gt;&lt;/script&gt;\n这样做：\n1234&lt;!-- index.html --&gt;&lt;script&gt;!function(e)&#123;function n(r)&#123;if(t[r])return t[r].exports;…&#125;&#125; ([]);&lt;/script&gt;\n这个 runtime 很小，内联它可以帮助你节省 HTTP 请求（尤其对 HTTP/1 重要；但是在 HTTP/2 就没有那么重要了，但是仍能够提高效率）。\n下面就来看看如何做。\n如果使用 HtmlWebpackPlugin 来生成 HTML如果使用 HtmlWebpackPlugin 来生成 HTML 文件，InlineChunkWebpackPlugin 就足够了。\n如果使用自己的定制服务逻辑来生成 HTML1.将 runtime 名称改成静态的明确的文件名：\n123456789101112// webpack.config.jsmodule.exports = &#123;  plugins: [    new webpack.optimize.CommonsChunkPlugin(&#123;      name: 'runtime',      minChunks: Infinity,      filename: 'runtime.js',        // → Now the runtime file will be called        // “runtime.js”, not “runtime.79f17c27b335abc7aaf4.js”    &#125;),  ],&#125;;\n2.以方便的方式将 runtime.js 嵌入进去。比如：Node.js 和 Express\n1234567891011// server.jsconst fs = require('fs');const runtimeContent = fs.readFileSync('./runtime.js', 'utf-8');app.get('/', (req, res) =&gt; &#123;  res.send(`    …    &lt;script&gt;$&#123;runtimeContent&#125;&lt;/script&gt;    …  `);&#125;);\n懒加载有时候，页面拥有或多或少的部分：\n\n如果你在 YouTube 上加载一个视频页面，相比评论区域你更在乎视频区域。这就是视频要比评论区域重要。\n如果你在一个新闻网站打开一个报道，相比广告区域你更关心文章的内容。这就是文字比广告更重要。\n\n在这些案例中，通过仅下载最重要的部分，懒加载剩余区域能够提升最初的加载性能。使用 the import() function 和 code-splitting 解决这个问题：\n12345678910111213141516// videoPlayer.jsexport function renderVideoPlayer() &#123; … &#125;// comments.jsexport function renderComments() &#123; … &#125;// index.jsimport &#123;renderVideoPlayer&#125; from './videoPlayer';renderVideoPlayer();// …Custom event listeneronShowCommentsClick(() =&gt; &#123;  import('./comments').then((comments) =&gt; &#123;    comments.renderComments();  &#125;);&#125;);\nimport()明确表示你期望动态地加载独立的 module。当 webpack 看到 import(&#39;./module.js&#39;)时，他就会将这个 module 移到独立的 chunk 中：\n123456789$ webpackHash: 39b2a53cb4e73f0dc5b2Version: webpack 3.8.1Time: 4273ms                            Asset     Size  Chunks             Chunk Names      ./0.8ecaf182f5c85b7a8199.js  22.5 kB       0  [emitted]   ./main.f7e53d8e13e9a2745d6d.js    60 kB       1  [emitted]  main ./vendor.4f14b6326a80f4752a98.js    46 kB       2  [emitted]  vendor./runtime.79f17c27b335abc7aaf4.js  1.45 kB       3  [emitted]  runtime\n并且只在代码执行到 import() 才会下载。\n这将会让 main bundle 更小，提升初始加载的时间。更重要的是改进缓存 - 如果你修改 main chunk 的代码，其他部分的 chunk 也不会受影响。\n\nNote: 如果使用 Babel 编译代码，你会因为 Babel 还不认识 import() 而遇到语法错误抛出来。可以使用 syntax-dynamic-import 解决这个错误。\n\nFurther reading\nWebpack docs for the import() function\nThe JavaScript proposal for implementing the import() syntax\n\nSplit the code into routes and pages 拆分代码到路由和页面中如果你的应用拥有多个路由或者页面，但是代码中只有单独一个 JS 文件（一个单独的 main chunk），这看起来你正在每一个请求中节省额外的 bytes 带宽。举个例子，当用户正在访问你网站的首页：\n\n他们并不需要加载另外不同的页面上渲染文章标题的的代码 - 但是他们还是会加载到这段代码。更严重的是如果用户经常只访问首页，同时你还经常改变渲染文章标题的代码，webpack 将会对整个 bundle 失效 - 用户每次都会重复下载全部 app 的代码。\n如果我们将代码拆分到页面里（或者单页面应用的路由里），用户就会只下载对他有意义的代码。更好的是，浏览器也会更好地缓存代码：当你改变首页的代码时，webpack 只会让相匹配的 chunk 失效。\nFor single-page apps 对于单页面应用通过路由拆分带页面引用，使用 import()（看看 “Lazy-load code that you don’t need right now”这部分）。如果你在使用一个框架，现在已经有成熟的方案：\n\n“Code Splitting” in react-router‘s docs (for React)\n“Lazy Loading Routes” in vue-router‘s docs (for Vue.js)\n\nFor traditional multi-page apps 对于传统的多页面应用通过页面拆分传统多页面应用，可以使用 webpack 的 entry points 。如果你的应用有三种页面：主页、文章页、用户账户页，那就分厂三个 entries：\n12345678// webpack.config.jsmodule.exports = &#123;  entry: &#123;    home: './src/Home/index.js',    article: './src/Article/index.js',    profile: './src/Profile/index.js'  &#125;,&#125;;\n对于每一个 entry 文件，webpack 将构建出独立的依赖树，并且声称一个 bundle，它将通过 entry 来只包括用到的 modules：\n1234567891011$ webpackHash: 318d7b8490a7382bf23bVersion: webpack 3.8.1Time: 4273ms                            Asset     Size  Chunks             Chunk Names      ./0.8ecaf182f5c85b7a8199.js  22.5 kB       0  [emitted]   ./home.91b9ed27366fe7e33d6a.js    18 kB       1  [emitted]  home./article.87a128755b16ac3294fd.js    32 kB       2  [emitted]  article./profile.de945dc02685f6166781.js    24 kB       3  [emitted]  profile ./vendor.4f14b6326a80f4752a98.js    46 kB       4  [emitted]  vendor./runtime.318d7b8490a7382bf23b.js  1.45 kB       5  [emitted]  runtime\n因此，如果仅仅是文章页使用 Lodash ，home 和 profile 的 bundle 将不会包含 lodash - 同时用户也不会在访问首页的时候下载到这个库。\n拆分依赖树也有缺点。如果两个 entry points 都用到了 loadash ，同时你没有在 vendor 移除掉依赖，两个 entry points 将包括两个重复的 lodash 。我们可以使用CommonsChunkPlugin来解决这个问题 - 它会将通用的依赖转移到一个独立的文件中：\n1234567891011121314// webpack.config.jsmodule.exports = &#123;  plugins: [    new webpack.optimize.CommonsChunkPlugin(&#123;      // A name of the chunk that will include the common dependencies      name: 'common',      // The plugin will move a module into a common file      // only if it’s included into `minChunks` chunks      // (Note that the plugin analyzes all chunks, not only entries)      minChunks: 2,    // 2 is the default value    &#125;),  ],&#125;;\n随意使用minChunks的值来找到最优的选项。通常情况下，你想要它尽可能体积小，但它会增加 chunks 的数量。举个例子，3 个 chunk，minChunks 可能是 2 个，但是 30 个 chunk，它可能是 8 个 - 因为如果你把它设置成 2 ，过多的 modules 将会打包进一个通用文件中，文件更臃肿。\nFurther reading\nWebpack docs about the concept of entry points\nWebpack docs about the CommonsChunkPlugin\n“Getting the most out of the CommonsChunkPlugin”\n\nMake module ids more stable 让 module ide 更稳定当编译代码时，webpack 会分配给每一个 module 一个 ID。之后，这些 ID 就会被require()引用到 bundle 内部。你可以在编译输出的右侧在 moudle 路径之前看到这些 ID：\n123456789$ webpackHash: df3474e4f76528e3bbc9Version: webpack 3.8.1Time: 2150ms                           Asset      Size  Chunks             Chunk Names      ./0.8ecaf182f5c85b7a8199.js  22.5 kB       0  [emitted]   ./main.4e50a16675574df6a9e9.js    60 kB       1  [emitted]  main ./vendor.26886caf15818fa82dfa.js    46 kB       2  [emitted]  vendor./runtime.79f17c27b335abc7aaf4.js  1.45 kB       3  [emitted]  runtime\n↓\n123456[0] ./index.js 29 kB &#123;1&#125; [built][2] (webpack)/buildin/global.js 488 bytes &#123;2&#125; [built][3] (webpack)/buildin/module.js 495 bytes &#123;2&#125; [built][4] ./comments.js 58 kB &#123;0&#125; [built][5] ./ads.js 74 kB &#123;1&#125; [built] + 1 hidden module\n默认情况下，这些 ID 是使用计数器计算出来的（比如第一个 module 是 ID 0，第二个 moudle 就是 ID 1，以此类推）。这样的问题就在于当你新增一个 module 事，它会出现在原来 module 列表中的中间，改变后面所有 module 的 ID：\n123456789101112$ webpackHash: df3474e4f76528e3bbc9Version: webpack 3.8.1Time: 2150ms                           Asset      Size  Chunks             Chunk Names      ./0.5c82c0f337fcb22672b5.js    22 kB       0  [emitted]   ./main.0c8b617dfc40c2827ae3.js    82 kB       1  [emitted]  main ./vendor.26886caf15818fa82dfa.js    46 kB       2  [emitted]  vendor./runtime.79f17c27b335abc7aaf4.js  1.45 kB       3  [emitted]  runtime   [0] ./index.js 29 kB &#123;1&#125; [built]   [2] (webpack)/buildin/global.js 488 bytes &#123;2&#125; [built]   [3] (webpack)/buildin/module.js 495 bytes &#123;2&#125; [built]\n↓ 我们增加一个新 module\n1[4] ./webPlayer.js 24 kB &#123;1&#125; [built]\n↓ 现在看这里做了什么！comments.js现在的 ID 由 4 变成了 5\n1[5] ./comments.js 58 kB &#123;0&#125; [built]\n↓ ads.js 的 ID 由 5 变成 6\n12[6] ./ads.js 74 kB &#123;1&#125; [built]       + 1 hidden module\n这将使包含或依赖于具有更改ID的模块的所有块无效 - 即使它们的实际代码没有更改。在我们的代码中，_0_这个 chunk 和 main chunk 都会失效 - 只有main才应该失效。\n使用HashedModuleIdsPlugin插件改变module ID 如何计算来解决这个问题。它利用 module 路径的 hash 来替换掉计数器：\n123456789$ webpackHash: df3474e4f76528e3bbc9Version: webpack 3.8.1Time: 2150ms                           Asset      Size  Chunks             Chunk Names      ./0.6168aaac8461862eab7a.js  22.5 kB       0  [emitted]   ./main.a2e49a279552980e3b91.js    60 kB       1  [emitted]  main ./vendor.ff9f7ea865884e6a84c8.js    46 kB       2  [emitted]  vendor./runtime.25f5d0204e4f77fa57a1.js  1.45 kB       3  [emitted]  runtime\n↓ Here\n1234567[3IRH] ./index.js 29 kB &#123;1&#125; [built][DuR2] (webpack)/buildin/global.js 488 bytes &#123;2&#125; [built][JkW7] (webpack)/buildin/module.js 495 bytes &#123;2&#125; [built][LbCc] ./webPlayer.js 24 kB &#123;1&#125; [built][lebJ] ./comments.js 58 kB &#123;0&#125; [built][02Tr] ./ads.js 74 kB &#123;1&#125; [built]    + 1 hidden module\n有了这个方法，只有你重命名护着删除这个 moudle 它的 ID 才会变化。新的 modules 不会因为 module ID 互相影响。\n启用这个插件，在配置中增加 plugins：\n123456// webpack.config.jsmodule.exports = &#123;  plugins: [    new webpack.HashedModuleIdsPlugin(),  ],&#125;;\nFurther reading\nWebpack docs about the HashedModuleIdsPlugin\n\nSumming up\nCache the bundle and differentiate between them by changing their names\nSplit the bundle into app code, vendor code and runtime\nInline the runtime to save an HTTP request\nLazy-load non-critical code with import\nSplit code by routes/pages to avoid loading unnecessary stuff\n\n\nMonitor and analyze the app 监控并分析作者 Ivan Akulov\n即使当你配置好你的 webpack 让你的应用尽可能体积较小的时候，跟踪这个应用就非常重要，同时了解里面包含了什么。除此之外，你安装一个依赖，它将让你的 app 增加两倍大小 - 但并没有注意到这个问题！\n这一部分就来讲解一些能够帮助你理解你的 bundle 的工具。\nKeep track of the bundle size 跟踪打包的体积在开发时可以使用webpack-dashboard和命令行bundlesize 来监控 app 的体积。\nwebpack-dashboardwebpack-dashboard可以通过依赖体积大小、进程和其他细节来改进 webpack 的输出。\n\n这个 dashborad 帮助我们跟踪大型依赖 - 如果你增加一个依赖，你就立刻能在 Modules section 始终看到它！\n启用这个功能，需要安装 webpack-dashboard 包：\n1npm install webpack-dashboard --save-dev\n 同时在配置的 plugins 增加：\n12345678// webpack.config.jsconst DashboardPlugin = require('webpack-dashboard/plugin');module.exports = &#123;  plugins: [    new DashboardPlugin(),  ],&#125;;\n或者如果正在使用基于 Express dev server 可以使用 compiler.apply()：\n1compiler.apply(new DashboardPlugin());\n多尝试 dashboard 找出改进的地方！比如，在 modules section 滚动找到那个库体积过大，把它替换成小的可替代的库。\nbundlesizebundlesize 可以验证 webpack assets 不超过指定的大小。通过自动化 CI 就可以知晓 app 是否变的过于臃肿：\n\n配置如下：\nFind out the maximum sizes 找出最大体积1.分析 app 尽可能减小体积，执行生产环境的 build。2.在package.json中增加bundlesize部分：\n12345678// package.json&#123;  \"bundlesize\": [    &#123;      \"path\": \"./dist/*\"    &#125;  ]&#125;\n3.使用npx执行bundlesize：\n1npx bundlesize\n它就会将每一个文件的 gzip 压缩后的体积打印出来：\n1PASS  ./dist/icon256.6168aaac8461862eab7a.png:  10.89KB PASS./dist/icon512.c3e073a4100bd0c28a86.png:  13.1KB PASS./dist/main.0c8b617dfc40c2827ae3.js:  16.28KB PASS./dist/vendor.ff9f7ea865884e6a84c8.js:  31.49KB\n4.每一个体积增加10-20%，你将得到最大体积。这个10-20％的幅度可以让你像往常一样开发应用程序，同时警告你，当它的大小增长太多。\nEnable bundlesize 启用 bundlesize5.安装bundlesize开发依赖\n1npm install bundlesize --save-dev\n6.在package.json中的bundlesize部分，声明具体的最大值。对于某一些文件（比如图片），你可以单独根据文件类型来设置最大体积大小，而不需要根据每一个文件：\n1234567891011121314151617// package.json&#123;  \"bundlesize\": [    &#123;      \"path\": \"./dist/*.png\",      \"maxSize\": \"16 kB\",    &#125;,    &#123;      \"path\": \"./dist/main.*.js\",      \"maxSize\": \"20 kB\",    &#125;,    &#123;      \"path\": \"./dist/vendor.*.js\",      \"maxSize\": \"35 kB\",    &#125;  ]&#125;\n7.增加一个 npm 脚本来执行检查：\n123456// package.json&#123;  \"scripts\": &#123;    \"check-size\": \"bundlesize\"  &#125;&#125;\n8.配置自动化 CI 来在每一次 push 时执行npm run check-size做检查。（如果你在 Github 上开发项目，直接可以使用integrate bundlesize with GitHub。）\n这就全部了！现在如果你运行npm run check-size或者 push 代码，你就会看到输出的文件是否足够小：\n\n或者下面失败的情况\n\nFurther reading\nAlex Russell about the real-world loading time we should target\n\nAnalyze why the bundle is so large 分析 bundle 为什么这么大你想要深挖 bundle 内，看看里面具体哪些 module 占用多大空间。webpack-bundle-analyzer\n(Screen recording from github.com/webpack-contrib/webpack -bundle-analyzer)\nwebpack-bundle-analyzer 可以扫描 bundle 同时构建一个查看内部的可视化窗口。使用这个可视化工具找到过大或者不必要的依赖。\n使用这个分析器，需要安装webpack-bundle-analyzer包：\n1npm install webpack-bundle-analyzer --save-dev\n在 config 中增加插件：\n12345678// webpack.config.jsconst BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;module.exports = &#123;  plugins: [    new BundleAnalyzerPlugin(),  ],&#125;;\n运行生产环境的 build 这个插件就会在浏览器中打开一个显示状态的页面。\n默认情况下，这个页面会显示语法分析后的文件体积（在 bundle 出现的文件）。您可能想比较 gzip 的大小，因为这更接近实际用户的体验；使用左边的边栏来切换尺寸。\n\nNote: 如果你使用 ModuleConcatenationPlugin，它可能在webpack-bundle-analyzer输出时合并一部分 module，使得报告小一些细节。如果你使用这个插件，在执行分析的时候需要禁用掉。\n\n下面是报告中需要看什么：\n\n大型依赖 为什么体积这么大？是否有更小的替代包（比如 Preact 替代 React）？用了全部代码（比如 Moment.js 包含大量的本地变量 that are often not used and could be dropped）？\n重复依赖 是否在不同文件中看到相同的库？（使用CommonsChunkPlugin将他们移到一个通用文件内）亦或是在同一个库中 bundle 拥有多个版本？\n相似依赖 是否存在有相似功能的相似库存在？（比如moment和date-fns 或者 lodash 和 lodash-es）尽力汇总成一个。\n\n同样的，也可以看看 Sean Larkin 的文章 great analysis of webpack bundles。\nSumming up\nUse webpack-dashboard and bundlesize to stay tuned of how large your app is\nDig into what builds up the size with webpack-bundle-analyzer\n\n\nConclusion总结一下：\n\n剔除不必要的体积 把所有的都压缩，剔除无用代码，增加依赖是保持谨慎小心。\n通过路由拆分代码 只在真正需要的时候才加载，其他的部分做来加载。\n缓存代码 应用程序的某些部分更新频率低于其他部分，将这些部分拆分成文件，以便在必要时仅重新下载。\n跟踪体积大小 使用  webpack-dashboard 和 webpack-bundle-analyzer 监控你的 app。每隔几个月重新检查一下你的应用的性能。\n\nWebpack 不仅仅是一个帮助你更快创建 app 的工具。它还帮助使你的 app 成为 a Progressive Web App ，你的应用拥有更好的体验以及自动化的填充工具就像Lighthouse根据环境给出建议。\n不要忘记阅读 webpack docs - 里面提供了大量的优化的信息。\n多多练习 with the training app！\n","dateCreated":"2018-02-11T14:35:33+08:00","dateModified":"2018-06-20T09:31:47+08:00","datePublished":"2018-02-11T14:35:33+08:00","description":"作者 Addy Osmani，Ivan Akulov\n原文 https://developers.google.com/web/fundamentals/performance/webpack/","headline":"【译】利用 webpack 做 web 性能优化","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/","keywords":"翻译, Webpack"}</script>
     <meta name="description" content="作者 Addy Osmani，Ivan Akulov 原文 https://developers.google.com/web/fundamentals/performance/webpack/">
 <meta name="keywords" content="翻译,Webpack">
 <meta property="og:type" content="blog">
@@ -48,33 +49,30 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-cgt7lyidontkgdavnqipi4g0x6djhmlubljr8eldbujatozfap0uxxebcoxx.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
     <!--STYLES END-->
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-46079069-1');
+        gtag('config', 'UA-46079069-1');
     </script>
 
 
     
-  <script>
+    <script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
 
-
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259784931' style='display:none;' %3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259784931%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 </head>
 
     <body>
@@ -92,7 +90,7 @@
             <a class="header-right-icon open-algolia-search" href="#search">
         
         
-            <i class="fa fa-lg fa-search"></i>
+            <i class="search fa-lg"></i>
         
         </a>
     
@@ -112,7 +110,7 @@
                 </a>
                 <h4 class="sidebar-profile-name">Bean Lee</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>爱做白日梦的豆先森</p>
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
 </h5>
                 
             </div>
@@ -124,7 +122,7 @@
                     
                         <a class="sidebar-button-link " href="/ " title="首页">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
@@ -133,7 +131,7 @@
                     
                         <a class="sidebar-button-link " href="/all-categories" title="分类">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
@@ -142,7 +140,7 @@
                     
                         <a class="sidebar-button-link " href="/all-tags" title="标签">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
@@ -151,7 +149,7 @@
                     
                         <a class="sidebar-button-link " href="/all-archives" title="归档">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
                     </a>
             </li>
@@ -160,7 +158,7 @@
                     
                         <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
@@ -169,7 +167,7 @@
                     
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">链接</span>
                     </a>
             </li>
@@ -178,7 +176,7 @@
                     
                         <a class="sidebar-button-link " href="/about" title="关于">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
@@ -187,7 +185,7 @@
                     
                         <a class="sidebar-button-link " href="/beanlib" title="实验室">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-flask" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">实验室</span>
                     </a>
             </li>
@@ -200,7 +198,7 @@
                     
                         <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
@@ -209,8 +207,17 @@
                     
                         <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-twitter" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -218,7 +225,7 @@
                     
                         <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-instagram" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Instagram</span>
                     </a>
             </li>
@@ -231,7 +238,7 @@
                     
                         <a class="sidebar-button-link " href="/atom.xml" title="RSS">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -247,18 +254,18 @@
                         hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             【译】利用 webpack 做 web 性能优化
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:35:33+08:00">
+    <time datetime="2018-02-11T14:35:33+08:00">
 	
 		    2月 11, 2018
     	
@@ -270,14 +277,13 @@
 
 
     
-    <!-- <span class="post-count">9,478</span> -->
-    <span class="post-count">about 42 min </span>
 </div>
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <p>作者 <a href="https://developers.google.com/web/resources/contributors/addyosmani" target="_blank" rel="noopener">Addy Osmani</a>，<a href="https://developers.google.com/web/resources/contributors/iamakulov" target="_blank" rel="noopener">Ivan Akulov</a></p>
 <p>原文 <a href="https://developers.google.com/web/fundamentals/performance/webpack/" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/webpack/</a></p>
@@ -655,12 +661,6 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div style="text-align: center;">
-  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
-  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
-</div>
-        
-        
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br>
                 
@@ -703,7 +703,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -711,30 +711,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -750,7 +742,6 @@
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
             
-        
         
     </div>
 </article>
@@ -800,7 +791,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -808,30 +799,22 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/" title="分享到 Weibo">
-                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
         
             
                 <li class="post-action">
-                    <a class="post-action-btn btn btn--default" href="#disqus_thread" data-tooltip="评论">
-                        <i class="fa fa-comment-o"></i>
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" data-tooltip="Nach oben" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -841,36 +824,30 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="2">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://beanlee.github.io/posts/blog-translate-web-performance-optimization-with-webpack-from-google/">
-                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
@@ -882,27 +859,27 @@
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         
             <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
         
             <h4 id="about-card-name">Bean Lee</h4>
         
-            <div id="about-card-bio"><p>爱做白日梦的豆先森</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br>
-                <p>FE@JD</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br>
                 Beijing
             </div>
@@ -914,7 +891,7 @@
             <div id="algolia-search-modal" class="modal-container">
     <div class="modal">
         <div class="modal-header">
-            <span class="close-button"><i class="fa fa-close"></i></span>
+            <span class="close-button"><i class="fa fa-times"></i></span>
             <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
                 <span class="searchby-algolia-text text-color-light text-small">by</span>
                 <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
@@ -1135,7 +1112,7 @@
         
 <div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-6u5tjmm63bnhdcsnbtduenmsc8unbeunjbfasbwk5srlvbrosplbcxwxukml.min.js"></script>
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
 <!--SCRIPTS END-->
 
     
