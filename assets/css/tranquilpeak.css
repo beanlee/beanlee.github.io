@@ -47,8 +47,8 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0); }
 
 body {
   width: 100%;
@@ -58,7 +58,7 @@ body {
   background: white;
   font-family: "PingFang SC", "Microsoft Yahei", "Open Sans", sans-serif;
   font-size: 1.6rem;
-  line-height: 2em;
+  line-height: 1.9em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
   font-smoothing: subpixel-antialiased; }
@@ -82,12 +82,10 @@ h2,
 h3 {
   margin: 1em 0 1em 0; }
 
-h3,
 h4,
 h5,
 h6 {
-  margin: 1em 0 0.5em 0;
-  font-weight: 500; }
+  margin: 1em 0 0.5em 0; }
 
 h1 {
   font-size: 2.8rem; }
@@ -108,7 +106,7 @@ h6 {
   font-size: 1.6rem; }
 
 p {
-  margin: 0 0 0.5em 0; }
+  margin: 0 0 1.5em 0; }
 
 ul,
 ol,
@@ -156,18 +154,18 @@ pre > code {
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
-  font-family: Monaco, Menlo, Consolas, monospace;
+  font-family: Menlo, Consolas, monospace;
   border: none;
   margin: 0;
   cursor: text;
   overflow-x: auto;
-  line-height: 1.8em;
-  font-size: 1.5rem; }
+  line-height: 1.7em;
+  font-size: 1.4rem; }
 
 code {
   font-size: 1.5rem;
   display: inline-block;
-  font-family: "Monaco", "Menlo", "Consolas", monospace;
+  font-family: Menlo, Consolas, monospace;
   font-weight: 400;
   background-color: #f7f8f8;
   padding: 0 10px; }
@@ -180,7 +178,7 @@ blockquote {
   border-left: 3px solid #5d686f;
   padding: 0 15px;
   font-style: italic;
-  margin: 1.5em 0 1em 0; }
+  margin: 1.5em 0 0; }
   blockquote cite:before {
     content: ' — ';
     padding: 0 0.3em; }
@@ -266,7 +264,7 @@ blockquote {
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
       font-size: 1.6rem;
-      line-height: 2em;
+      line-height: 1.9em;
       font-weight: 400;
       color: #5d686f; }
 
@@ -705,7 +703,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="1"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="2"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="4"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="5"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -743,7 +741,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="3"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="6"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -775,7 +773,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="1"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="2"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="3"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -811,7 +809,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="4"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="5"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -849,7 +847,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="6"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -886,7 +884,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="1"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="2"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -923,7 +921,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="3"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -959,7 +957,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="4"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon, #sidebar[data-behavior="5"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -997,7 +995,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="6"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -1057,7 +1055,7 @@ blockquote {
           padding-top: 0;
           white-space: nowrap; }
           #sidebar[data-behavior="1"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             float: left;
             text-align: center;
             width: 30px;
@@ -1104,7 +1102,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="2"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -1141,7 +1139,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="3"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -1200,7 +1198,7 @@ blockquote {
           padding-top: 0;
           white-space: nowrap; }
           #sidebar[data-behavior="4"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             float: left;
             text-align: center;
             width: 30px;
@@ -1248,7 +1246,7 @@ blockquote {
         padding-left: 23px;
         padding-top: 0; }
         #sidebar[data-behavior="5"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -1286,7 +1284,7 @@ blockquote {
         text-align: center;
         width: 100%; }
         #sidebar[data-behavior="6"] ul.sidebar-buttons li.sidebar-button .sidebar-button-link .sidebar-button-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           display: inline-block;
           text-align: center;
           width: 30px;
@@ -1318,7 +1316,8 @@ blockquote {
   min-height: 30px;
   margin: 1em 0 0;
   border: none;
-  border-left: 3px solid; }
+  border-left: 3px solid;
+  word-break: break-word; }
   .alert p {
     margin: 1.5em 0 0; }
     .alert p:first-child {
@@ -1329,8 +1328,9 @@ blockquote {
       position: absolute;
       top: 10px;
       left: 15px;
-      font-family: 'FontAwesome';
-      font-size: 2.5rem; }
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 600;
+      font-size: 2rem; }
   .alert.info {
     border-color: #349ef3;
     background-color: #e6f3fe; }
@@ -1375,7 +1375,8 @@ blockquote {
   .archive .archive-posts .archive-post .archive-post-date {
     color: #9eabb3; }
   .archive .archive-posts .archive-post::before {
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 600;
     content: '\f0da';
     font-size: 1.3rem; }
 
@@ -1456,7 +1457,7 @@ blockquote {
 figure.highlight,
 .codeblock {
   margin: 10px 0;
-  line-height: 1.4em;
+  line-height: 1.3em;
   padding-top: 15px;
   padding-bottom: 15px;
   overflow: hidden; }
@@ -1473,7 +1474,7 @@ figure.highlight,
   .codeblock .code,
   .codeblock .tag {
     background-color: inherit;
-    font-family: Monaco, Menlo, Consolas, monospace;
+    font-family: Menlo, Consolas, monospace;
     border: none;
     padding: 0;
     margin: 0;
@@ -1497,8 +1498,7 @@ figure.highlight,
   figure.highlight .gutter,
   .codeblock .gutter {
     border-right: 1px solid;
-    padding: 0.3em 15px;
-    display: none; }
+    padding: 0.3em 15px; }
   figure.highlight .code,
   .codeblock .code {
     padding: 0.3em 15px 0.3em 1em;
@@ -1510,8 +1510,8 @@ figure.highlight,
       overflow-y: hidden; }
   figure.highlight .line,
   .codeblock .line {
-    height: 1.4em;
-    font-size: 1.5rem; }
+    height: 1.3em;
+    font-size: 1.4rem; }
 
 .codeblock--tabbed figure.highlight,
 .codeblock--tabbed pre > code {
@@ -1533,7 +1533,7 @@ figure.highlight,
 
 .gist .line,
 .gist .line-number {
-  font-family: "Monaco", "Menlo", "Consolas", monospace;
+  font-family: Menlo, Consolas, monospace;
   font-size: 1em;
   margin: 0 0 5px 0; }
 
@@ -1751,45 +1751,45 @@ a.fancybox {
 
 @media only screen and (min-width: 1024px) {
   .markdown h1 {
-    font-size: 2.8rem; }
+    font-size: 3rem; }
   .markdown h2 {
-    font-size: 2.4rem; }
+    font-size: 2.7rem; }
   .markdown h3 {
-    font-size: 2rem; }
+    font-size: 2.4rem; }
   .markdown h4 {
-    font-size: 1.8rem; }
+    font-size: 2.1rem; }
   .markdown h5 {
-    font-size: 1.7rem; }
+    font-size: 1.9rem; }
   .markdown h6 {
-    font-size: 1.6rem; } }
+    font-size: 1.7rem; } }
 
 @media only screen and (max-width: 767px) {
   .markdown h1 {
-    font-size: 2.45rem; }
+    font-size: 2.65rem; }
   .markdown h2 {
-    font-size: 2.05rem; }
+    font-size: 2.35rem; }
   .markdown h3 {
-    font-size: 1.65rem; }
+    font-size: 2.05rem; }
   .markdown h4 {
-    font-size: 1.45rem; }
+    font-size: 1.75rem; }
   .markdown h5 {
-    font-size: 1.35rem; }
+    font-size: 1.55rem; }
   .markdown h6 {
-    font-size: 1.25rem; } }
+    font-size: 1.35rem; } }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .markdown h1 {
-    font-size: 2.6rem; }
+    font-size: 2.8rem; }
   .markdown h2 {
-    font-size: 2.2rem; }
+    font-size: 2.5rem; }
   .markdown h3 {
-    font-size: 1.8rem; }
+    font-size: 2.2rem; }
   .markdown h4 {
-    font-size: 1.6rem; }
+    font-size: 1.9rem; }
   .markdown h5 {
-    font-size: 1.5rem; }
+    font-size: 1.7rem; }
   .markdown h6 {
-    font-size: 1.4rem; } }
+    font-size: 1.5rem; } }
 
 .media-body, .media-left {
   display: table-cell;
@@ -1924,9 +1924,11 @@ a.fancybox {
     .post .post-content img {
       display: block;
       width: auto;
-      max-width: 100%;
-      margin: 1.5rem auto;
-      box-shadow: 2px 20px 40px 10px rgba(0, 0, 0, 0.15); }
+      max-width: 100%; }
+    .post .post-content :not(blockquote):not(li):not(.alert) > p {
+      margin: 1.5em 0 0 0; }
+    .post .post-content li p {
+      margin: 0 0 0 0; }
   .post .post-footer {
     margin-top: 20px; }
     .post .post-footer-tags {
@@ -1944,7 +1946,7 @@ a.fancybox {
 
 @media only screen and (min-width: 768px) {
   .post-content {
-    font-size: 1.6rem; } }
+    font-size: 1.7rem; } }
 
 .post-actions-wrap {
   height: 60px;
@@ -2258,8 +2260,10 @@ a.fancybox {
     overflow: hidden;
     margin: 15px 0 15px 0; }
     .postShorten.postShorten--thumbnailimg-bottom .postShorten-thumbnailimg img {
-      width: auto;
-      height: auto; } }
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover; } }
 
 .share-options-bar {
   position: fixed;
@@ -2267,6 +2271,7 @@ a.fancybox {
   background: white;
   height: 100%;
   clear: both;
+  box-sizing: border-box;
   border-top: 1px solid #eef2f8;
   transition: transform .25s ease-in-out;
   z-index: 50;
@@ -2296,7 +2301,8 @@ a.fancybox {
       display: block;
       width: 100%;
       padding: 10px 0 10px 0; }
-      .share-options-bar .share-options .share-option .share-option-btn .fa {
+      .share-options-bar .share-options .share-option .share-option-btn .fa,
+      .share-options-bar .share-options .share-option .share-option-btn .fab {
         margin-right: 15px; }
 
 #btn-close-shareoptions {
@@ -2483,7 +2489,7 @@ a.tag--small,
     color: #fff;
     content: attr(data-tooltip);
     font-size: 0.93em;
-    line-height: 2em;
+    line-height: 1.9em;
     border-radius: 5px; }
   .tooltip:before, [data-tooltip]:before, .tooltip:after, [data-tooltip]:after {
     position: absolute;
@@ -2764,6 +2770,15 @@ figure.highlight,
   .codeblock.cpp .code .built_in,
   .codeblock.c .code .number,
   .codeblock.c .code .built_in {
+    color: #0086b3; }
+  figure.highlight.clj .code .builtin-name,
+  .codeblock.clj .code .builtin-name {
+    color: #df5000; }
+  figure.highlight.clj .code .name,
+  .codeblock.clj .code .name {
+    color: #795da3; }
+  figure.highlight.clj .code .number,
+  .codeblock.clj .code .number {
     color: #0086b3; }
   figure.highlight.cs .code .preprocessor,
   figure.highlight.cs .code .preprocessor .keyword,
@@ -3109,6 +3124,12 @@ figure.highlight,
   .codeblock.less .selector-class,
   .codeblock.less .selector-tag {
     color: #795da3; }
+  figure.highlight.lisp .code .name,
+  .codeblock.lisp .code .name {
+    color: #df5000; }
+  figure.highlight.lisp .code .number,
+  .codeblock.lisp .code .number {
+    color: #0086b3; }
   figure.highlight.scss .tag,
   figure.highlight.scss .at_rule,
   figure.highlight.scss .important,
