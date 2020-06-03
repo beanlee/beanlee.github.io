@@ -15,20 +15,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics\n\n你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的故障排除指南来了解如何解决 JavaScript 相关的问题。\n\nJavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你获取新用户，同时可以通过用户可以搜索到你的 web 应用提供的内容来留存现有用户。当 Google Search 通过 Chromium 引擎来运行 JavaScript 时，你可以做一些下面这些事情去进行优化。\n下面这个指南描述了 Google Search 是如何处理 JavaScript 的，同时展示了为了提升 Google Search SEO 结果的最佳实践。\n\n油管视频地址\nGooglebot 如何处理 JavaScriptGooglebot 处理 JavaScript web 应用存在三个主要阶段：\n\nCrawling 爬取\nRendering 渲染\nIndexing 索引\n\nGooglebot 爬取，渲染索引一个页面。\n\n\nGooglebot 会网页进行排队，以便爬取和渲染。当页面正在等待被爬取时和正在等待等待渲染时，不会很明显。\n\n当 Googlebot 从爬取队列中获取一个 URL 来创建一个 HTTP 请求时，它首先会检查你的网站是否允许爬取。Googlebot 会阅读 robot.txt 文件。如果它标记了当前 URL 不允许爬取，Googlebot 会跳过对这个 URL 的 HTTP 请求。\nGooglebot 会转换其他 URL 的响应，这些 URL 是在 HTML 链接中的 href 属性，同时将这些 URL 放在待爬取的队列中。如果要阻止链接的查找，可以使用 nofollow mechanism。\n爬取 URL 处理 HTML 响应在传统型网站或者服务端渲染页面的网站很奏效，服务端渲染网站其中的 HTTP 响应中包含了全部的内容。一些 JavaScript 网站可能会用到 app shell model，这些网站在初始 HTML 内容中并不包含实际的内容，Googlebot 需要在看到十几页面内容之前执行 JavaScript。\nGooglebot 将需要渲染的页面排入队列，除非网站的 robots meta tag or header 信息告诉 Googlebot 不要对这个页面进行索引。这个页面可能在队列中短暂停留，但是它将花费更长的时间。一旦 Googlebot 的资源允许，headless Chromium 可以渲染这个页面并且执行 JavaScript。Googlebot 会再次解析渲染完成的 HTML 链接，并且按照队列查找的 URL 继续爬取。Googlebot 也会使用渲染完成的 HTML 对页面进行索引。\n请记住，服务端渲染或者预加载仍然是很好的解决方案，因为这个方案可以使你的网站面向用户、爬虫时响应迅速，而不是所有 bots 可以运行 JavaScript。\n用唯一的 title 和 snippets 描述网页唯一的，可描述的标题以及有用的 meta 描述信息可以帮助用户快速地有目的性的定位最佳的搜索结果，我们在指南中解释什么是好的 title 和 description。\n你也可以使用 JavaScript 设置或者修改 title 和 meta 描述信息。\n\nGoogle Search 可以基于用户的查询展示不同的标题和描述。当标题或者说明与页面内容相关性较低，或者我们在页面中发现与搜索结果更匹配的替代方法时，就会发生这种情况。有关标题和说明的代码片段的详细信息，请参与此页面。\n\n编写向下兼容的代码浏览器提供了很多 API 并且 JavaScript 也是一个快速进化的编程语言。Googlebot 在支持哪些 API 和 JavaScript 功能方面有一些限制。为了确保你的代码可以兼容 Googlebot，请遵循我们的 JavaScript 故障指南。\n\n如果你发现你需要的 API 缺失，我们建议使用不同的服务和 polyfills。如果一些浏览器特性没有被 polyfill 补丁，我们建议你多看 polyfill 文档，了解潜在的限制。\n\n使用有意义的 HTTP 状态码在爬取页面时，Googlebot 使用 HTTP 状态码识别页面的一些问题。\n你可以使用有意义的状态码告诉 Googlebot 当 前页面是否需要被爬取或者索引，比如 404 代表页面已经失联，401 代表登录前的页面。你可以使用 HTTP 状态码告诉 Googlebot 这个页面被转移到一个新的 URL ，因此索引可以被及时更新。\n下面是 HTTP 的状态码列表\n\n\n\nHTTP status\nWhen to use\n\n\n\n\n301/302\n当前页面已经跳转到新 URL\n\n\n401/403\n当前页面由于权限问题不可访问\n\n\n404/410\n当前页面不存在\n\n\n5xx\n服务端异常\n\n\n\n使用 meta robot tag你可以通过 meta robots 标签标记来阻止 Googlebot 对页面标记索引页面。举个例子，在页面中增加下面一个标签：\n12&lt;!-- Googlebot won't index this page or follow links on this page --&gt;&lt;meta name=\"robots\" content=\"noindex, nofollow\" /&gt;\n当 Googlebot 在 robots meta 标签中遇到 noindex，它就不会渲染或者索引这个页面。\n\n使用 JavaScript 修改或删除 robots meta 标签可能不会如期望似的生效。如果 meta 标签包含 noindex ，Googlebot 会跳过渲染和 JavaScript 执行。如果你想要使用 JavaScript 修改 robots meta 标签，需要设置 noindex。\n\n处理图片和懒加载内容图片加载在宽带和性能方面会带来很大的消耗。一个好的策略是使用延迟加载，仅在用户即将看到图像时加载图片。为了确保更好的实现延迟加载，请遵循我们的延迟加载指南。\n","dateCreated":"2019-07-30T22:39:20+08:00","dateModified":"2019-07-30T22:45:46+08:00","datePublished":"2019-07-30T22:39:20+08:00","description":"理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics\n\n你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的故障排除指南来了解如何解决 JavaScript 相关的问题。\n\nJavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你获取新用户，同时可以通过用户可以搜索到你的 web 应用提供的内容来留存现有用户。当 Google Search 通过 Chromium 引擎来运行 JavaScript 时，你可以做一些下面这些事情去进行优化。\n下面这个指南描述了 Google Search 是如何处理 JavaScript 的，同时展示了为了提升 Google Search SEO 结果的最佳实践。","headline":"【译】Google 出品 - Understand the JavaScript SEO basics","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/understand-the-javascript-seo-basics/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/understand-the-javascript-seo-basics/","keywords":"Front-End, 翻译, React"}</script>
-    <meta name="description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的故障排除指南来了解如何解决 JavaScript 相关的问题。  JavaScript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics\n\n你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的故障排除指南来了解如何解决 JavaScript 相关的这些问题。\n\nJavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你吸引新用户，同时可以通过 Google 搜索到你的 web 应用提供出来的有效内容来留存现有用户。当 Google Search 通过 Chromium 引擎来执行 JavaScript 时，你可以做一些下面这些事情去进行优化改进你的 Web 应用。\n\n下面这个指南描述了 Google Search 是如何处理 JavaScript 的，同时也在展示提升 Google Search SEO 结果的最佳实践。\n一段油管视频地址\nGooglebot 如何处理 JavaScriptGooglebot 处理 JavaScript web 应用存在三个主要阶段：\n\nCrawling 爬取\nRendering 渲染呈现\nIndexing 建立索引\n\nGooglebot 爬取，渲染并索引页面的步骤。\n\n\nGooglebot 会将网页排入队列，以便爬取和渲染。当页面正在等待被爬取时和正在等待等待渲染时，并不容易被用户立即察觉到。\n\n当 Googlebot 从爬取队列中获取一个 URL 来创建一个 HTTP 请求时，它首先会检查你的网站是否允许被爬取。Googlebot 会阅读 robot.txt 文件。如果它标记了当前 URL 不允许爬取，Googlebot 会跳过对这个 URL 的 HTTP 请求。\nGooglebot 会解析在 HTML 链接中的 href 属性转换出来的其他 URL 的响应，同时将这些 URL 放在待爬取的队列中。如果要阻止链接的查找，可以使用 nofollow mechanism。\n爬取 URL 时处理 HTML 响应在传统型网站和服务端渲染页面的网站很奏效，服务端渲染网站其中的 HTTP 响应中包含了全部的内容。一些 JavaScript 网站可能会用到 app shell model，这些网站在初始 HTML 内容中并不包含实际的内容，Googlebot 需要在看到十几页面内容之前执行 JavaScript。\nGooglebot 将需要渲染的页面排入队列，除非网站的 robots meta tag or header 信息告诉 Googlebot 不要对这个页面进行索引。这个页面可能在队列中短暂停留，但是它将花费更长的时间。一旦 Googlebot 的资源允许，headless Chromium 可以渲染这个页面并且执行 JavaScript。Googlebot 会再次解析渲染完成的 HTML 链接，并且按照队列查找的 URL 继续爬取。Googlebot 也会使用渲染完成的 HTML 对页面进行索引。\n请记住，服务端渲染或者预加载仍然是很好的解决方案，因为这个方案可以使你的网站面向用户、爬虫时响应迅速，而不是所有 bots 可以运行 JavaScript。\n用唯一的 title 和 snippets 描述网页唯一的，可描述的标题以及有用的 meta 描述信息可以帮助用户快速地有目的性的定位最佳的搜索结果，我们在指南中解释什么是好的 title 和 description。\n你也可以使用 JavaScript 设置或者修改 title 和 meta 描述信息。\n\nGoogle Search 可以基于用户的查询展示不同的标题和描述。当标题或者说明与页面内容相关性较低，或者我们在页面中发现与搜索结果更匹配的替代方法时，就会发生这种情况。有关标题和说明的代码片段的详细信息，请参与此页面。\n\n编写向下兼容的代码浏览器提供了很多 API 并且 JavaScript 也是一个快速进化的编程语言。Googlebot 在支持哪些 API 和 JavaScript 功能方面有一些限制。为了确保你的代码可以兼容 Googlebot，请遵循我们的 JavaScript 故障指南。\n\n如果你发现你需要的 API 缺失，我们建议使用不同的服务和 polyfills。如果一些浏览器特性没有被 polyfill 补丁，我们建议你多看 polyfill 文档，了解潜在的限制。\n\n使用有意义的 HTTP 状态码在爬取页面时，Googlebot 使用 HTTP 状态码识别页面的一些问题。\n你可以使用有意义的状态码告诉 Googlebot 当 前页面是否需要被爬取或者索引，比如 404 代表页面已经失联，401 代表登录前的页面。你可以使用 HTTP 状态码告诉 Googlebot 这个页面被转移到一个新的 URL ，因此索引可以被及时更新。\n下面是 HTTP 的状态码列表\n\n\n\nHTTP status\nWhen to use\n\n\n\n\n301/302\n当前页面已经跳转到新 URL\n\n\n401/403\n当前页面由于权限问题不可访问\n\n\n404/410\n当前页面不存在\n\n\n5xx\n服务端异常\n\n\n\n使用 meta robot tag你可以通过 meta robots 标签标记来阻止 Googlebot 对页面标记索引页面。举个例子，在页面中增加下面一个标签：\n12&lt;!-- Googlebot won't index this page or follow links on this page --&gt;&lt;meta name=\"robots\" content=\"noindex, nofollow\" /&gt;\n当 Googlebot 在 robots meta 标签中遇到 noindex，它就不会渲染或者索引这个页面。\n\n使用 JavaScript 修改或删除 robots meta 标签可能不会如期望似的生效。如果 meta 标签包含 noindex ，Googlebot 会跳过渲染和 JavaScript 执行。如果你想要使用 JavaScript 修改 robots meta 标签，需要设置 noindex。\n\n处理图片和懒加载内容图片加载在宽带和性能方面会带来很大的消耗。一个好的策略是使用延迟加载，仅在用户即将看到图像时加载图片。为了确保更好的实现延迟加载，请遵循我们的延迟加载指南。\n","dateCreated":"2019-07-30T22:39:20+08:00","dateModified":"2019-07-31T13:45:55+08:00","datePublished":"2019-07-30T22:39:20+08:00","description":"理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics\n\n你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的故障排除指南来了解如何解决 JavaScript 相关的这些问题。\n\nJavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你吸引新用户，同时可以通过 Google 搜索到你的 web 应用提供出来的有效内容来留存现有用户。当 Google Search 通过 Chromium 引擎来执行 JavaScript 时，你可以做一些下面这些事情去进行优化改进你的 Web 应用。","headline":"【译】Google 出品 - Understand the JavaScript SEO basics","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/understand-the-javascript-seo-basics/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/understand-the-javascript-seo-basics/","keywords":"Front-End, 翻译, React"}</script>
+    <meta name="description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的故障排除指南来了解如何解决 JavaScript 相关的这些问题。  Ja">
 <meta name="keywords" content="Front-End,翻译,React">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="【译】Google 出品 - Understand the JavaScript SEO basics">
 <meta property="og:url" content="https://beanlee.github.io/posts/understand-the-javascript-seo-basics/index.html">
 <meta property="og:site_name" content="BeanLee Blog">
-<meta property="og:description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的故障排除指南来了解如何解决 JavaScript 相关的问题。  JavaScript">
+<meta property="og:description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的故障排除指南来了解如何解决 JavaScript 相关的这些问题。  Ja">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://img10.360buyimg.com/imagetools/jfs/t1/61335/23/6032/68515/5d403cf3Ee3a8a36b/753878cf026e9c6d.png">
-<meta property="og:updated_time" content="2019-07-30T14:45:46.655Z">
+<meta property="og:updated_time" content="2019-07-31T05:45:55.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【译】Google 出品 - Understand the JavaScript SEO basics">
-<meta name="twitter:description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的故障排除指南来了解如何解决 JavaScript 相关的问题。  JavaScript">
+<meta name="twitter:description" content="理解 JavaSript SEO 基础原文 https://developers.google.com/search/docs/guides/javascript-seo-basics  你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的故障排除指南来了解如何解决 JavaScript 相关的这些问题。  Ja">
 <meta name="twitter:image" content="https://img10.360buyimg.com/imagetools/jfs/t1/61335/23/6032/68515/5d403cf3Ee3a8a36b/753878cf026e9c6d.png">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
     
@@ -270,7 +270,7 @@
 
 
     
-    <span class="post-count">&nbsp;&nbsp;1,461 words, about  5 min read </span>
+    <span class="post-count">&nbsp;&nbsp;1,495 words, about  5 min read </span>
 </div>
 
     
@@ -281,26 +281,26 @@
         <div class="main-content-wrap">
             <h2 id="理解-JavaSript-SEO-基础"><a href="#理解-JavaSript-SEO-基础" class="headerlink" title="理解 JavaSript SEO 基础"></a>理解 JavaSript SEO 基础</h2><p>原文 <a href="https://developers.google.com/search/docs/guides/javascript-seo-basics" target="_blank" rel="noopener">https://developers.google.com/search/docs/guides/javascript-seo-basics</a></p>
 <blockquote>
-<p>你是否怀疑 JavaScript 问题可能会阻止你的网页或者某一部分内容出现在 Google Search 中？ 通过我们的<a href="https://developers.google.com/search/docs/guides/fix-search-javascript" target="_blank" rel="noopener">故障排除指南</a>来了解如何解决 JavaScript 相关的问题。</p>
+<p>你是否怀疑过由于 JavaScript 的问题可能会影响你的网页或者某一部分内容出现在 Google Search 的结果？ 你通过我们的<a href="https://developers.google.com/search/docs/guides/fix-search-javascript" target="_blank" rel="noopener">故障排除指南</a>来了解如何解决 JavaScript 相关的这些问题。</p>
 </blockquote>
-<p>JavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你获取新用户，同时可以通过用户可以搜索到你的 web 应用提供的内容来留存现有用户。当 Google Search 通过 Chromium 引擎来运行 JavaScript 时，你可以做一些下面这些事情去进行优化。</p>
-<p>下面这个指南描述了 Google Search 是如何处理 JavaScript 的，同时展示了为了提升 Google Search SEO 结果的最佳实践。</p>
+<p>JavaScript 是 WEB 平台中重要的一部分，因为它能够提供由普通 web 网站向功能更强大的应用平台转变的众多特性。开发 JavaScript 驱动的 web 应用可以帮助你吸引新用户，同时可以通过 Google 搜索到你的 web 应用提供出来的有效内容来留存现有用户。当 Google Search 通过 Chromium 引擎来执行 JavaScript 时，你可以做一些下面这些事情去进行优化改进你的 Web 应用。</p>
 <a id="more"></a>
-<p>油管视频<a href="https://youtu.be/nwGY-9lwTF4" target="_blank" rel="noopener">地址</a></p>
+<p>下面这个指南描述了 Google Search 是如何处理 JavaScript 的，同时也在展示提升 Google Search SEO 结果的最佳实践。</p>
+<p>一段油管视频<a href="https://youtu.be/nwGY-9lwTF4" target="_blank" rel="noopener">地址</a></p>
 <h3 id="Googlebot-如何处理-JavaScript"><a href="#Googlebot-如何处理-JavaScript" class="headerlink" title="Googlebot 如何处理 JavaScript"></a>Googlebot 如何处理 JavaScript</h3><p>Googlebot 处理 JavaScript web 应用存在三个主要阶段：</p>
 <ol>
 <li>Crawling 爬取</li>
-<li>Rendering 渲染</li>
-<li>Indexing 索引</li>
+<li>Rendering 渲染呈现</li>
+<li>Indexing 建立索引</li>
 </ol>
-<p>Googlebot 爬取，渲染索引一个页面。</p>
+<p>Googlebot 爬取，渲染并索引页面的步骤。</p>
 <p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/61335/23/6032/68515/5d403cf3Ee3a8a36b/753878cf026e9c6d.png" alt></p>
 <blockquote>
-<p>Googlebot 会网页进行排队，以便爬取和渲染。当页面正在等待被爬取时和正在等待等待渲染时，不会很明显。</p>
+<p>Googlebot 会将网页排入队列，以便爬取和渲染。当页面正在等待被爬取时和正在等待等待渲染时，并不容易被用户立即察觉到。</p>
 </blockquote>
-<p>当 Googlebot 从爬取队列中获取一个 URL 来创建一个 HTTP 请求时，它首先会检查你的网站是否允许爬取。Googlebot 会阅读 <code>robot.txt</code> 文件。如果它标记了当前 URL 不允许爬取，Googlebot 会跳过对这个 URL 的 HTTP 请求。</p>
-<p>Googlebot 会转换其他 URL 的响应，这些 URL 是在 HTML 链接中的 <code>href</code> 属性，同时将这些 URL 放在待爬取的队列中。如果要阻止链接的查找，可以使用 <a href="https://support.google.com/webmasters/answer/96569" target="_blank" rel="noopener">nofollow mechanism</a>。</p>
-<p>爬取 URL 处理 HTML 响应在传统型网站或者服务端渲染页面的网站很奏效，服务端渲染网站其中的 HTTP 响应中包含了全部的内容。一些 JavaScript 网站可能会用到 <a href="https://developers.google.com/web/fundamentals/architecture/app-shell" target="_blank" rel="noopener">app shell model</a>，这些网站在初始 HTML 内容中并不包含实际的内容，Googlebot 需要在看到十几页面内容之前执行 JavaScript。</p>
+<p>当 Googlebot 从爬取队列中获取一个 URL 来创建一个 HTTP 请求时，它首先会检查你的网站是否允许被爬取。Googlebot 会阅读 <strong><code>robot.txt</code></strong> 文件。如果它标记了当前 URL 不允许爬取，Googlebot 会跳过对这个 URL 的 HTTP 请求。</p>
+<p>Googlebot 会解析在 HTML 链接中的 <code>href</code> 属性转换出来的其他 URL 的响应，同时将这些 URL 放在待爬取的队列中。如果要阻止链接的查找，可以使用 <a href="https://support.google.com/webmasters/answer/96569" target="_blank" rel="noopener">nofollow mechanism</a>。</p>
+<p>爬取 URL 时处理 HTML 响应在传统型网站和服务端渲染页面的网站很奏效，服务端渲染网站其中的 HTTP 响应中包含了全部的内容。一些 JavaScript 网站可能会用到 <a href="https://developers.google.com/web/fundamentals/architecture/app-shell" target="_blank" rel="noopener">app shell model</a>，这些网站在初始 HTML 内容中并不包含实际的内容，Googlebot 需要在看到十几页面内容之前执行 JavaScript。</p>
 <p>Googlebot 将需要渲染的页面排入队列，除非网站的 <a href="https://developers.google.com/search/reference/robots_meta_tag" target="_blank" rel="noopener">robots meta tag or header</a> 信息告诉 Googlebot 不要对这个页面进行索引。这个页面可能在队列中短暂停留，但是它将花费更长的时间。一旦 Googlebot 的资源允许，headless Chromium 可以渲染这个页面并且执行 JavaScript。Googlebot 会再次解析渲染完成的 HTML 链接，并且按照队列查找的 URL 继续爬取。Googlebot 也会使用渲染完成的 HTML 对页面进行索引。</p>
 <p>请记住，<a href="https://developers.google.com/web/updates/2019/02/rendering-on-the-web" target="_blank" rel="noopener">服务端渲染或者预加载</a>仍然是很好的解决方案，因为这个方案可以使你的网站面向用户、爬虫时响应迅速，而不是所有 bots 可以运行 JavaScript。</p>
 <h3 id="用唯一的-title-和-snippets-描述网页"><a href="#用唯一的-title-和-snippets-描述网页" class="headerlink" title="用唯一的 title 和 snippets 描述网页"></a>用唯一的 title 和 snippets 描述网页</h3><p>唯一的，可描述的标题以及有用的 meta 描述信息可以帮助用户快速地有目的性的定位最佳的搜索结果，我们在指南中解释什么是<a href="https://support.google.com/webmasters/answer/35624#page-titles" target="_blank" rel="noopener">好的 title 和 description</a>。</p>
@@ -374,7 +374,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/sth-about-eslint/" data-tooltip="ESLint 修改点整理" aria-label="上一篇: ESLint 修改点整理">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -449,7 +450,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 Bean Lee. All Rights Reserved.
+        Copyrights &copy; 2020 Bean Lee. All Rights Reserved.
     </span>
 </footer>
 
@@ -461,7 +462,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/sth-about-eslint/" data-tooltip="ESLint 修改点整理" aria-label="上一篇: ESLint 修改点整理">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -800,7 +802,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="没有找到文章" data-message-one="找到 1 篇文章" data-message-other="找到 {n} 篇文章">
-                找到 29 篇文章
+                找到 30 篇文章
             </p>
         </div>
     </div>

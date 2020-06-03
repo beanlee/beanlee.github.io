@@ -1,0 +1,843 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="BeanLee Blog">
+    <title>ESLint 修改点整理 - BeanLee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="https://beanlee.github.io/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"ESLint 修改点整理ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。\n\n备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。\n\n\nPlugin 列表\n&quot;plugin:react/recommended&quot;\n&quot;plugin:@typescript-eslint/recommended&quot;\n&quot;prettier/@typescript-eslint&quot;\n&quot;plugin:prettier/recommended&quot;\n\nERROR List\n[Error] eslint@typescript-eslint/ban-ts-comment\nDo not use “// @ts-nocheck” because it alters compilation errors. Desc link\nTypeScript 提供 @ts-expect-error @ts-ignore @ts-nocheck @ts-check 指令注释方式，用来改变 tsc 编译时处理文件的方式，如果大量使用此类注释影响 TypeScript 的特性，既然使用 ts 就要拥抱它的特性，lint 中默认对 no-check 会按照 error 进行提示；可以根据实际情况调整规则，改为 warn。\n\n[Error] @typescript-eslint/ban-types\nDesc Link\n补充提示：\n\n\n1234Don't use `&#123;&#125;` as a type. `&#123;&#125;` actually means \"any non-nullish value\".- If you want a type meaning \"any object\", you probably want `Record&lt;string, unknown&gt;` instead.- If you want a type meaning \"any value\", you probably want `unknown` instead.\n\n[Error] react/jsx-no-target-blank\nDesc Link\n出于安全考虑，React 中产生新打开页面的链接，需要增加 rel=&#39;noreferrer&#39; 用来保护原站。具体说明详见：Link\n\n\nWARN List\n[Warn] Missing return type on function.eslint@typescript-eslint/explicit-module-boundary-types\ndesc link说明：针对函数的定义，建议每一个函数都要显式的表明函数返回值。这在 *.jsx, *.tsx 文件中，React 生命周期函数都提示，可以使用 eslint overrides 规则，只针对 *.js, *.ts 生效。\n\n\n123456789101112131415&#123;  \"rules\": &#123;    // disable the rule for all files    \"@typescript-eslint/explicit-module-boundary-types\": \"off\"  &#125;,  \"overrides\": [    &#123;      // enable the rule specifically for TypeScript files      \"files\": [\"*.js\", \"*.ts\"],      \"rules\": &#123;        \"@typescript-eslint/explicit-module-boundary-types\": \"warn\"      &#125;    &#125;  ]&#125;\n\n[Warn] @typescript-eslint/no-unused-vars\n\n应该是最经常遇到的一个警告，定义了变量，下文没有使用。\n个人建议：非关键算法或逻辑代码，当你阅读时没用，就删掉吧，可以保留注释，因为即使你想保留这段代码，以备不时之需，但是真到需要用到代码你再次阅读的时候，实现思路以及上下文联系可能已经相差很远。\nPrettier 细节\n关于默认逗号的变化 link\n\nPrettier 自动 v2.0.0 开始，将 trailingComma 默认配置由 none 改为 es5，在我看来是一种很好的方式。\n举个例子，当 import 多个内容、一个对象需要增加属性、一个数组追加元素，如果默认已经追加了逗号，那么就可以直接追加，而不必要移动光标去前一行手动增加一个逗号，这样就增加了一些便利性，与此同时便于快速定位甚至避免由于一个逗号的引起的错误。\nTS2322 自定义属性12345678import &#123; AriaAttributes, DOMAttributes &#125; from &quot;react&quot;;declare module &quot;react&quot; &#123;  interface HTMLAttributes&lt;T&gt; extends AriaAttributes, DOMAttributes&lt;T&gt; &#123;    // extends React&apos;s HTMLAttributes    custom?: string;  &#125;&#125;\n参考：https://dev.to/lukethacoder/use-custom-html-attribute-s-in-typescript-2co\nTS2679问题实例片段代码：\n1234567891011121314151617181920function* loadSimilar(skuId: string) &#123;  yield put(&#123;    type: ActionTypes.REQUEST_SIMILAR.PENDING,  &#125;);  try &#123;    const &#123; data &#125; = yield API.querySimilar(skuId);    yield put(&#123;      type: ActionTypes.REQUEST_SIMILAR.SUCCESS,      data,    &#125;);  &#125; catch (error) &#123;    yield put(&#123;      type: ActionTypes.REQUEST_SIMILAR.FAILURE,    &#125;);  &#125;&#125;function* watchSimilar() &#123;  yield takeEvery(ActionTypes.LOAD_SIMILAR, loadSimilar);&#125;\n修改后代码：\n123456789101112131415161718192021- function* loadSimilar(skuId: string) &#123;+ function* loadSimilar(&#123; skuId &#125;: &#123; type: string; skuId: string &#125;) &#123;  yield put(&#123;    type: ActionTypes.REQUEST_SIMILAR.PENDING,  &#125;);  try &#123;    const &#123; data &#125; = yield API.querySimilar(skuId);    yield put(&#123;      type: ActionTypes.REQUEST_SIMILAR.SUCCESS,      data,    &#125;);  &#125; catch (error) &#123;    yield put(&#123;      type: ActionTypes.REQUEST_SIMILAR.FAILURE,    &#125;);  &#125;&#125;function* watchSimilar() &#123;  yield takeEvery(ActionTypes.LOAD_SIMILAR, loadSimilar);&#125;\n解答：Redux-Saga 中 takeEvery 第二个参数是一个 action，所以定义 loadSimilar 时候需要遵循 TakeableChannel&lt;unknown&gt; ，定义 type。参考：https://stackoverflow.com/a/60558041\n切记，保证一路传递参数变量匹配，否则会出现无法赋值问题，例如下面代码：\n12345678- function* cartOptCheckOne(&#123; param &#125;: &#123; type: string; param: any &#125;) &#123;+ function* cartOptCheckOne(&#123;+   // type = ActionTypes.OPT_CARTCHECKONE,+   RequestParam,+ &#125;: &#123;+   type: string;+   RequestParam: any;+ &#125;) &#123;\n外层触发 action 传参数代码如下：\n123this.props.optCartCheckOne(&#123;  RequestParam: requestParam,&#125;);\n如果定义 cartOptCheckOne 使用 param 就会导致传递过程中因为变量名称不同无法解构，导致传参中断。\nESLint Config参考 https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project\n","dateCreated":"2020-06-03T21:39:00+08:00","dateModified":"2020-06-03T21:42:26+08:00","datePublished":"2020-06-03T21:39:00+08:00","description":"ESLint 修改点整理ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。\n\n备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。\n","headline":"ESLint 修改点整理","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/sth-about-eslint/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/sth-about-eslint/","keywords":"Front-End, React, ESLint, TypeScript"}</script>
+    <meta name="description" content="ESLint 修改点整理ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。  备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。">
+<meta name="keywords" content="Front-End,React,ESLint,TypeScript">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="ESLint 修改点整理">
+<meta property="og:url" content="https://beanlee.github.io/posts/sth-about-eslint/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:description" content="ESLint 修改点整理ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。  备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2020-06-03T13:42:26.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ESLint 修改点整理">
+<meta name="twitter:description" content="ESLint 修改点整理ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。  备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-46079069-1');
+    </script>
+
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
+    
+        
+            <a class="header-right-icon open-algolia-search" href="#search">
+        
+        
+            <i class="search fa-lg"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-categories" title="分类">
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/links" title="链接">
+                    
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/about" title="关于">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/beanlib" title="实验室">
+                    
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            ESLint 修改点整理
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-06-03T21:39:00+08:00">
+	
+		    6月 03, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
+
+
+    
+    <span class="post-count">&nbsp;&nbsp;1,053 words, about  5 min read </span>
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="ESLint-修改点整理"><a href="#ESLint-修改点整理" class="headerlink" title="ESLint 修改点整理"></a>ESLint 修改点整理</h2><p>ESLint 为团队和项目带来的益处，这里不多说，本文主要是个人近期修改项目代码一些错误修改整理的内容。</p>
+<blockquote>
+<p>备注：尽量使用默认 Prettier 规则，根据实际情况略有调整。项目技术栈 React, Redux, Redux-Sagas, TypeScript。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="Plugin-列表"><a href="#Plugin-列表" class="headerlink" title="Plugin 列表"></a>Plugin 列表</h3><ul>
+<li><code>&quot;plugin:react/recommended&quot;</code></li>
+<li><code>&quot;plugin:@typescript-eslint/recommended&quot;</code></li>
+<li><code>&quot;prettier/@typescript-eslint&quot;</code></li>
+<li><code>&quot;plugin:prettier/recommended&quot;</code></li>
+</ul>
+<h3 id="ERROR-List"><a href="#ERROR-List" class="headerlink" title="ERROR List"></a>ERROR List</h3><ul>
+<li><p>[Error] eslint@typescript-eslint/ban-ts-comment</p>
+<p>Do not use “// @ts-nocheck” because it alters compilation errors. <a href="https://github.com/typescript-eslint/typescript-eslint/blob/v3.0.1/packages/eslint-plugin/docs/rules/ban-ts-comment.md" target="_blank" rel="noopener">Desc link</a></p>
+<p>TypeScript 提供 <code>@ts-expect-error @ts-ignore @ts-nocheck @ts-check</code> 指令注释方式，用来改变 tsc 编译时处理文件的方式，如果大量使用此类注释影响 TypeScript 的特性，既然使用 ts 就要拥抱它的特性，lint 中默认对 <code>no-check</code> 会按照 <code>error</code> 进行提示；可以根据实际情况调整规则，改为 <code>warn</code>。</p>
+</li>
+<li><p>[Error] @typescript-eslint/ban-types</p>
+<p><a href="https://github.com/typescript-eslint/typescript-eslint/blob/v3.0.1/packages/eslint-plugin/docs/rules/ban-types.md" target="_blank" rel="noopener">Desc Link</a></p>
+<p>补充提示：</p>
+</li>
+</ul>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Don't use <span class="code">`&#123;&#125;`</span> as a type. <span class="code">`&#123;&#125;`</span> actually means "any non-nullish value".</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span>If you want a type meaning "any object", you probably want <span class="code">`Record&lt;string, unknown&gt;`</span> instead.</span><br><span class="line"><span class="bullet">- </span>If you want a type meaning "any value", you probably want <span class="code">`unknown`</span> instead.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>[Error] react/jsx-no-target-blank</p>
+<p><a href="https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules/jsx-no-target-blank.md" target="_blank" rel="noopener">Desc Link</a></p>
+<p>出于安全考虑，React 中产生新打开页面的链接，需要增加 <code>rel=&#39;noreferrer&#39;</code> 用来保护原站。具体说明详见：<a href="https://html.spec.whatwg.org/multipage/links.html#link-type-noopener" target="_blank" rel="noopener">Link</a></p>
+</li>
+</ul>
+<h3 id="WARN-List"><a href="#WARN-List" class="headerlink" title="WARN List"></a>WARN List</h3><ul>
+<li><p>[Warn] Missing return type on function.eslint@typescript-eslint/explicit-module-boundary-types</p>
+<p><a href="https://github.com/typescript-eslint/typescript-eslint/blob/v3.0.1/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md" target="_blank" rel="noopener">desc link</a><br>说明：针对函数的定义，建议每一个函数都要显式的表明函数返回值。这在 <code>*.jsx, *.tsx</code> 文件中，React 生命周期函数都提示，可以使用 eslint overrides 规则，只针对 <code>*.js, *.ts</code> 生效。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"rules"</span>: &#123;</span><br><span class="line">    // disable the rule for all files</span><br><span class="line">    "@typescript-eslint/explicit-module-boundary-types": "off"</span><br><span class="line">  &#125;,</span><br><span class="line">  "overrides": [</span><br><span class="line">    &#123;</span><br><span class="line">      // enable the rule specifically for TypeScript files</span><br><span class="line">      "files": ["*.js", "*.ts"],</span><br><span class="line">      "rules": &#123;</span><br><span class="line">        "@typescript-eslint/explicit-module-boundary-types": "warn"</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>[Warn] @typescript-eslint/no-unused-vars</li>
+</ul>
+<p>应该是最经常遇到的一个警告，定义了变量，下文没有使用。</p>
+<p><strong>个人建议：非关键算法或逻辑代码，当你阅读时没用，就删掉吧，可以保留注释，因为即使你想保留这段代码，以备不时之需，但是真到需要用到代码你再次阅读的时候，实现思路以及上下文联系可能已经相差很远。</strong></p>
+<h3 id="Prettier-细节"><a href="#Prettier-细节" class="headerlink" title="Prettier 细节"></a>Prettier 细节</h3><ul>
+<li>关于默认逗号的变化 <a href="https://prettier.io/docs/en/options.html#trailing-commas" target="_blank" rel="noopener">link</a></li>
+</ul>
+<p><code>Prettier</code> 自动 v2.0.0 开始，将 <code>trailingComma</code> 默认配置由 <code>none</code> 改为 <code>es5</code>，在我看来是一种很好的方式。</p>
+<p>举个例子，当 import 多个内容、一个对象需要增加属性、一个数组追加元素，如果默认已经追加了逗号，那么就可以直接追加，而不必要移动光标去前一行手动增加一个逗号，这样就增加了一些便利性，与此同时便于快速定位甚至避免由于一个逗号的引起的错误。</p>
+<h4 id="TS2322-自定义属性"><a href="#TS2322-自定义属性" class="headerlink" title="TS2322 自定义属性"></a>TS2322 自定义属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import &#123; AriaAttributes, DOMAttributes &#125; from &quot;react&quot;;</span><br><span class="line"></span><br><span class="line">declare module &quot;react&quot; &#123;</span><br><span class="line">  interface HTMLAttributes&lt;T&gt; extends AriaAttributes, DOMAttributes&lt;T&gt; &#123;</span><br><span class="line">    // extends React&apos;s HTMLAttributes</span><br><span class="line">    custom?: string;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://dev.to/lukethacoder/use-custom-html-attribute-s-in-typescript-2co" target="_blank" rel="noopener">https://dev.to/lukethacoder/use-custom-html-attribute-s-in-typescript-2co</a></p>
+<h4 id="TS2679"><a href="#TS2679" class="headerlink" title="TS2679"></a>TS2679</h4><p>问题实例片段代码：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">loadSimilar</span>(<span class="params">skuId: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> put(&#123;</span><br><span class="line">    <span class="keyword">type</span>: ActionTypes.REQUEST_SIMILAR.PENDING,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data &#125; = <span class="keyword">yield</span> API.querySimilar(skuId);</span><br><span class="line">    <span class="keyword">yield</span> put(&#123;</span><br><span class="line">      <span class="keyword">type</span>: ActionTypes.REQUEST_SIMILAR.SUCCESS,</span><br><span class="line">      data,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">yield</span> put(&#123;</span><br><span class="line">      <span class="keyword">type</span>: ActionTypes.REQUEST_SIMILAR.FAILURE,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">watchSimilar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> takeEvery(ActionTypes.LOAD_SIMILAR, loadSimilar);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改后代码：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- function* loadSimilar(skuId: string) &#123;</span></span><br><span class="line"><span class="addition">+ function* loadSimilar(&#123; skuId &#125;: &#123; type: string; skuId: string &#125;) &#123;</span></span><br><span class="line">  yield put(&#123;</span><br><span class="line">    type: ActionTypes.REQUEST_SIMILAR.PENDING,</span><br><span class="line">  &#125;);</span><br><span class="line">  try &#123;</span><br><span class="line">    const &#123; data &#125; = yield API.querySimilar(skuId);</span><br><span class="line">    yield put(&#123;</span><br><span class="line">      type: ActionTypes.REQUEST_SIMILAR.SUCCESS,</span><br><span class="line">      data,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; catch (error) &#123;</span><br><span class="line">    yield put(&#123;</span><br><span class="line">      type: ActionTypes.REQUEST_SIMILAR.FAILURE,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* watchSimilar() &#123;</span><br><span class="line">  yield takeEvery(ActionTypes.LOAD_SIMILAR, loadSimilar);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答：Redux-Saga 中 takeEvery 第二个参数是一个 action，所以定义 loadSimilar 时候需要遵循 <code>TakeableChannel&lt;unknown&gt;</code> ，定义 type。<br>参考：<a href="https://stackoverflow.com/a/60558041" target="_blank" rel="noopener">https://stackoverflow.com/a/60558041</a></p>
+<p><strong>切记，保证一路传递参数变量匹配，否则会出现无法赋值问题，例如下面代码：</strong></p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- function* cartOptCheckOne(&#123; param &#125;: &#123; type: string; param: any &#125;) &#123;</span></span><br><span class="line"><span class="addition">+ function* cartOptCheckOne(&#123;</span></span><br><span class="line"><span class="addition">+   // type = ActionTypes.OPT_CARTCHECKONE,</span></span><br><span class="line"><span class="addition">+   RequestParam,</span></span><br><span class="line"><span class="addition">+ &#125;: &#123;</span></span><br><span class="line"><span class="addition">+   type: string;</span></span><br><span class="line"><span class="addition">+   RequestParam: any;</span></span><br><span class="line"><span class="addition">+ &#125;) &#123;</span></span><br></pre></td></tr></table></figure>
+<p>外层触发 action 传参数代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this.props.optCartCheckOne(&#123;</span><br><span class="line">  RequestParam: requestParam,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果定义 cartOptCheckOne 使用 param 就会导致传递过程中因为变量名称不同无法解构，导致传参中断。</p>
+<h2 id="ESLint-Config"><a href="#ESLint-Config" class="headerlink" title="ESLint Config"></a>ESLint Config</h2><p>参考 <a href="https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project" target="_blank" rel="noopener">https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project</a></p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div style="text-align: center;">
+  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
+</div>
+        
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/ESLint/">ESLint</a> <a class="tag tag--primary tag--small t-link" href="/tags/Front-End/">Front-End</a> <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a> <a class="tag tag--primary tag--small t-link" href="/tags/TypeScript/">TypeScript</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/understand-the-javascript-seo-basics/" data-tooltip="【译】Google 出品 - Understand the JavaScript SEO basics" aria-label="下一篇: 【译】Google 出品 - Understand the JavaScript SEO basics">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/sth-about-eslint/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/sth-about-eslint/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/understand-the-javascript-seo-basics/" data-tooltip="【译】Google 出品 - Understand the JavaScript SEO basics" aria-label="下一篇: 【译】Google 出品 - Understand the JavaScript SEO basics">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/sth-about-eslint/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/sth-about-eslint/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/sth-about-eslint/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/sth-about-eslint/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                Beijing
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="没有找到文章" data-message-one="找到 1 篇文章" data-message-other="找到 {n} 篇文章">
+                找到 30 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://beanlee.github.io/posts/sth-about-eslint/';
+                 
+                    this.page.identifier = 'posts/sth-about-eslint/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
+
+
+<!-- Hotjar Tracking Code for https://beanlee.github.io -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1333288,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+    </body>
+</html>
