@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="BeanLee Blog">
+    <title>基于 Storybook 5 打造 Style 组件库开发与文档站建设小结 - BeanLee Blog</title>
+    <meta name="author" content="Bean Lee">
+    
+    
+        <link rel="icon" href="https://beanlee.github.io/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"\n写在前头前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。\n调研和选型具体细节，后面找时间再梳理输出另外一篇文章，这里介绍在使用 Storybook 5 的过程中的一些问题点以及经验分享。\n\n截止文章编写时 Storybook 6 正在进行 rc 版，作者也经历过将之前项目的 5.2.x 升级到 5.3.x 过程的阵痛，网络上关于使用 Storybook 的问题文章也比较少，除了 Storybook 官网文档以外一些问题点记录，因此成文，感兴趣可以继续阅读。有关 UI 组件库的建设，这里不做深入讨论。（就是我们暂时先不讨论 WHY 的问题，本文只讨论 HOW。）\n\n\n\n首先，个人总结 Storybook 几点优势，也是基于下面几个优势最终决定选型它的原因\n\n开发环境 预览环境整体基于 Webpack 构建，开发环境接近实际生产环境；\n多面手 支持技术栈类型较多，可以支持 React、Vue 等等技术栈组件展示；\n代码即文档 无论是开发初期我们使用的 *.stories.js，还是后期因为要统一文档站说明和一些 UI，我们改用 MDX 重写了使用说明，不过大部分 API 列表还是基于 Props 的实现定义 Interface 中 JSDoc 自动渲染，非常方便；\n实时性 展示环境实时可交互，通过 knob 插件可以让使用者直接修改组件属性直接看到效果；\n\n支持 TypeScript官方文档，支持 TypeScript 编写组件，文档中罗列了几个选项，出于使用习惯以及 Babel 与 Microsoft 的合作关系，推荐使用 babel-loader 方式。（虽然它很慢，所以要尽量控制编译的范围。）\nTips当使用 babel 编译 TypeScript 的时候，存在两个问题\n\n描述文件 d.ts 组件的描述文件如何生成，babel-loader 本身不具备这个能力。\nBUG 文档站生成过程中，默认 storybook 配置了 devtool，导致即使当前环境是 production 依然会编译生成 sourcemap，也就需要手动将 devtool 改为 false，这里应该给 storybook 提一个 issue。文档见这里，有一句说明：注意：sourceMap 选项是被忽略的。当 webpack 配置了 sourceMap 时（通过 devtool 配置选项），将会自动生成 sourceMap。\n\n关于声明文件的生成有两个方案：\n\n手动通过 tsc 本身具备的能力，结合 --emitDeclarationOnly参数和输出目录来只输出 *.d.ts\n后期我们重构组件库打包方式，组内的小伙伴使用 gulp 一样的道理通过单独编译声明文件并输出到与组件代码同级目录\n\n上面的方案核心就是单独编译声明文件即可，即便是微软官方提供的例子也是单独输出声明文件，详见这里，如果小伙们有其他好办法欢迎留言讨论。\n文档站构建优化1build-storybook  -c .storybook -o docs-static\n从打包命令中就可以看到，构建的配置支持 .storybook 文件夹下配置文件，默认读取 main.js 作为构建的补充，这里完全就是遵循 webpack 的配置，比如这里 webpackFinal: async (config) =&gt; { ...} 这段代码中拿到当前构建的全部 config 配置对象，那么既然拿到这个对象，那理论上就可以调整整个的构建过程。（当然，Storybook 构建确实使用了很多的 loader 和 plugin ）。\n静态站的打包和部署就和一个普通静态站部署没什么区别，外挂一个 HTTP 服务即可。由于 storybook 默认将每一个 stories （也就是组件）构建时进行了分包懒加载，访问每一个 stories 的时候内嵌的 iframe 展示时都只会请求当前组件的内容，首屏加载的内容也不是很多，经过简单的优化基本就可以实现很好的首屏加载。\n\n样式覆盖取代主题定制当然静态站上的主题样式覆盖，Storybook 还做得不够开放，虽然它开放了定制 theme 主题的方式，但是仍有一些细节处无法完全定制，我们的实现方式是通过手写 css 覆盖解决。\n\n默认样式\n\n\n\n覆盖改造后\n\n\n组件菜单排序默认情况下，左侧组件导航区的排序是按照字母排序规则，但当你的“业务方”想要一个所谓“有规划、基于设计原则”的排序进行展示就变的有一些难度，Storybook 预留了预览的 API 中就提供了一个可以自定义排序的方式，详见文档。\n那么，需要我们做什么呢，那就是手动去实现一个简单的排序算法，让组件 stories 按照期望的方式进行排序。\n这里简单描述一下个人实现思路：\n\n数据准备阶段：将业务方期望的菜单分类好，我的做法是将期望菜单顺序拷贝至 Excel 中进行排序，之后复制回编辑器批量操作，制作一个简单 map 作为字典，作用单一就是根据 key 返回序号；\n获取组件待排序属性：将每一个组件的 stories 中定义的 title 拿到用作排序时，作为 key 备用在字段中查询；\n编写排序规则：这里就是一个简单的排序算法，两两比较即可；\n\n123456789101112131415161718192021222324252627// preview.js...storySort: (a, b) =&gt; &#123;  /**    * 排序逻辑    * 将文档内容中所有内容去除中文、改小写，去空格，再去已经排序好的数据处理    * ex. 按钮 Button  =&gt; button    *    * 排序规则 0: 相同位置 -1: 前 1: 后    */  const aSinpleName = a[1].kind    .replace(/[\\u4e00-\\u9fa5\\/]/g, \"\")    .toLowerCase()    .trim();  const bSinpleName = b[1].kind    .replace(/[\\u4e00-\\u9fa5\\/]/g, \"\")    .toLowerCase()    .trim();  const aSortNum = getSortNumByMenu(aSinpleName); // 获取字典中排序编号  const bSortNum = getSortNumByMenu(bSinpleName);  // 自有组件，直接排在最后。PS. 非官方定义组件，二等公民无奈被放在最后  if (!aSortNum &amp;&amp; bSortNum) return 1;  if (aSortNum &amp;&amp; !bSortNum) return -1;  if (!aSortNum &amp;&amp; !bSortNum) return 0;  return aSortNum &gt; bSortNum ? 1 : -1;&#125;,...\naddon-docs 插件Storybook 中文档即代码功能的实现还是很有意思的，通过强大的 @storybook/addon-docs 插件（在 5.3.x 版本开始逐步废弃 @storybook/addon-info 插件，基本不再维护）可以实现文档中众多元素的直接渲染，我们经常用的组件有 import { Meta, Story, Preview, Props, Source, Title, Subtitle } from &quot;@storybook/addon-docs/blocks&quot;; 这些，其中着重介绍 Preview 和 Props 组件。\nProps 组件可以结合 JSDoc 自动生成文档，如下图：\n\n感兴趣的同学可以抽时间研读了一下具体实现，源码地址\n这里描述一下自己看源码总结的实现思路，借助 JSDoc 的 parser 读取每一个参数 component 中 props 的属性的注释内容，并且与当前属性建立对应关系后 render 一个显示的 table 就自动生成了下面的文档。\n\n现存问题记录\n在暗黑模式的适配上还存在问题\n演示代码段，主题不可定制（查看源码知道虽然使用了 highlight 组件但是固定死了主题，并没有入口去修改）\n国际化支持不全，目前没有需求可以暂时不考虑\n\n走过的弯路插件选择失误，由于最一开始的选择错误，错误地选用 addon-info 已经被废弃的插件，导致后面升级后，在静态文档站需要定制化的需求出现时，原有 addon-info 出现的问题层出不穷，不得不切换至 addon-doc 插件，索性直接使用 mdx 对所有组件文档进行了一次重写，好在大部分代码和 DEMO 可以直接复用和自动生成。\n写在最后当然，我们目前并没有使用 Storybook 的全部功能，文章的最后也会列举调研期间收集到的非常牛团队开发的组件库和文档实例，那么我们可以学习到什么呢？\n首先，我们所谓的重复造出来的轮子到底是有意义？答案虽然是肯定的，业界已经有很多成熟的案例，很多公司、部门、团队都可能有自己的库，早在我们在开始开发实现之初，但是我们为什么要做呢？这就是另外一个话题。我们不深入这个话题，仅从过程中讨论，我认为不仅仅只考虑组件的设计、易用性（API 等）、稳定性（质量）、组件的抽象、以及复用性等等这些问题，同时也应该作为组件使用者的角度来思考，从适用场景出发，当使用者决定是否使用某一组件时，组件的文档等等就是一个非常重要支持点，这里刚好 Storybook 帮我们解决了这其中的几个问题，看到这里感兴趣的小伙伴可以留言讨论，当你的团队或者新项目在选择 UI 库时基于哪些考虑？\n再者，聚焦，Storybook 团队聚焦在组件的开发环境，单一功能强大通过拼接实现更多的功能，这种思想一定要多运用在实际情况中，但是也要注意区分场景，没必要成为“为了用而用”。\n最后，UI 组件库应该是前端团队，最容易想到也是最难做好的一个 KPI 产物，这其中还有很多值得思考和讨论！\n基于 Storybook 优秀实例\nStorybook Examples\nWix Style React\n\n参考\nStorybook\nReact Styleguidist\nDocusaurus\ndocz\n\n","dateCreated":"2020-07-08T18:11:14+08:00","dateModified":"2020-07-09T17:15:34+08:00","datePublished":"2020-07-08T18:11:14+08:00","description":"\n写在前头前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。\n调研和选型具体细节，后面找时间再梳理输出另外一篇文章，这里介绍在使用 Storybook 5 的过程中的一些问题点以及经验分享。\n\n截止文章编写时 Storybook 6 正在进行 rc 版，作者也经历过将之前项目的 5.2.x 升级到 5.3.x 过程的阵痛，网络上关于使用 Storybook 的问题文章也比较少，除了 Storybook 官网文档以外一些问题点记录，因此成文，感兴趣可以继续阅读。有关 UI 组件库的建设，这里不做深入讨论。（就是我们暂时先不讨论 WHY 的问题，本文只讨论 HOW。）\n","headline":"基于 Storybook 5 打造 Style 组件库开发与文档站建设小结","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/about-storybook-5/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/about-storybook-5/","keywords":"Webpack, React"}</script>
+    <meta name="description" content="写在前头前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。 调研和选型具体细节">
+<meta name="keywords" content="Webpack,React">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="基于 Storybook 5 打造 Style 组件库开发与文档站建设小结">
+<meta property="og:url" content="https://beanlee.github.io/posts/about-storybook-5/index.html">
+<meta property="og:site_name" content="BeanLee Blog">
+<meta property="og:description" content="写在前头前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。 调研和选型具体细节">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://img12.360buyimg.com/imagetools/jfs/t1/118549/17/12079/184635/5f068a80E504ca4be/bf613763d4f28d85.jpg">
+<meta property="og:image" content="https://img13.360buyimg.com/imagetools/jfs/t1/146280/22/2482/165942/5f06df93E577f7aaa/096270fb8e6b9611.png">
+<meta property="og:image" content="https://img12.360buyimg.com/imagetools/jfs/t1/146183/7/2462/133174/5f06cc0bEd688e80b/ca52174dd85344b7.png">
+<meta property="og:image" content="https://img14.360buyimg.com/imagetools/jfs/t1/127797/14/6710/139347/5f06c43eE15a02e73/6e9c05bf893fc14a.png">
+<meta property="og:image" content="https://img11.360buyimg.com/imagetools/jfs/t1/148461/28/2481/109551/5f06d748E203df1ea/4d45ba20ed7341cf.png">
+<meta property="og:image" content="https://img10.360buyimg.com/imagetools/jfs/t1/123725/9/6641/52952/5f06d741Eb6425a2f/8f809553d628c970.png">
+<meta property="og:updated_time" content="2020-07-09T09:15:34.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于 Storybook 5 打造 Style 组件库开发与文档站建设小结">
+<meta name="twitter:description" content="写在前头前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。 调研和选型具体细节">
+<meta name="twitter:image" content="https://img12.360buyimg.com/imagetools/jfs/t1/118549/17/12079/184635/5f068a80E504ca4be/bf613763d4f28d85.jpg">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;MrBean_Lee">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=640"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-hmujtphswtnkmxr9nrbolulu5rdtlf5r16obkh0cadm91o9xxruanxhctll8.min.css">
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-46079069-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-46079069-1');
+    </script>
+
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?db9bb97e9e15133d0f061a19cb4f6093";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="2">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">BeanLee Blog</a>
+    </div>
+    
+        
+            <a class="header-right-icon open-algolia-search" href="#search">
+        
+        
+            <i class="search fa-lg"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="2">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
+                </a>
+                <h4 class="sidebar-profile-name">Bean Lee</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>author.bio</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/ " title="首页">
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-tags" title="标签">
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/all-archives" title="归档">
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/links" title="链接">
+                    
+                        <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">链接</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/about" title="关于我">
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于我</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/beanlib" title="实验室">
+                    
+                        <i class="sidebar-button-icon fa fa-flask" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">实验室</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://github.com/beanlee" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://twitter.com/MrBean_Lee" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://www.linkedin.com/in/beanlee-75309387" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="https://instagram.com/beanlee2020" target="_blank" rel="noopener" title="Instagram">
+                    
+                        <i class="sidebar-button-icon fab fa-instagram" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Instagram</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a class="sidebar-button-link " href="/atom.xml" title="RSS">
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="2"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            基于 Storybook 5 打造 Style 组件库开发与文档站建设小结
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-07-08T18:11:14+08:00">
+	
+		    7月 08, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
+
+
+    
+    <span class="post-count">&nbsp;&nbsp;2,584 words, about  9 min read </span>
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- ## 基于 Storybook 5 打造 Style 组件库开发与文档站建设小结 -->
+<h3 id="写在前头"><a href="#写在前头" class="headerlink" title="写在前头"></a>写在前头</h3><p>前阵子一直和组里的小伙伴共同“造轮子”，开发并维护了一套 PC 端 React UI 组件库，经过了一段时间的折腾，组件库从之前的 0.x、1.x 再到最近发布的 2.0.beta 的一个过程，这其中很多东西值得拿出来分享和讨论，有好的有失败的，今天就把组件库开发过程中的 DEMO 实时重现以及后期文档站的建设的技术选型以及实践简单做一个记录总结和大家一起做一个讨论。</p>
+<p>调研和选型具体细节，后面找时间再梳理输出另外一篇文章，这里介绍在使用 <code>Storybook 5</code> 的过程中的一些问题点以及经验分享。</p>
+<blockquote>
+<p>截止文章编写时 Storybook 6 正在进行 rc 版，作者也经历过将之前项目的 <code>5.2.x</code> 升级到 <code>5.3.x</code> 过程的阵痛，网络上关于使用 Storybook 的问题文章也比较少，除了 Storybook 官网文档以外一些问题点记录，因此成文，感兴趣可以继续阅读。有关 UI 组件库的建设，这里不做深入讨论。（就是我们暂时先不讨论 WHY 的问题，本文只讨论 HOW。）</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/118549/17/12079/184635/5f068a80E504ca4be/bf613763d4f28d85.jpg" alt></p>
+<p>首先，个人总结 <code>Storybook</code> 几点优势，也是基于下面几个优势最终决定选型它的原因</p>
+<ul>
+<li><strong>开发环境</strong> 预览环境整体基于 Webpack 构建，开发环境<strong>接近实际生产环境</strong>；</li>
+<li><strong>多面手</strong> 支持技术栈类型较多，可以支持 React、Vue 等等技术栈组件展示；</li>
+<li><strong>代码即文档</strong> 无论是开发初期我们使用的 <code>*.stories.js</code>，还是后期因为要统一文档站说明和一些 UI，我们改用 <code>MDX</code> 重写了使用说明，不过大部分 API 列表还是基于 Props 的实现定义 Interface 中 JSDoc 自动渲染，非常方便；</li>
+<li><strong>实时性</strong> 展示环境实时可交互，通过 knob 插件可以让使用者直接修改组件属性直接看到效果；</li>
+</ul>
+<h3 id="支持-TypeScript"><a href="#支持-TypeScript" class="headerlink" title="支持 TypeScript"></a>支持 TypeScript</h3><p><a href="https://storybook.js.org/docs/configurations/typescript-config/#typescript-configuration-presets" target="_blank" rel="noopener">官方文档</a>，支持 TypeScript 编写组件，文档中罗列了几个选项，出于使用习惯以及 Babel 与 Microsoft 的<a href="https://iamturns.com/typescript-babel/" target="_blank" rel="noopener">合作关系</a>，推荐使用 babel-loader 方式。（虽然它很慢，所以要尽量控制编译的范围。）</p>
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p>当使用 babel 编译 TypeScript 的时候，存在两个问题</p>
+<ul>
+<li><strong>描述文件 d.ts</strong> 组件的描述文件如何生成，babel-loader 本身不具备这个能力。</li>
+<li><strong>BUG</strong> 文档站生成过程中，默认 storybook 配置了 devtool，导致即使当前环境是 <code>production</code> 依然会编译生成 <code>sourcemap</code>，也就需要手动将 devtool 改为 false，这里应该给 storybook 提一个 issue。<a href="https://www.webpackjs.com/loaders/babel-loader/" target="_blank" rel="noopener">文档见这里</a>，有一句说明：<strong><em>注意：sourceMap 选项是被忽略的。当 webpack 配置了 sourceMap 时（通过 devtool 配置选项），将会自动生成 sourceMap。</em></strong></li>
+</ul>
+<p>关于声明文件的生成有两个方案：</p>
+<ul>
+<li>手动通过 <code>tsc</code> 本身具备的能力，结合 <code>--emitDeclarationOnly</code>参数和输出目录来只输出 <code>*.d.ts</code></li>
+<li>后期我们重构组件库打包方式，组内的小伙伴使用 <code>gulp</code> 一样的道理通过单独编译声明文件并输出到与组件代码同级目录</li>
+</ul>
+<p>上面的方案核心就是单独编译声明文件即可，即便是微软官方提供的例子也是单独输出声明文件，<a href="https://github.com/Microsoft/TypeScript-Babel-Starter" target="_blank" rel="noopener">详见这里</a>，如果小伙们有其他好办法欢迎留言讨论。</p>
+<h3 id="文档站构建优化"><a href="#文档站构建优化" class="headerlink" title="文档站构建优化"></a>文档站构建优化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build-storybook  -c .storybook -o docs-static</span><br></pre></td></tr></table></figure>
+<p>从打包命令中就可以看到，构建的配置支持 <code>.storybook</code> 文件夹下配置文件，默认读取 <code>main.js</code> 作为构建的补充，这里完全就是遵循 <code>webpack</code> 的配置，比如这里 <code>webpackFinal: async (config) =&gt; { ...}</code> 这段代码中拿到当前构建的全部 <code>config</code> 配置对象，那么既然拿到这个对象，那理论上就可以调整整个的构建过程。（当然，Storybook 构建确实使用了很多的 loader 和 plugin ）。</p>
+<p>静态站的打包和部署就和一个普通静态站部署没什么区别，外挂一个 HTTP 服务即可。由于 storybook 默认将每一个 stories （也就是组件）构建时进行了分包懒加载，访问每一个 stories 的时候内嵌的 iframe 展示时都只会请求当前组件的内容，首屏加载的内容也不是很多，经过简单的优化基本就可以实现很好的首屏加载。</p>
+<p><img src="https://img13.360buyimg.com/imagetools/jfs/t1/146280/22/2482/165942/5f06df93E577f7aaa/096270fb8e6b9611.png" alt></p>
+<h4 id="样式覆盖取代主题定制"><a href="#样式覆盖取代主题定制" class="headerlink" title="样式覆盖取代主题定制"></a>样式覆盖取代主题定制</h4><p>当然静态站上的主题样式覆盖，Storybook 还做得不够开放，虽然它开放了定制 theme 主题的方式，但是仍有一些细节处无法完全定制，我们的实现方式是通过手写 <code>css</code> 覆盖解决。</p>
+<ul>
+<li>默认样式</li>
+</ul>
+<p><img src="https://img12.360buyimg.com/imagetools/jfs/t1/146183/7/2462/133174/5f06cc0bEd688e80b/ca52174dd85344b7.png" alt="默认样式"></p>
+<ul>
+<li>覆盖改造后</li>
+</ul>
+<p><img src="https://img14.360buyimg.com/imagetools/jfs/t1/127797/14/6710/139347/5f06c43eE15a02e73/6e9c05bf893fc14a.png" alt="定制覆盖样式"></p>
+<h3 id="组件菜单排序"><a href="#组件菜单排序" class="headerlink" title="组件菜单排序"></a>组件菜单排序</h3><p>默认情况下，左侧组件导航区的排序是按照字母排序规则，但当你的“业务方”想要一个所谓“有规划、基于设计原则”的排序进行展示就变的有一些难度，<code>Storybook</code> 预留了预览的 <code>API</code> 中就提供了一个可以自定义排序的方式，<a href="https://storybook.js.org/docs/configurations/options-parameter/#sorting-stories" target="_blank" rel="noopener">详见文档</a>。</p>
+<p>那么，需要我们做什么呢，那就是手动去实现一个简单的排序算法，让组件 <code>stories</code> 按照期望的方式进行排序。</p>
+<p>这里简单描述一下个人实现思路：</p>
+<ol>
+<li>数据准备阶段：将业务方期望的菜单分类好，我的做法是将期望菜单顺序拷贝至 Excel 中进行排序，之后复制回编辑器批量操作，制作一个简单 <code>map</code> 作为字典，作用单一就是根据 key 返回序号；</li>
+<li>获取组件待排序属性：将每一个组件的 <code>stories</code> 中定义的 title 拿到用作排序时，作为 key 备用在字段中查询；</li>
+<li>编写排序规则：这里就是一个简单的排序算法，两两比较即可；</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// preview.js</span></span><br><span class="line">...</span><br><span class="line">storySort: <span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 排序逻辑</span></span><br><span class="line"><span class="comment">    * 将文档内容中所有内容去除中文、改小写，去空格，再去已经排序好的数据处理</span></span><br><span class="line"><span class="comment">    * ex. 按钮 Button  =&gt; button</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * 排序规则 0: 相同位置 -1: 前 1: 后</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">  <span class="keyword">const</span> aSinpleName = a[<span class="number">1</span>].kind</span><br><span class="line">    .replace(<span class="regexp">/[\u4e00-\u9fa5\/]/g</span>, <span class="string">""</span>)</span><br><span class="line">    .toLowerCase()</span><br><span class="line">    .trim();</span><br><span class="line">  <span class="keyword">const</span> bSinpleName = b[<span class="number">1</span>].kind</span><br><span class="line">    .replace(<span class="regexp">/[\u4e00-\u9fa5\/]/g</span>, <span class="string">""</span>)</span><br><span class="line">    .toLowerCase()</span><br><span class="line">    .trim();</span><br><span class="line">  <span class="keyword">const</span> aSortNum = getSortNumByMenu(aSinpleName); <span class="comment">// 获取字典中排序编号</span></span><br><span class="line">  <span class="keyword">const</span> bSortNum = getSortNumByMenu(bSinpleName);</span><br><span class="line">  <span class="comment">// 自有组件，直接排在最后。PS. 非官方定义组件，二等公民无奈被放在最后</span></span><br><span class="line">  <span class="keyword">if</span> (!aSortNum &amp;&amp; bSortNum) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (aSortNum &amp;&amp; !bSortNum) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">if</span> (!aSortNum &amp;&amp; !bSortNum) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> aSortNum &gt; bSortNum ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="addon-docs-插件"><a href="#addon-docs-插件" class="headerlink" title="addon-docs 插件"></a>addon-docs 插件</h3><p>Storybook 中文档即代码功能的实现还是很有意思的，通过强大的 <code>@storybook/addon-docs</code> 插件（在 <code>5.3.x</code> 版本开始逐步废弃 <code>@storybook/addon-info</code> 插件，基本不再维护）可以实现文档中众多元素的直接渲染，我们经常用的组件有 <code>import { Meta, Story, Preview, Props, Source, Title, Subtitle } from &quot;@storybook/addon-docs/blocks&quot;;</code> 这些，其中着重介绍 <code>Preview</code> 和 <code>Props</code> 组件。</p>
+<h4 id="Props-组件"><a href="#Props-组件" class="headerlink" title="Props 组件"></a>Props 组件</h4><p>可以结合 JSDoc 自动生成文档，如下图：</p>
+<p><img src="https://img11.360buyimg.com/imagetools/jfs/t1/148461/28/2481/109551/5f06d748E203df1ea/4d45ba20ed7341cf.png" alt></p>
+<p>感兴趣的同学可以抽时间研读了一下具体实现，<a href="https://github.com/storybookjs/storybook/tree/next/addons/docs" target="_blank" rel="noopener">源码地址</a></p>
+<p>这里描述一下自己看源码总结的实现思路，借助 JSDoc 的 parser 读取每一个参数 component 中 props 的属性的注释内容，并且与当前属性建立对应关系后 render 一个显示的 table 就自动生成了下面的文档。</p>
+<p><img src="https://img10.360buyimg.com/imagetools/jfs/t1/123725/9/6641/52952/5f06d741Eb6425a2f/8f809553d628c970.png" alt></p>
+<h3 id="现存问题记录"><a href="#现存问题记录" class="headerlink" title="现存问题记录"></a>现存问题记录</h3><ul>
+<li>在暗黑模式的适配上还存在问题</li>
+<li>演示代码段，主题不可定制（查看源码知道虽然使用了 highlight 组件但是固定死了主题，并没有入口去修改）</li>
+<li>国际化支持不全，目前没有需求可以暂时不考虑</li>
+</ul>
+<h3 id="走过的弯路"><a href="#走过的弯路" class="headerlink" title="走过的弯路"></a>走过的弯路</h3><p>插件选择失误，由于最一开始的选择错误，错误地选用 addon-info 已经被废弃的插件，导致后面升级后，在静态文档站需要定制化的需求出现时，原有 addon-info 出现的问题层出不穷，不得不切换至 addon-doc 插件，索性直接使用 mdx 对所有组件文档进行了一次重写，好在大部分代码和 DEMO 可以直接复用和自动生成。</p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>当然，我们目前并没有使用 <code>Storybook</code> 的全部功能，文章的最后也会列举调研期间收集到的非常牛团队开发的组件库和文档实例，那么我们可以学习到什么呢？</p>
+<p>首先，我们所谓的重复造出来的轮子到底是有意义？答案虽然是肯定的，业界已经有很多成熟的案例，很多公司、部门、团队都可能有自己的库，早在我们在开始开发实现之初，<strong>但是我们为什么要做呢？这就是另外一个话题。</strong>我们不深入这个话题，仅从过程中讨论，我认为不仅仅只考虑组件的设计、易用性（API 等）、稳定性（质量）、组件的抽象、以及复用性等等这些问题，同时也应该作为组件使用者的角度来思考，从适用场景出发，当使用者决定是否使用某一组件时，组件的文档等等就是一个非常重要支持点，这里刚好 <code>Storybook</code> 帮我们解决了这其中的几个问题，看到这里感兴趣的小伙伴可以留言讨论，当你的团队或者新项目在选择 UI 库时基于哪些考虑？</p>
+<p>再者，<strong>聚焦</strong>，Storybook 团队聚焦在组件的开发环境，单一功能强大通过拼接实现更多的功能，这种思想一定要多运用在实际情况中，但是也要注意区分场景，没必要成为“为了用而用”。</p>
+<p>最后，UI 组件库应该是前端团队，最容易想到也是最难做好的一个 KPI 产物，这其中还有很多值得思考和讨论！</p>
+<h3 id="基于-Storybook-优秀实例"><a href="#基于-Storybook-优秀实例" class="headerlink" title="基于 Storybook 优秀实例"></a>基于 Storybook 优秀实例</h3><ul>
+<li><a href="https://storybook.js.org/docs/examples/" target="_blank" rel="noopener">Storybook Examples</a></li>
+<li><a href="https://wix.com/pages/wix-style-react/" target="_blank" rel="noopener">Wix Style React</a></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://storybookjs.org" target="_blank" rel="noopener">Storybook</a></li>
+<li><a href="https://react-styleguidist.js.org" target="_blank" rel="noopener">React Styleguidist</a></li>
+<li><a href="https://docusaurus.io" target="_blank" rel="noopener">Docusaurus</a></li>
+<li><a href="https://www.docz.site" target="_blank" rel="noopener">docz</a></li>
+</ul>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div style="text-align: center;">
+  <p>如果你觉得这篇文章对你有所帮助，可以微信扫码请作者吃个甜甜圈哦~</p>
+  <img src="https://beanlee.github.io/img/wechat_donate.JPG" width="300" height="300" alt>
+</div>
+        
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a> <a class="tag tag--primary tag--small t-link" href="/tags/Webpack/">Webpack</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/sth-about-eslint/" data-tooltip="ESLint 修改点整理" aria-label="下一篇: ESLint 修改点整理">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/about-storybook-5/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/about-storybook-5/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Bean Lee. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/sth-about-eslint/" data-tooltip="ESLint 修改点整理" aria-label="下一篇: ESLint 修改点整理">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/about-storybook-5/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/about-storybook-5/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="2">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://beanlee.github.io/posts/about-storybook-5/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://beanlee.github.io/posts/about-storybook-5/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/3fe40c6cac2cee1d563a87ada4d02cc5?s=110" alt="作者的图片">
+        
+            <h4 id="about-card-name">Bean Lee</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br>
+                Beijing
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://img11.360buyimg.com/imagetools/jfs/t29587/1/1553336624/17034/4000fd99/5ce4bf63N116f7972.png">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search" class="form-control input--large search-input" placeholder="Search ">
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">没有找到文章</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/First-Blog/">
+                            <h3 class="media-heading">开篇</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年11月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Finished-the-book/">
+                            <h3 class="media-heading">英雄再见</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月4日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><h1 id="《獵命師傳奇》最终章完结"><a href="#《獵命師傳奇》最终章完结" class="headerlink" title="《獵命師傳奇》最终章完结"></a>《獵命師傳奇》最终章完结</h1><p>断断续续地在地铁上读完了这本九把刀的长篇《獵命師傳奇》，说来初识九把刀还是在看过《那些年，我们一起追的女孩儿》这部电影来的，当时只是觉得这些年台湾电影成长的很快，这位有趣自大的导演第一部电影长篇就拍的如此热血，导演本人也一定非常有趣，带着疑问和好奇，我开始在网上查阅九把刀。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Eassy-Programmer/">
+                            <h3 class="media-heading">程序员都是理想主义者</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2013年12月5日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/The-Summary-of-At/">
+                            <h3 class="media-heading">微博等SNS@功能探索技术验证总结</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年1月10日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>公司阶段技术预言项，推特微博等@人员功能，断断续续3-4天时间，做了一些总结在Blog中和大家分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Read-The-Book-Of-Zhihu/">
+                            <h3 class="media-heading">书摘随笔</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年3月20日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>读《创业时，我们在知乎聊什么》书摘随笔一</p>
+<blockquote>
+<p>最小化可行产品 汪华说，你一开始的所有计划其实只是对用户和市场的假定而已，小团队的钱和资源也都有限，必须先快速地找个办法验证方向。 所以产品的第一个版本的目的，是验证用户需求和反馈，而不是做一个完美无缺、功能丰富的版本。第一版应该集中于开发出产品的核心功能和核心需求，也就是那个用户。</p>
+</blockquote></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Misfit-Shine/">
+                            <h3 class="media-heading">有设计感的数码产品才能打动人心</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年4月12日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>夏日来袭，笔者对比了几款运动手环，最终入手Misfit Shine带来开箱图文和简单对比分享</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Java-Collection-Review/">
+                            <h3 class="media-heading">Java基础集合类复习</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月6日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Java基础集合类的问题简单整理</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Study-Swift-1/">
+                            <h3 class="media-heading">Swift Study 1</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月8日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Swift is an important chance to find coding passion back to me. So Do Not Lose It! Come on!</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/Mac-Tool-Series-1/">
+                            <h3 class="media-heading">Mac Tool</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月19日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>推荐的两款软件，它们有助于我提高效率，因此来完成这篇推介文。<br>Dash 一款用来集成快速查阅文档；CheatSheet 一款用来提示快捷键。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://beanlee.github.io/posts/How-To-Connect-Internet-With-VPN/">
+                            <h3 class="media-heading">科学上网之VPN推荐系列</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    2014年6月28日
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>“工欲善其事，必先利其器” 今天笔者来和大家一起分享，最近查阅资料整理后的一些关于VPN的那点事儿。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium" data-message-zero="没有找到文章" data-message-one="找到 1 篇文章" data-message-other="找到 {n} 篇文章">
+                找到 31 篇文章
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://img10.360buyimg.com/uba/jfs/t19666/213/522537036/248594/9d238021/5a936b81Nf7ab67ea.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-snykejswjcxqfzqhk8erauq9xu9tds7bleedq61lkpgsla0zkuddqzjkbdhm.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'https://beanlee.github.io/posts/about-storybook-5/';
+                 
+                    this.page.identifier = 'posts/about-storybook-5/';
+                 
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'beanleeblog';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8ec4c6f0131a5c7fffb8c946e40af77f');
+        var algoliaIndex = algoliaClient.initIndex('blog_index');
+    </script>
+
+
+<!-- Hotjar Tracking Code for https://beanlee.github.io -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1333288,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+    </body>
+</html>

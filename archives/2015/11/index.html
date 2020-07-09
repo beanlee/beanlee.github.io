@@ -136,6 +136,15 @@
             
                 <li class="sidebar-button">
                     
+                        <a class="sidebar-button-link open-algolia-search" href="#search" title="搜索">
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
                         <a class="sidebar-button-link " href="/links" title="链接">
                     
                         <i class="sidebar-button-icon fa fa-link" aria-hidden="true"></i>
@@ -543,7 +552,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="没有找到文章" data-message-one="找到 1 篇文章" data-message-other="找到 {n} 篇文章">
-                找到 30 篇文章
+                找到 31 篇文章
             </p>
         </div>
     </div>
@@ -560,7 +569,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
     <script>
-        var algoliaClient = algoliasearch('X2N6X5DWEF', '8bc642e4dde7df5b407196d03ca96747');
+        var algoliaClient = algoliasearch('X2N6X5DWEF', '8ec4c6f0131a5c7fffb8c946e40af77f');
         var algoliaIndex = algoliaClient.initIndex('blog_index');
     </script>
 
