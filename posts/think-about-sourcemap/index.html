@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"\n这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。\n排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-map ，在代码修改时触发自动 load，在 loader 编译映射 sourcemap 的时候溢~出~了~，本文不会说明为什么溢出，排查的过程以及解决，其实花的时间也不长，重点说明一下 sourcemap 的作用以及使用过程的几点个人思考。\n\n异常\n12345678910111213[27849:0x102880000]   133250 ms: Mark-sweep 1377.8 (1409.0) -&gt; 1377.8 (1409.5) MB, 366.7 / 0.0 ms  (average mu = 0.076, current mu = 0.015) allocation failure scavenge might not succeed&lt;--- JS stacktrace ---&gt;==== JS stack trace =========================================Security context: 0x1673f099e6c1 &lt;JSObject&gt;    0: builtin exit frame: stringify(this=0x1673f09919f9 &lt;Object map = 0x1673955842a9&gt;,0x1673fa7826f1 &lt;undefined&gt;,0x1673fa7826f1 &lt;undefined&gt;,0x1673500ffcc9 &lt;Object map = 0x167345daabb1&gt;,0x1673f09919f9 &lt;Object map = 0x1673955842a9&gt;)    1: arguments adaptor frame: 1-&gt;3    2: /* anonymous */(aka /* anonymous */) [0x1673e6f2d6a1] [/Users/xxx/node_modules/webpack/lib/SourceMap...FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory\n好了，上面的报错信息看过就可以忘记了。\nSourceMap 在 WEB 开发过程中扮演着很重要的角色，因为被浏览器执行的代码往往与开发过程中原始代码相差很多，源码经过了很多次转译、合并、混淆、压缩等等步骤几乎不具有可读性，那么开发中调试、监控到异常定位快速与本地的源码映射匹配就成了它的唯一“使命”。\n\nHTTP Headers 支持 SourceMap: &lt;url&gt; 属性，在请求时就能将映射的资源显示在浏览器的调试面板里。\n现代浏览器都支持加载的文件内含有类似 //# sourceMappingURL=path/to/xxx 这类注释，用来明确匹配到对应的指定文件方便跟踪。\n\n那么在使用 SourceMap 应该注意什么呢？\n可读性要发挥它的作用，就要生成的 SourceMap 文件尽量地映射成源码，方便 debug。\n比如，Webpack 的 devtool 中支持很多种生成模式，其中常用的 cheap-module-source-map 配置，就可以映射方便定位 .tsx 的内容。\n平衡性能生成 SourceMap 映射文件的过程，是一个转码的过程，记录两边的映射关系，那么转换时性能就成为了一个需要平衡的问题。理想情况，开发时尽可能保证转换速率，而构建时可以降低构建的性能消耗，保证文件的映射还原度。\n预防泄漏要避免源码泄漏，那么生成的 SourceMap 文件的存放位置就不能随意被外网访问到。\n比如，异常监控系统中，为了方便开发者快速定位问题代码，在每一次构建时产生的 sourcemap 文件保存在内网指定一个位置，同时与当前上线部署版本做好匹配。\n小结在做 Java 开发时候反编译这个词应该很常见，也有对应的工具用来混淆和反混淆，WEB 端的 JavaScript / CSS 通常来说对任何人都是透明地，所以一些关键逻辑（比如涉及抽奖，特殊逻辑）尽量不要写在 js 脚本中，可以放在服务端或者编译成诸如 WebAssembly 一类字节码来避免一些重要逻辑泄漏。\nPS.附赠一篇昨天无意中看到的总结，写的实在挺好的，和业界大佬还是有很大差距，加油吧。\n\n我在阿里云做前端 https://juejin.im/post/6844903808904986637\n\n参考文章：\nhttps://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/SourceMap\nhttps://developer.mozilla.org/zh-CN/docs/Tools/Debugger/How_to/Use_a_source_map\nhttps://www.html5rocks.com/en/tutorials/developertools/sourcemaps/\nhttp://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html\nhttps://webpack.docschina.org/configuration/devtool/\nhttps://www.timsrc.com/article/20/source-maps\n\n","dateCreated":"2020-11-18T18:48:37+08:00","dateModified":"2020-11-18T21:26:26+08:00","datePublished":"2020-11-18T18:48:37+08:00","description":"\n这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。\n排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-map ，在代码修改时触发自动 load，在 loader 编译映射 sourcemap 的时候溢~出~了~，本文不会说明为什么溢出，排查的过程以及解决，其实花的时间也不长，重点说明一下 sourcemap 的作用以及使用过程的几点个人思考。","headline":"有关 SourceMap 的几点个人思考","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/think-about-sourcemap/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/think-about-sourcemap/","keywords":"前端, 构建工具"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png"},"articleBody":"\n这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。\n排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-map ，在代码修改时触发自动 load，在 loader 编译映射 sourcemap 的时候溢~出~了~，本文不会说明为什么溢出，排查的过程以及解决，其实花的时间也不长，重点说明一下 sourcemap 的作用以及使用过程的几点个人思考。\n\n异常\n12345678910111213[27849:0x102880000]   133250 ms: Mark-sweep 1377.8 (1409.0) -&gt; 1377.8 (1409.5) MB, 366.7 / 0.0 ms  (average mu = 0.076, current mu = 0.015) allocation failure scavenge might not succeed&lt;--- JS stacktrace ---&gt;==== JS stack trace =========================================Security context: 0x1673f099e6c1 &lt;JSObject&gt;    0: builtin exit frame: stringify(this=0x1673f09919f9 &lt;Object map = 0x1673955842a9&gt;,0x1673fa7826f1 &lt;undefined&gt;,0x1673fa7826f1 &lt;undefined&gt;,0x1673500ffcc9 &lt;Object map = 0x167345daabb1&gt;,0x1673f09919f9 &lt;Object map = 0x1673955842a9&gt;)    1: arguments adaptor frame: 1-&gt;3    2: /* anonymous */(aka /* anonymous */) [0x1673e6f2d6a1] [/Users/xxx/node_modules/webpack/lib/SourceMap...FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory\n好了，上面的报错信息看过就可以忘记了。\nSourceMap 在 WEB 开发过程中扮演着很重要的角色，因为被浏览器执行的代码往往与开发过程中原始代码相差很多，源码经过了很多次转译、合并、混淆、压缩等等步骤几乎不具有可读性，那么开发中调试、监控到异常定位快速与本地的源码映射匹配就成了它的唯一“使命”。\n\nHTTP Headers 支持 SourceMap: &lt;url&gt; 属性，在请求时就能将映射的资源显示在浏览器的调试面板里。\n现代浏览器都支持加载的文件内含有类似 //# sourceMappingURL=path/to/xxx 这类注释，用来明确匹配到对应的指定文件方便跟踪。\n\n那么在使用 SourceMap 应该注意什么呢？\n可读性要发挥它的作用，就要生成的 SourceMap 文件尽量地映射成源码，方便 debug。\n比如，Webpack 的 devtool 中支持很多种生成模式，其中常用的 cheap-module-source-map 配置，就可以映射方便定位 .tsx 的内容。\n平衡性能生成 SourceMap 映射文件的过程，是一个转码的过程，记录两边的映射关系，那么转换时性能就成为了一个需要平衡的问题。理想情况，开发时尽可能保证转换速率，而构建时可以降低构建的性能消耗，保证文件的映射还原度。\n预防泄漏要避免源码泄漏，那么生成的 SourceMap 文件的存放位置就不能随意被外网访问到。\n比如，异常监控系统中，为了方便开发者快速定位问题代码，在每一次构建时产生的 sourcemap 文件保存在内网指定一个位置，同时与当前上线部署版本做好匹配。\n小结在做 Java 开发时候反编译这个词应该很常见，也有对应的工具用来混淆和反混淆，WEB 端的 JavaScript / CSS 通常来说对任何人都是透明地，所以一些关键逻辑（比如涉及抽奖，特殊逻辑）尽量不要写在 js 脚本中，可以放在服务端或者编译成诸如 WebAssembly 一类字节码来避免一些重要逻辑泄漏。\nPS.附赠一篇昨天无意中看到的总结，写的实在挺好的，和业界大佬还是有很大差距，加油吧。\n\n我在阿里云做前端 https://juejin.im/post/6844903808904986637\n\n参考文章：\nhttps://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/SourceMap\nhttps://developer.mozilla.org/zh-CN/docs/Tools/Debugger/How_to/Use_a_source_map\nhttps://www.html5rocks.com/en/tutorials/developertools/sourcemaps/\nhttp://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html\nhttps://webpack.docschina.org/configuration/devtool/\nhttps://www.timsrc.com/article/20/source-maps\n\n","dateCreated":"2020-11-18T18:48:37+08:00","dateModified":"2021-01-12T15:50:07+08:00","datePublished":"2020-11-18T18:48:37+08:00","description":"\n这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。\n排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-map ，在代码修改时触发自动 load，在 loader 编译映射 sourcemap 的时候溢~出~了~，本文不会说明为什么溢出，排查的过程以及解决，其实花的时间也不长，重点说明一下 sourcemap 的作用以及使用过程的几点个人思考。","headline":"有关 SourceMap 的几点个人思考","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://beanlee.github.io/posts/think-about-sourcemap/"},"publisher":{"@type":"Organization","name":"Bean Lee","sameAs":["https://github.com/beanlee","https://twitter.com/MrBean_Lee","https://www.linkedin.com/in/beanlee-75309387","https://instagram.com/beanlee2020"],"image":"https://beanlee.github.io/favicon.png","logo":{"@type":"ImageObject","url":"https://beanlee.github.io/favicon.png"}},"url":"https://beanlee.github.io/posts/think-about-sourcemap/","keywords":"前端, 构建工具"}</script>
     <meta name="description" content="这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。 排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-m">
 <meta name="keywords" content="前端,构建工具">
 <meta property="og:type" content="blog">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="BeanLee Blog">
 <meta property="og:description" content="这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。 排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-m">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2020-11-18T13:26:26.362Z">
+<meta property="og:updated_time" content="2021-01-12T07:50:07.032Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="有关 SourceMap 的几点个人思考">
 <meta name="twitter:description" content="这两天在组里协助排查一个 webpack dev 环境下重载时内存溢出的问题，现象是 webpack-dev-server 启动的过程中，在 node 10.xx 的环境下，一旦修改文件工程自动 reload 时会出现内存溢出导致服务直接中断。 排查原因，最终发现原来是脚手架在配置开发环境的 devtool 配置时，为了方便开发者 DEBUG，设置成了 cheap-module-source-m">
@@ -244,6 +244,12 @@
     	
     </time>
     
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端技术/">前端技术</a>
+
+
+    
     <span class="post-count">&nbsp;&nbsp;994 words, about  4 min read </span>
 </div>
 
@@ -310,7 +316,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/fe-perf-checklist-2020/" data-tooltip="【译】前端性能优化检查表 2020" aria-label="上一篇: 【译】前端性能优化检查表 2020">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -385,7 +392,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Bean Lee. All Rights Reserved.
+        Copyrights &copy; 2021 Bean Lee. All Rights Reserved.
     </span>
 </footer>
 
@@ -397,7 +404,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/posts/fe-perf-checklist-2020/" data-tooltip="【译】前端性能优化检查表 2020" aria-label="上一篇: 【译】前端性能优化检查表 2020">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -736,7 +744,7 @@
         </div>
         <div class="modal-footer">
             <p class="results-count text-medium" data-message-zero="没有找到文章" data-message-one="找到 1 篇文章" data-message-other="找到 {n} 篇文章">
-                找到 35 篇文章
+                找到 36 篇文章
             </p>
         </div>
     </div>
